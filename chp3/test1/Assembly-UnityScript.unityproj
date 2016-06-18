@@ -60,6 +60,8 @@
      <Compile Include="Assets\14.js" />
      <Compile Include="Assets\15.js" />
      <Compile Include="Assets\16.js" />
+     <Compile Include="Assets\17.js" />
+     <Compile Include="Assets\18.js" />
      <Compile Include="Assets\NewBehaviourScript.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
