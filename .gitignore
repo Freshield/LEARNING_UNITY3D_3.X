@@ -49,8 +49,12 @@ Temporary Items
 
 # unity3d
 *.apk
+*.png
+*.dll
+*.meta
+*.mat
 Library/
 Temp/
-Assets/
+#Assets/
 obj/
 ProjectSettings/
