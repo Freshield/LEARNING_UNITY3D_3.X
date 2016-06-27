@@ -6,39 +6,40 @@ var RotateSpeed = 1000;
 
 function OnGUI()
 {
-    Gui.backgroundColor = Color.red;
+    GUI.backgroundColor = Color.red;
 
-    if (GUI.Button(Rect(10, 10, 70, 30), "turn left")) 
+
+    if (GUI.Button(Rect(10, 10, 300, 200), "turn left")) 
     {
         transform.Rotate(Vector3.up * Time.deltaTime * (-RotateSpeed));
     }
 
-    if (GUI.Button(Rect(90, 10, 70, 30), "move forward")) 
+    if (GUI.Button(Rect(410, 10, 300, 200), "move forward")) 
     {
         transform.Translate(Vector3.forward * Time.deltaTime * TranslateSpeed);
     }
 
-    if (GUI.Button(Rect(170, 10, 70, 30), "turn right")) 
+    if (GUI.Button(Rect(820, 10, 300, 200), "turn right")) 
     {
         transform.Rotate(Vector3.up * Time.deltaTime * RotateSpeed);
     }
 
-    if (GUI.Button(Rect(90, 50, 70, 30), "move backward")) 
+    if (GUI.Button(Rect(410, 310, 300, 200), "move backward")) 
     {
         transform.Translate(Vector3.forward * Time.deltaTime * (-TranslateSpeed));
     }
     
-    if (GUI.Button(Rect(10, 50, 70, 30), "move left")) 
+    if (GUI.Button(Rect(10, 310, 300, 200), "move left")) 
     {
         transform.Translate(Vector3.right * Time.deltaTime * (-TranslateSpeed));
     }
     
-    if (GUI.Button(Rect(170, 50, 70, 30), "move right")) 
+    if (GUI.Button(Rect(820, 310, 300, 200), "move right")) 
     {
         transform.Translate(Vector3.right * Time.deltaTime * TranslateSpeed);
     }
 
-    GUI.Label(Rect(250,10,20,30),"model position" + transform.position);
+    GUI.Label(Rect(1250,10,300,200),"model position" + transform.position);
 
-    GUI.Label(Rect(250,50,200,30),"model rotation" + transform.rotation);
+    GUI.Label(Rect(1250,310,300,200),"model rotation" + transform.rotation);
 }

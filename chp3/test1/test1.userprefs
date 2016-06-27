@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="Assembly-UnityScript.unityproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\03.js">
+    <Files>
+      <File FileName="Assets\03.js" Line="17" Column="15" />
+      <File FileName="Assets\02.js" Line="1" Column="1" />
+      <File FileName="Assets\NewBehaviourScript.js" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
