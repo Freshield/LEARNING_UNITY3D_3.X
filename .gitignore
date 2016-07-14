@@ -46,3 +46,13 @@ sources/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# unity3d
+*.apk
+Temp/
+chp2\*
+chp2
+chp2/*
+/chp2/*
+/chp2
+*.res
