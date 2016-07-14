@@ -49,10 +49,5 @@ Temporary Items
 
 # unity3d
 *.apk
+Library/
 Temp/
-chp2\*
-chp2
-chp2/*
-/chp2/*
-/chp2
-*.res
