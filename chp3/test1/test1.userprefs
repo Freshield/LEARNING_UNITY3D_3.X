@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\18.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\20.js">
     <Files>
-      <File FileName="Assets\18.cs" Line="16" Column="3" />
+      <File FileName="Assets\GUI18.cs" Line="3" Column="1" />
       <File FileName="Assets\16.js" Line="1" Column="1" />
       <File FileName="Assets\10.js" Line="1" Column="1" />
       <File FileName="Assets\09.js" Line="1" Column="1" />
@@ -11,7 +11,7 @@
       <File FileName="Assets\05.js" Line="1" Column="1" />
       <File FileName="Assets\03.js" Line="1" Column="1" />
       <File FileName="Assets\02.js" Line="1" Column="1" />
-      <File FileName="Assets\NewBehaviourScript.js" Line="1" Column="1" />
+      <File FileName="Assets\NewBehaviourScript.js" Line="16" Column="20" />
       <File FileName="Assets\04.js" Line="1" Column="1" />
       <File FileName="Assets\06.js" Line="1" Column="1" />
       <File FileName="Assets\11.js" Line="1" Column="1" />
@@ -21,6 +21,8 @@
       <File FileName="Assets\15.js" Line="1" Column="1" />
       <File FileName="Assets\17.js" Line="1" Column="1" />
       <File FileName="Assets\18.js" Line="1" Column="1" />
+      <File FileName="Assets\19.js" Line="39" Column="1" />
+      <File FileName="Assets\20.js" Line="9" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
