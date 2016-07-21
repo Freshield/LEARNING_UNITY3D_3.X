@@ -47,6 +47,8 @@
   <ItemGroup>
      <Compile Include="Assets\01.js" />
      <Compile Include="Assets\02.js" />
+     <Compile Include="Assets\03.js" />
+     <Compile Include="Assets\04.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
