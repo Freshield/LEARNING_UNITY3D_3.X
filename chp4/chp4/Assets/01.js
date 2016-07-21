@@ -5,6 +5,19 @@ function Start () {
 
 }
 
+function Update()
+{
+	var objs = GameObject.FindGameObjectsWithTag("MyTag");
+
+	for( var obj in objs)
+	{
+		if(obj.GetComponent.<Transform>().position.y < -30)
+		{
+			Destroy(obj);
+		}
+	}
+}
+
 function OnGUI () {
 
 	if(GUILayout.Button("create cube",GUILayout.Height(50)))
@@ -14,6 +27,8 @@ function OnGUI () {
 		objCube.AddComponent(Rigidbody);
 
 		objCube.name = "Cube";
+
+		objCube.tag = "MyTag";
 
 		objCube.GetComponent.<Renderer>().material.color = Color.blue;
 
@@ -27,6 +42,8 @@ function OnGUI () {
 		objSphere.AddComponent(Rigidbody);
 
 		objSphere.name = "Sphere";
+
+		objSphere.tag = "MyTag";
 
 		objSphere.GetComponent.<Renderer>().material.color = Color.red;
 
