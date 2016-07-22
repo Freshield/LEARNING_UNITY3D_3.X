@@ -52,6 +52,7 @@
      <Compile Include="Assets\05.js" />
      <Compile Include="Assets\06.js" />
      <Compile Include="Assets\07.js" />
+     <Compile Include="Assets\08.js" />
      <Compile Include="Assets\A1.js" />
      <Compile Include="Assets\B1.js" />
      <Compile Include="Assets\C1.js" />
