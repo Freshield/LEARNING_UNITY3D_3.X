@@ -51,10 +51,12 @@
      <Compile Include="Assets\04.js" />
      <Compile Include="Assets\05.js" />
      <Compile Include="Assets\06.js" />
+     <Compile Include="Assets\07.js" />
      <Compile Include="Assets\A1.js" />
      <Compile Include="Assets\B1.js" />
      <Compile Include="Assets\C1.js" />
      <Compile Include="Assets\Test.js" />
+     <Compile Include="Assets\cube_script.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
