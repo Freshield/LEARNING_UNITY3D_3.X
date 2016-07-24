@@ -39,7 +39,7 @@ function Update ()
 
 	if(model == 4)
 	{
-		objCube.transform.RotateAround(objCylinder.transform.position, objCylinder.transform.up, Time.deltaTime * speed);
+		objCube.transform.RotateAround(objCylinder.transform.position, objCylinder.transform.right, Time.deltaTime * speed);
 		//objSphere.transform.Rotate(Vector3.up * Time.deltaTime * speed);
 
 		objSphere.transform.RotateAround(objCylinder.transform.position, objCylinder.transform.up, Time.deltaTime * speed * 2);
