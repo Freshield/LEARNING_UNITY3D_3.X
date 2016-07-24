@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{43D4C120-73D1-6471-6C09-3A3E41E82F5E}</ProjectGuid>
+    <ProjectGuid>{116D5B75-7CFF-909F-817A-4A3D4FA1BB1F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-UnityScript</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -45,23 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\01.js" />
-     <Compile Include="Assets\02.js" />
-     <Compile Include="Assets\03.js" />
-     <Compile Include="Assets\04.js" />
-     <Compile Include="Assets\05.js" />
-     <Compile Include="Assets\06.js" />
-     <Compile Include="Assets\07.js" />
-     <Compile Include="Assets\08.js" />
-     <Compile Include="Assets\09.js" />
-     <Compile Include="Assets\10.js" />
-     <Compile Include="Assets\11.js" />
-     <Compile Include="Assets\12.js" />
-     <Compile Include="Assets\A1.js" />
-     <Compile Include="Assets\B1.js" />
-     <Compile Include="Assets\C1.js" />
-     <Compile Include="Assets\Test.js" />
-     <Compile Include="Assets\cube_script.js" />
+     <Compile Include="Assets\Standard Assets\cs_test.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
