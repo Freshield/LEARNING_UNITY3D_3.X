@@ -79,6 +79,7 @@
     <Compile Include="Assets\c15.cs" />
     <Compile Include="Assets\c16.cs" />
     <Compile Include="Assets\c17.cs" />
+    <Compile Include="Assets\c18.cs" />
     <Compile Include="Assets\c2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
