@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\c01.cs" />
+    <Compile Include="Assets\c02.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\SampleAssets\Environment\Skyboxes\SkyboxGuidelines.txt" />
