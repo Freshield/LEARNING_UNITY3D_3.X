@@ -1,0 +1,19 @@
+https://maps.googleapis.com/maps/api/staticmap?size=512x512&zoom=15&center=Brooklyn&style=feature:road.local%7Celement:geometry%7Ccolor:0x00ff00%7Cweight:1%7Cvisibility:on&style=feature:landscape%7Celement:geometry.fill%7Ccolor:0x000000%7Cvisibility:on&style=feature:administrative%7Celement:labels%7Cweight:3.9%7Cvisibility:on%7Cinverse_lightness:true&style=feature:poi%7Cvisibility:simplified&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc
+
+53.381684, -1.481863
+
+
+53.380814, -1.481788
+53.381198, -1.482850
+53.381729, -1.482882
+53.381998, -1.482292
+53.381876, -1.481831
+53.382074, -1.481359
+53.381684, -1.480694
+53.381211, -1.480962
+
+https://maps.googleapis.com/maps/api/staticmap?path=color:0x00000000%7Cweight:5%7Cfillcolor:0xFF000088%7C53.380814, -1.481788%7C53.381198, -1.482850%7C53.381729, -1.482882%7C53.381998, -1.482292%7C53.381876, -1.481831%7C53.382074, -1.481359%7C53.381684, -1.480694%7C53.381256, -1.480779&size=512x512&size=512x512
+
+path=color:0x00000000|weight:5|fillcolor:0xFF000033|8th+Avenue+%26+34th+St,New+York,NY|\
+8th+Avenue+%26+42nd+St,New+York,NY|Park+Ave+%26+42nd+St,New+York,NY,NY|\
+Park+Ave+%26+34th+St,New+York,NY,NY
