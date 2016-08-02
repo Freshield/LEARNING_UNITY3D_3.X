@@ -73,9 +73,9 @@ public class GoogleMap : MonoBehaviour
 					qs += "|" + HTTP.URL.Encode (string.Format ("{0},{1}", loc.latitude, loc.longitude));
 			}
 		}
-		
-		
-		var req = new HTTP.Request ("GET", url + "?" + qs, true);
+
+        qs = "https://maps.googleapis.com/maps/api/staticmap?center=45.495061,-73.578007&zoom=13&size=512x512&scale=2&maptype=roadmap&markers=color:red%7Clabel:Y%7C45.495061,-73.578007&markers=color:blue%7Clabel:Y%7C45.495061,-73.622007&markers=color:green%7Clabel:Y%7C45.495061,-73.534007&markers=color:blue%7Clabel:Y%7C45.525905,-73.578007&markers=color:yellow%7Clabel:Y%7C45.464217,-73.578007&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc";
+		var req = new HTTP.Request ("GET",  qs, true);//url + "?" +
 		req.Send ();
 		while (!req.isDone)
 			yield return null;
