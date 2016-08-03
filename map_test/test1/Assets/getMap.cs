@@ -5,9 +5,9 @@ public class getMap : MonoBehaviour {
 
     public GameObject[] planes;
     public GMPoint centerPoint;
-    public int size;
-    public int zoom;
-    public int scale;
+    public int size = 512;
+    public int zoom = 13;
+    public int scale = 2;
 
     float ratio;
     float halfLon;
@@ -47,15 +47,21 @@ public class getMap : MonoBehaviour {
 
         GMPoint[] points = { leftUp, cenUp, rightUp, leftCen,centerPoint, rightCen, leftDown , cenDown , rightDown };
 
+        //for (int i = 0; i < points.Length; i++)
+        //{
+        //    Debug.Log(i);
+        //    _Refresh(planes[i], points[i]);
+        //}
         for (int i = 0; i < points.Length; i++)
         {
-            getTexture(planes[i], points[i]);
+            StartCoroutine(_Refresh(planes[i], points[i]));
         }
+        
     }
 
-    
 
-    void getTexture (GameObject plane, GMPoint center) {
+
+    IEnumerator _Refresh(GameObject plane, GMPoint center) {
 
         Debug.Log("gettexture");
         string url = "https://maps.googleapis.com/maps/api/staticmap?";
@@ -78,7 +84,7 @@ public class getMap : MonoBehaviour {
         Debug.Log(url + qs);
         req.Send();
         while (!req.isDone)
-        { }
+            yield return null;
         if (req.exception == null)
         {
             var tex = new Texture2D(size, size);

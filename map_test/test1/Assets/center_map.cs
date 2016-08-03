@@ -15,6 +15,7 @@ public class center_map : MonoBehaviour
     public int zoom = 13;
     public MapType mapType;
     public int size = 512;
+    public GameObject plane;
 
     void Start()
     {
@@ -24,13 +25,13 @@ public class center_map : MonoBehaviour
     public void Refresh()
     {
 
-        StartCoroutine(_Refresh(45.495061f, -73.578007f));
+        StartCoroutine(_Refresh(plane,centerLocation));
     }
 
-    IEnumerator _Refresh(float latitude, float longtitude)
+    IEnumerator _Refresh(GameObject plane, GMapLocation centerLocation)
     {
-        latitude = 45.495061f;
-        longtitude = -73.578007f;
+        float latitude = 45.495061f;
+        float longtitude = -73.578007f;
         float ratio = Mathf.Cos(Mathf.Deg2Rad * latitude);
         float onesecond = ((360 * 3600) / (512 * Mathf.Pow(2, 13)));
         float halfimagedegree = (onesecond * 512 / 3600);
@@ -66,9 +67,10 @@ public class center_map : MonoBehaviour
             yield return null;
         if (req.exception == null)
         {
+            Debug.Log("get texture");
             var tex = new Texture2D(size, size);
             tex.LoadImage(req.response.Bytes);
-            GetComponent<Renderer>().material.mainTexture = tex;
+            plane.GetComponent<Renderer>().material.mainTexture = tex;
         }
     }
 
