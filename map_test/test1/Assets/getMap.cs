@@ -36,17 +36,21 @@ public class getMap : MonoBehaviour {
         halfLat = halfLon * ratio;
         fullLat = halfLat * 2;
 
-        GMPoint leftUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute - fullLat);
+        GMPoint leftUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute - fullLon);
         GMPoint cenUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute);
-        GMPoint rightUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute + fullLat);
-        GMPoint leftCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute - fullLat);
-        GMPoint rightCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute + fullLat);
-        GMPoint leftDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute - fullLat);
+        GMPoint rightUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute + fullLon);
+        GMPoint leftCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute - fullLon);
+        GMPoint rightCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute + fullLon);
+        GMPoint leftDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute - fullLon);
         GMPoint cenDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute);
-        GMPoint rightDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute + fullLat);
+        GMPoint rightDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute + fullLon);
 
-        
-        getTexture(planes[4],centerPoint);
+        GMPoint[] points = { leftUp, cenUp, rightUp, leftCen,centerPoint, rightCen, leftDown , cenDown , rightDown };
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            getTexture(planes[i], points[i]);
+        }
     }
 
     
@@ -64,6 +68,10 @@ public class getMap : MonoBehaviour {
 
         qs += "&markers=color:red|label:Y|";
         qs += "|" + string.Format("{0},{1}", center.latitute, center.lontitute);
+        qs += "|" + string.Format("{0},{1}", center.latitute + halfLat, center.lontitute);
+        qs += "|" + string.Format("{0},{1}", center.latitute - halfLat, center.lontitute);
+        qs += "|" + string.Format("{0},{1}", center.latitute, center.lontitute + halfLon);
+        qs += "|" + string.Format("{0},{1}", center.latitute, center.lontitute - halfLon);
         qs += "&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc";
 
         var req = new HTTP.Request("GET", url + qs, true);

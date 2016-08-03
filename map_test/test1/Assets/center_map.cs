@@ -24,13 +24,13 @@ public class center_map : MonoBehaviour
     public void Refresh()
     {
 
-        StartCoroutine(_Refresh());
+        StartCoroutine(_Refresh(45.495061f, -73.578007f));
     }
 
-    IEnumerator _Refresh()
+    IEnumerator _Refresh(float latitude, float longtitude)
     {
-        float latitude = 45.495061f;
-        float longtitude = -73.578007f;
+        latitude = 45.495061f;
+        longtitude = -73.578007f;
         float ratio = Mathf.Cos(Mathf.Deg2Rad * latitude);
         float onesecond = ((360 * 3600) / (512 * Mathf.Pow(2, 13)));
         float halfimagedegree = (onesecond * 512 / 3600);
