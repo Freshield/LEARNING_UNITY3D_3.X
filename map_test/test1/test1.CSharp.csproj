@@ -80,16 +80,15 @@
     <Compile Include="Assets\UniWeb-Free\Examples\UniWebExamples.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\WebsocketClientEcho.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\WebsocketClientExample.cs" />
-    <Compile Include="Assets\calculate.cs" />
-    <Compile Include="Assets\center_map.cs" />
     <Compile Include="Assets\getMap.cs" />
-    <Compile Include="Assets\test_get.cs" />
+    <Compile Include="Assets\test\calculate.cs" />
+    <Compile Include="Assets\test\center_map.cs" />
+    <Compile Include="Assets\test\test_get.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GoogleMaps\README.txt" />
     <None Include="Assets\UniWeb-Free\FAQ.txt" />
     <None Include="Assets\UniWeb-Free\README.txt" />
-    <None Include="Assets\image.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
