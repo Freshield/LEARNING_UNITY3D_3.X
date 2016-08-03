@@ -23,3 +23,18 @@ https://maps.googleapis.com/maps/api/staticmap?center=45.495061, -73.578007&zoom
 &markers=color:blue%7Clabel:Y%7C45.495061, -73.622007&markers=color:green%7Clabel:Y%7C45.495061, -73.534007
 &markers=color:blue%7Clabel:Y%7C45.525905, -73.578007&markers=color:yellow%7Clabel:Y%7C45.464217, -73.578007
 &key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc
+
+https://maps.googleapis.com/maps/api/staticmap?center=45.495061, -73.578007&zoom=13&size=512x512&scale=2&maptype=roadmap
+&markers=color:red|Clabel:Y|45.495061, -73.578007
+|45.495061, -73.622007|45.495061, -73.534007
+|45.525905, -73.578007|45.464217, -73.578007
+&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc
+
+https://maps.googleapis.com/maps/api/staticmap?center=45.49506%2C-73.57801&zoom=13&size=512x512&scale=2&maptype=roadmap
+&markers=color:red%7Clabel:Y%7C45.49506,-73.57801
+%7C45.51046,-73.57801%7C45.47966,-73.57801
+%7C45.49506,-73.55604%7C45.49506,-73.59998
+&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Error		The body of `getMap.getTexture(UnityEngine.Plane, GMPoint)' cannot be an iterator block because `void' is not an iterator interface type	Solution 'test1' ‎(1 project)	Assets/getMap.cs	32	
