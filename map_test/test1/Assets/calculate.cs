@@ -9,8 +9,8 @@ public class calculate : MonoBehaviour {
         float latitude = 45.495061f;
         float longtitude = -73.578007f;
         float ratio = Mathf.Cos(Mathf.Deg2Rad * latitude);
-        float onesecond = ((360 * 3600) / (512 * 2 * Mathf.Pow(2, 13)));
-        float halfimagedegree = (onesecond * 256 / 3600);
+        float onesecond = ((360 * 3600) / (512 * Mathf.Pow(2, 13)));
+        float halfimagedegree = (onesecond * 512 / 3600);
         float fullimagedegree = halfimagedegree * 2;
         float halfla = halfimagedegree * ratio;
         float fullla = halfla * 2;
@@ -23,6 +23,11 @@ public class calculate : MonoBehaviour {
         Debug.Log("ratio = " + ratio);
         Debug.Log("half latitude degree = " + halfla);
         Debug.Log("full latitude degree = " + fullla);
+
+        Debug.Log("latitude + halfla = " + (latitude + halfla));
+        Debug.Log("latitude - halfla = " + (latitude - halfla));
+        Debug.Log("longtitude - halfimagedegree = " + (longtitude - halfimagedegree));
+        Debug.Log("longtitude + halfimagedegree = " + (longtitude + halfimagedegree));
 
 
     }

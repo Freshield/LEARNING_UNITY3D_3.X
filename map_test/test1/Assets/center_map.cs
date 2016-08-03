@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class test_get : MonoBehaviour
+public class center_map : MonoBehaviour
 {
     public enum MapType
     {
@@ -11,7 +11,7 @@ public class test_get : MonoBehaviour
         Hybrid
     }
     public bool loadOnStart = true;
-    public CGMapLocation centerLocation;
+    public GMapLocation centerLocation;
     public int zoom = 13;
     public MapType mapType;
     public int size = 512;
@@ -23,7 +23,7 @@ public class test_get : MonoBehaviour
 
     public void Refresh()
     {
-        
+
         StartCoroutine(_Refresh());
     }
 
@@ -38,9 +38,7 @@ public class test_get : MonoBehaviour
         float halfla = halfimagedegree * ratio;
         float fullla = halfla * 2;
 
-        Debug.Log("centra latitude = " + centerLocation.latitude);
-        centerLocation.latitude += fullla;
-        Debug.Log("centra latitude = " + centerLocation.latitude);
+        
 
 
         string url = "https://maps.googleapis.com/maps/api/staticmap?";
@@ -50,6 +48,7 @@ public class test_get : MonoBehaviour
         qs += "&size=" + HTTP.URL.Encode(string.Format("{0}x{0}", size));
         qs += "&scale=2";
         qs += "&maptype=" + mapType.ToString().ToLower();
+
         qs += "&markers=color:red|label:Y|";
         qs += "|" + string.Format("{0},{1}", centerLocation.latitude, centerLocation.longitude);
         qs += "|" + string.Format("{0},{1}", centerLocation.latitude + halfla, centerLocation.longitude);
@@ -76,9 +75,22 @@ public class test_get : MonoBehaviour
 
 }
 
+public enum GMapColor
+{
+    black,
+    brown,
+    green,
+    purple,
+    yellow,
+    blue,
+    gray,
+    orange,
+    red,
+    white
+}
 
 [System.Serializable]
-public class CGMapLocation
+public class GMapLocation
 {
     public string address;
     public float latitude;
@@ -86,7 +98,7 @@ public class CGMapLocation
 }
 
 [System.Serializable]
-public class CGMapMarker
+public class GMapMarker
 {
     public enum GoogleMapMarkerSize
     {

@@ -81,6 +81,8 @@
     <Compile Include="Assets\UniWeb-Free\Examples\WebsocketClientEcho.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\WebsocketClientExample.cs" />
     <Compile Include="Assets\calculate.cs" />
+    <Compile Include="Assets\center_map.cs" />
+    <Compile Include="Assets\getMap.cs" />
     <Compile Include="Assets\test_get.cs" />
   </ItemGroup>
   <ItemGroup>
