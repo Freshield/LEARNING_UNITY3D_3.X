@@ -17,6 +17,16 @@ public class getMap : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Debug.Log("start");
+
+        Refresh();
+        
+
+    }
+
+    public void Refresh()
+    {
+        Debug.Log("refresh");
         float latitude = centerPoint.latitute;
         float longtitude = centerPoint.lontitute;
         ratio = Mathf.Cos(Mathf.Deg2Rad * latitude);
@@ -26,12 +36,24 @@ public class getMap : MonoBehaviour {
         halfLat = halfLon * ratio;
         fullLat = halfLat * 2;
 
-        StartCoroutine(getTexture(planes[4], centerPoint));
+        GMPoint leftUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute - fullLat);
+        GMPoint cenUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute);
+        GMPoint rightUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute + fullLat);
+        GMPoint leftCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute - fullLat);
+        GMPoint rightCen = new GMPoint(centerPoint.latitute, centerPoint.lontitute + fullLat);
+        GMPoint leftDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute - fullLat);
+        GMPoint cenDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute);
+        GMPoint rightDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute + fullLat);
 
+        
+        getTexture(planes[4],centerPoint);
     }
 
-    // Update is called once per frame
-    IEnumerator getTexture (GameObject plane, GMPoint center) {
+    
+
+    void getTexture (GameObject plane, GMPoint center) {
+
+        Debug.Log("gettexture");
         string url = "https://maps.googleapis.com/maps/api/staticmap?";
         string qs = "";
         qs += "center=" + HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute));
@@ -48,7 +70,7 @@ public class getMap : MonoBehaviour {
         Debug.Log(url + qs);
         req.Send();
         while (!req.isDone)
-            yield return null;
+        { }
         if (req.exception == null)
         {
             var tex = new Texture2D(size, size);
@@ -58,8 +80,17 @@ public class getMap : MonoBehaviour {
     }
 }
 
+[System.Serializable]
 public class GMPoint
 {
     public float latitute;
     public float lontitute;
+
+    public GMPoint(float latitute, float lontitute)
+    {
+        this.latitute = latitute;
+        this.lontitute = lontitute;
+    }
+
+    
 }
