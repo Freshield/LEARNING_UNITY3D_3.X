@@ -12,7 +12,7 @@ public class track_test : MonoBehaviour {
 
         Position center = calculTracks(tracks);
 
-        Debug.Log("latitute: " + center.latitute + " longtitute: " + center.lontitute);
+        Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
 
     }
 	
@@ -23,22 +23,26 @@ public class track_test : MonoBehaviour {
 
     Position calculTracks(ArrayList tracks)
     {
-        if (tracks.Count <= 0)
+        if (tracks.Count > 0)
+        {
+            Track temp = (Track)tracks[0];
+            float avgLat = temp.avgLat;
+            float avgLon = temp.avgLon;
+            foreach (Track track in tracks)
+            {
+                avgLat = (avgLat + track.avgLat) / 2;
+                avgLon = (avgLon + track.avgLon) / 2;
+                Debug.Log("name: " + track.name + "lat,lon" + avgLat + "," + avgLon);
+            }
+            Position result = new Position(avgLat, avgLon, 0);
+
+            return result;
+        }
+        else
         {
             return null;
         }
-        Track temp = (Track)tracks[0];
-        float avgLat = temp.avgLat;
-        float avgLon = temp.avgLon;
-        foreach (Track track in tracks)
-        {
-            avgLat = (avgLat + track.avgLat) / 2;
-            avgLon = (avgLon + track.avgLon) / 2;
-            Debug.Log("name: " + track.name + "lat,lon" + avgLat + "," + avgLon);
-        }
-        Position result = new Position(avgLat, avgLon, 0);
-
-        return result;
+        
         
     }
     ArrayList LoadFile(string path, string name)
@@ -99,20 +103,20 @@ public class Track
 
     public void calculAvg()
     {
-        if (positions.Count <= 0)
+        if (positions.Count > 0)
         {
-            return;
+            Position temp = (Position)positions[0];
+            float avgLat = temp.latitute;
+            float avgLon = temp.lontitute;
+            foreach (Position position in positions)
+            {
+                avgLat = (avgLat + position.latitute) / 2;
+                avgLon = (avgLon + position.lontitute) / 2;
+            }
+            this.avgLat = avgLat;
+            this.avgLon = avgLon;
         }
-        Position temp = (Position)positions[0];
-        float avgLat = temp.latitute;
-        float avgLon = temp.lontitute;
-        foreach (Position position in positions)
-        {
-            avgLat = (avgLat + position.latitute) / 2;
-            avgLon = (avgLon + position.lontitute) / 2;
-        }
-        this.avgLat = avgLat;
-        this.avgLon = avgLon;
+        
     }
 
 
