@@ -70,11 +70,27 @@ public class Track
 {
     public string name;
     public ArrayList positions;
+    public float avgLat;
+    public float avgLon;
 
     public Track(string name)
     {
         this.name = name;
         positions = new ArrayList();
+    }
+
+    public void calculAvg()
+    {
+        Position temp = (Position)positions[0];
+        float avgLat = temp.latitute;
+        float avgLon = temp.lontitute;
+        foreach (Position position in positions)
+        {
+            avgLat = (avgLat + position.latitute) / 2;
+            avgLon = (avgLon + position.lontitute) / 2;
+        }
+        this.avgLat = avgLat;
+        this.avgLon = avgLon;
     }
 
 

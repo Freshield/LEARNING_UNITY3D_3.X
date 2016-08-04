@@ -35,15 +35,9 @@ public class getMap : MonoBehaviour {
         for (int i = 0; i < 9; i++)
         {
             planes[i] = GameObject.Find("Plane" + i);
-            Debug.Log(planes[i].name);
+            
         }
-
-        for (int i = 0; i < planes.Length; i++)
-        {
-
-            Debug.Log(planes[i].transform.position);
-        }
-
+        
         Debug.Log("refresh");
         
 
