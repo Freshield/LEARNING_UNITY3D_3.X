@@ -8,7 +8,7 @@ public class Main : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        GMPoint center = new GMPoint(45.49506f, -73.57801f);
+        GMPoint center = new GMPoint(36.52408f,117.2098f);
         map = GameObject.Find("Directional light").GetComponent<getMap>();
         map.centerPoint = center;
         map.Refresh();

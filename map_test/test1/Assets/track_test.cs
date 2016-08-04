@@ -10,15 +10,9 @@ public class track_test : MonoBehaviour {
 
         ArrayList tracks = LoadFile(Application.dataPath, "TrajectoryStream.txt");
 
-        foreach (Track track in tracks)
-        {
-            Debug.Log(track.name);
-            if (track.positions.Count > 0)
-            {
-                Position position = (Position)track.positions[0];
-                Debug.Log(position.latitute + "," + position.lontitute + "," + position.time);
-            }
-        }
+        Position center = calculTracks(tracks);
+
+        Debug.Log("latitute: " + center.latitute + " longtitute: " + center.lontitute);
 
     }
 	
@@ -26,6 +20,27 @@ public class track_test : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    Position calculTracks(ArrayList tracks)
+    {
+        if (tracks.Count <= 0)
+        {
+            return null;
+        }
+        Track temp = (Track)tracks[0];
+        float avgLat = temp.avgLat;
+        float avgLon = temp.avgLon;
+        foreach (Track track in tracks)
+        {
+            avgLat = (avgLat + track.avgLat) / 2;
+            avgLon = (avgLon + track.avgLon) / 2;
+            Debug.Log("name: " + track.name + "lat,lon" + avgLat + "," + avgLon);
+        }
+        Position result = new Position(avgLat, avgLon, 0);
+
+        return result;
+        
+    }
     ArrayList LoadFile(string path, string name)
     {
         StreamReader sr = null;
@@ -48,6 +63,7 @@ public class track_test : MonoBehaviour {
         {
             if ((pos = line.IndexOf(":")) != -1)
             {
+                temp.calculAvg();
                 Track track = new Track(line.Remove(pos));
                 temp = track;
                 tracks.Add(track);
@@ -59,6 +75,8 @@ public class track_test : MonoBehaviour {
                 temp.positions.Add(position);
             }
         }
+        temp.calculAvg();//last one to calculate
+
         sr.Close();
         sr.Dispose();
         return tracks;
@@ -81,6 +99,10 @@ public class Track
 
     public void calculAvg()
     {
+        if (positions.Count <= 0)
+        {
+            return;
+        }
         Position temp = (Position)positions[0];
         float avgLat = temp.latitute;
         float avgLon = temp.lontitute;

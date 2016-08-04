@@ -6,7 +6,7 @@ public class getMap : MonoBehaviour {
     public GameObject[] planes = new GameObject[9];
     public GMPoint centerPoint = new GMPoint(45.49506f, -73.57801f);
     public int size = 512;
-    public int zoom = 13;
+    public int zoom = 10;
     public int scale = 2;
 
     public float ratio;
