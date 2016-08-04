@@ -15,25 +15,10 @@ public class getMap : MonoBehaviour {
     public float halfLat;
     public float fullLat;
     public GMPoint[] points = new GMPoint[9];
-
-    /*public getMap(GMPoint centerPoint)
-    {
-        this.centerPoint = centerPoint;
-
-        
-        ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
-        float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
-        halfLon = (onesecond * size / 3600);
-        fullLon = halfLon * 2;
-        halfLat = halfLon * ratio;
-        fullLat = halfLat * 2;
-    }*/
+    
 
     // Use this for initialization
     void Start () {
-        //Debug.Log("start");
-
-        //Refresh();
         
 
     }
@@ -73,12 +58,6 @@ public class getMap : MonoBehaviour {
 
         GMPoint[] temp = { leftUp, cenUp, rightUp, leftCen,centerPoint, rightCen, leftDown , cenDown , rightDown };
         points = temp;
-        //for (int i = 0; i < points.Length; i++)
-        //{
-        //    Debug.Log(i);
-        //    _Refresh(planes[i], points[i]);
-        //}
-        
         
     }
 
