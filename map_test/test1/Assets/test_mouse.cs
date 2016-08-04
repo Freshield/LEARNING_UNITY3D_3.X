@@ -28,8 +28,16 @@ public class test_mouse : MonoBehaviour {
         if (Input.GetMouseButton(0))
         {
             Vector3 change = Input.mousePosition - position;
+            if (Camera.main.transform.position.z > -4)
+            {
+                speed = 0.01f;
+            }
+            else
+            {
+                speed = 0.05f;
+            }
             Camera.main.transform.position = -change * speed  + cameraPosition ;
-            Debug.Log("hold left button position " + Input.mousePosition);
+            Debug.Log("hold left button position " + Input.mousePosition + " speed " + speed);
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -43,7 +51,16 @@ public class test_mouse : MonoBehaviour {
             if (Camera.main.transform.position.z < -0.7)
             {
                 cameraPosition = Camera.main.transform.position;
-                float distance = Input.GetAxis("Mouse ScrollWheel") * 2;
+                float distance = 0;
+                if (Camera.main.transform.position.z < -4)
+                {
+                    distance = Input.GetAxis("Mouse ScrollWheel") * 10;
+                }
+                else
+                {
+                    distance = Input.GetAxis("Mouse ScrollWheel") * 2;
+                }
+                
                 Camera.main.transform.position = new Vector3(0, 0, distance) + cameraPosition;
                 Debug.Log("scrollwheel position " + Input.mousePosition);
             }
@@ -56,7 +73,15 @@ public class test_mouse : MonoBehaviour {
             if (Camera.main.transform.position.z > -20)
             {
                 cameraPosition = Camera.main.transform.position;
-                float distance = Input.GetAxis("Mouse ScrollWheel") * 5;
+                float distance = 0;
+                if (Camera.main.transform.position.z < -4)
+                {
+                    distance = Input.GetAxis("Mouse ScrollWheel") * 10;
+                }
+                else
+                {
+                    distance = Input.GetAxis("Mouse ScrollWheel") * 2;
+                }
                 Camera.main.transform.position = new Vector3(0, 0, distance) + cameraPosition;
                 Debug.Log("scrollwheel position " + Input.mousePosition);
             }

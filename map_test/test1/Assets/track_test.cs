@@ -27,19 +27,30 @@ public class track_test : MonoBehaviour {
         if (tracks.Count > 0)
         {
             Track temp = (Track)tracks[0];
-            float avgLat = temp.avgLat;
-            float avgLon = temp.avgLon;
+            double avgLat = 0;
+            double avgLon = 0;
+            int counter = 0;
             foreach (Track track in tracks)
             {
                 if (track.positions.Count > 0)
                 {
-                    avgLat = (avgLat + track.avgLat) / 2;
-                    avgLon = (avgLon + track.avgLon) / 2;
-                    //Debug.Log("name: " + track.name + "lat,lon" + track.avgLat + "," + track.avgLon + " now avg " + avgLat + "," + avgLon);
+                    //only for beijing project
+                    if (track.avgLat < 40.1f && track.avgLat > 39.8f && track.avgLon < 116.4 && track.avgLon > 116.2)
+                    {
+                        counter++;
+                        avgLat += track.avgLat;
+                        avgLon += track.avgLon;
+                        Debug.Log("name: " + track.name + "lat,lon" + track.avgLat + "," + track.avgLon + " now avg " + avgLat + "," + avgLon + " counter " + counter);
+                    }
+                    
                 }
                 
             }
-            Position result = new Position(avgLat, avgLon, 0);
+            Debug.Log("before is " + avgLat + "," + avgLon + " counter " + counter);
+            avgLat /= counter;
+            avgLon /= counter;
+            Debug.Log("after is " + avgLat + "," + avgLon + " counter " + counter);
+            Position result = new Position((float)avgLat, (float)avgLon, 0);
 
             return result;
         }
@@ -108,19 +119,19 @@ public class Track
 
     public void calculAvg()
     {
-        //Debug.Log(name + " " + positions.Count);
+        Debug.Log(name + " " + positions.Count);
         if (positions.Count > 0)
         {
             Position temp = (Position)positions[0];
-            float avgLat = temp.latitute;
-            float avgLon = temp.lontitute;
+            double avgLat = 0;
+            double avgLon = 0;
             foreach (Position position in positions)
             {
-                avgLat = (avgLat + position.latitute) / 2;
-                avgLon = (avgLon + position.lontitute) / 2;
+                avgLat += position.latitute;
+                avgLon += position.lontitute;
             }
-            this.avgLat = avgLat;
-            this.avgLon = avgLon;
+            this.avgLat = (float)(avgLat / positions.Count);
+            this.avgLon = (float)(avgLon / positions.Count);
         }
         
     }

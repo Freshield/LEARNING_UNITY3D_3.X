@@ -20,7 +20,7 @@ public class Main : MonoBehaviour {
 
         center = file.calculTracks(tracks);
 
-        //Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
+        Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
 
 
 
@@ -30,7 +30,7 @@ public class Main : MonoBehaviour {
         map = GameObject.Find("Directional light").GetComponent<getMap>();
         map.centerPoint = center;
         map.Refresh();
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 25; i++)
         {
             StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
         }
