@@ -8,11 +8,12 @@ public class track_test : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        ArrayList tracks = LoadFile(Application.dataPath, "TrajectoryStream.txt");
+       // ArrayList tracks = LoadFile(Application.dataPath, "TrajectoryStream.txt");
 
-        Position center = calculTracks(tracks);
+       // Position center = calculTracks(tracks);
 
-        Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
+       // Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
+        
 
     }
 	
@@ -21,7 +22,7 @@ public class track_test : MonoBehaviour {
 	
 	}
 
-    Position calculTracks(ArrayList tracks)
+    public Position calculTracks(ArrayList tracks)
     {
         if (tracks.Count > 0)
         {
@@ -30,9 +31,13 @@ public class track_test : MonoBehaviour {
             float avgLon = temp.avgLon;
             foreach (Track track in tracks)
             {
-                avgLat = (avgLat + track.avgLat) / 2;
-                avgLon = (avgLon + track.avgLon) / 2;
-                Debug.Log("name: " + track.name + "lat,lon" + avgLat + "," + avgLon);
+                if (track.positions.Count > 0)
+                {
+                    avgLat = (avgLat + track.avgLat) / 2;
+                    avgLon = (avgLon + track.avgLon) / 2;
+                    //Debug.Log("name: " + track.name + "lat,lon" + track.avgLat + "," + track.avgLon + " now avg " + avgLat + "," + avgLon);
+                }
+                
             }
             Position result = new Position(avgLat, avgLon, 0);
 
@@ -45,7 +50,7 @@ public class track_test : MonoBehaviour {
         
         
     }
-    ArrayList LoadFile(string path, string name)
+    public ArrayList LoadFile(string path, string name)
     {
         StreamReader sr = null;
         try
@@ -92,8 +97,8 @@ public class Track
 {
     public string name;
     public ArrayList positions;
-    public float avgLat;
-    public float avgLon;
+    public float avgLat = 0;
+    public float avgLon = 0;
 
     public Track(string name)
     {
@@ -103,6 +108,7 @@ public class Track
 
     public void calculAvg()
     {
+        //Debug.Log(name + " " + positions.Count);
         if (positions.Count > 0)
         {
             Position temp = (Position)positions[0];

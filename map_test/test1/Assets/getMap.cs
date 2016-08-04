@@ -6,7 +6,7 @@ public class getMap : MonoBehaviour {
     public GameObject[] planes = new GameObject[9];
     public Position centerPoint = new Position(45.49506f, -73.57801f,0);
     public int size = 512;
-    public int zoom = 10;
+    public int zoom = 12;
     public int scale = 2;
 
     public float ratio;
@@ -42,7 +42,7 @@ public class getMap : MonoBehaviour {
             
         }
         
-        Debug.Log("refresh");
+        //Debug.Log("refresh");
         
 
         Position leftUp = new Position(centerPoint.latitute + fullLat, centerPoint.lontitute - fullLon,0);
@@ -63,7 +63,7 @@ public class getMap : MonoBehaviour {
 
     public IEnumerator _Refresh(GameObject plane, Position center) {
 
-        Debug.Log("gettexture");
+        //Debug.Log("gettexture");
         string url = "https://maps.googleapis.com/maps/api/staticmap?";
         string qs = "";
         qs += "center=" + HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute));
@@ -81,7 +81,7 @@ public class getMap : MonoBehaviour {
         qs += "&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc";
 
         var req = new HTTP.Request("GET", url + qs, true);
-        Debug.Log(url + qs);
+        //Debug.Log(url + qs);
         req.Send();
         while (!req.isDone)
             yield return null;
