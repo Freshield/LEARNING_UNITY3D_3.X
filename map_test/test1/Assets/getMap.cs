@@ -3,38 +3,64 @@ using System.Collections;
 
 public class getMap : MonoBehaviour {
 
-    public GameObject[] planes;
-    public GMPoint centerPoint;
+    public GameObject[] planes = new GameObject[9];
+    public GMPoint centerPoint = new GMPoint(45.49506f, -73.57801f);
     public int size = 512;
     public int zoom = 13;
     public int scale = 2;
 
-    float ratio;
-    float halfLon;
-    float fullLon;
-    float halfLat;
-    float fullLat;
+    public float ratio;
+    public float halfLon;
+    public float fullLon;
+    public float halfLat;
+    public float fullLat;
+    public GMPoint[] points = new GMPoint[9];
+
+    /*public getMap(GMPoint centerPoint)
+    {
+        this.centerPoint = centerPoint;
+
+        
+        ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
+        halfLon = (onesecond * size / 3600);
+        fullLon = halfLon * 2;
+        halfLat = halfLon * ratio;
+        fullLat = halfLat * 2;
+    }*/
 
     // Use this for initialization
     void Start () {
-        Debug.Log("start");
+        //Debug.Log("start");
 
-        Refresh();
+        //Refresh();
         
 
     }
 
     public void Refresh()
     {
-        Debug.Log("refresh");
-        float latitude = centerPoint.latitute;
-        float longtitude = centerPoint.lontitute;
-        ratio = Mathf.Cos(Mathf.Deg2Rad * latitude);
+        ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
         float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
         halfLon = (onesecond * size / 3600);
         fullLon = halfLon * 2;
         halfLat = halfLon * ratio;
         fullLat = halfLat * 2;
+
+        for (int i = 0; i < 9; i++)
+        {
+            planes[i] = GameObject.Find("Plane" + i);
+            Debug.Log(planes[i].name);
+        }
+
+        for (int i = 0; i < planes.Length; i++)
+        {
+
+            Debug.Log(planes[i].transform.position);
+        }
+
+        Debug.Log("refresh");
+        
 
         GMPoint leftUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute - fullLon);
         GMPoint cenUp = new GMPoint(centerPoint.latitute + fullLat, centerPoint.lontitute);
@@ -45,23 +71,20 @@ public class getMap : MonoBehaviour {
         GMPoint cenDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute);
         GMPoint rightDown = new GMPoint(centerPoint.latitute - fullLat, centerPoint.lontitute + fullLon);
 
-        GMPoint[] points = { leftUp, cenUp, rightUp, leftCen,centerPoint, rightCen, leftDown , cenDown , rightDown };
-
+        GMPoint[] temp = { leftUp, cenUp, rightUp, leftCen,centerPoint, rightCen, leftDown , cenDown , rightDown };
+        points = temp;
         //for (int i = 0; i < points.Length; i++)
         //{
         //    Debug.Log(i);
         //    _Refresh(planes[i], points[i]);
         //}
-        for (int i = 0; i < points.Length; i++)
-        {
-            StartCoroutine(_Refresh(planes[i], points[i]));
-        }
+        
         
     }
 
 
 
-    IEnumerator _Refresh(GameObject plane, GMPoint center) {
+    public IEnumerator _Refresh(GameObject plane, GMPoint center) {
 
         Debug.Log("gettexture");
         string url = "https://maps.googleapis.com/maps/api/staticmap?";
