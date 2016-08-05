@@ -53,7 +53,7 @@ public class Main : MonoBehaviour {
         {
             case 0:
                 
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 25; i++)
                 {
 
                     GameObject plane = GameObject.Find("Plane" + 0);

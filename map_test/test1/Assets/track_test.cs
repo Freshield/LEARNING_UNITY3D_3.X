@@ -84,6 +84,9 @@ public class track_test : MonoBehaviour {
         int pos;
         
         ArrayList tracks = new ArrayList();
+
+        coordianator coo = new coordianator();
+
         while ((line = sr.ReadLine()) != null)
         {
             if ((pos = line.IndexOf(":")) != -1)
@@ -96,7 +99,7 @@ public class track_test : MonoBehaviour {
             else if (line.Contains(","))
             {
                 string[] result = line.Split(',');
-                Position position = new Position(float.Parse(result[0]), float.Parse(result[1]), int.Parse(result[2]));
+                Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), int.Parse(result[2])));
                 temp.positions.Add(position);
             }
         }
