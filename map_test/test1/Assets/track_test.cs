@@ -61,12 +61,17 @@ public class track_test : MonoBehaviour {
         
         
     }
+
+
     public ArrayList LoadFile(string path, string name)
     {
         StreamReader sr = null;
+        Debug.Log(path + "/" + name);
+        
         try
         {
-            sr = File.OpenText(path + "//" + name);
+        sr = File.OpenText(path + "//" + name);
+
         }
         catch (Exception e)
         {
@@ -103,7 +108,6 @@ public class track_test : MonoBehaviour {
 
     }
 }
-
 public class Track
 {
     public string name;
