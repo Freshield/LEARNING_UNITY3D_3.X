@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chp6.CSharp.Plugins", "chp6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chp6.CSharp", "chp6.CSharp.csproj", "{07D28B81-7610-296A-3C94-ED73EFA1BBEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chp6.CSharp.Editor", "chp6.CSharp.Editor.csproj", "{A348EC9A-C507-7C9D-1BCC-6129FB91222A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{07D28B81-7610-296A-3C94-ED73EFA1BBEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D28B81-7610-296A-3C94-ED73EFA1BBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D28B81-7610-296A-3C94-ED73EFA1BBEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A348EC9A-C507-7C9D-1BCC-6129FB91222A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A348EC9A-C507-7C9D-1BCC-6129FB91222A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A348EC9A-C507-7C9D-1BCC-6129FB91222A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A348EC9A-C507-7C9D-1BCC-6129FB91222A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
