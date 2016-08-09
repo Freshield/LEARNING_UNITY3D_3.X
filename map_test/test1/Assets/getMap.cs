@@ -87,7 +87,7 @@ public class getMap : MonoBehaviour {
         qs += "&zoom=" + zoom.ToString();
         qs += "&size=" + HTTP.URL.Encode(string.Format("{0}x{0}", size));
         qs += "&scale=2";
-        qs += "&maptype=roadmap";
+        qs += "&maptype=terrain";
 
         /*
         qs += "&markers=color:red|label:Y|";
