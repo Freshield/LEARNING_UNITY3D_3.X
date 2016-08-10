@@ -89,6 +89,22 @@ public class getMap : MonoBehaviour {
         qs += "&scale=2";
         qs += "&maptype=terrain";
 
+        string style = "&style=feature:all%7Celement:labels.text.fill%7Ccolor:0xffffff"+
+"&style=feature:all%7Celement:labels.text.stroke%7Ccolor:0x000000" +
+"&style=feature:administrative%7Celement:geometry.fill%7Ccolor:0x000000" +
+"&style=feature:administrative%7Celement:geometry.stroke%weight:1.4%7Ccolor:0x144b53" +
+"&style=feature:landscape%7Celement:all%7Ccolor:0x08304b" +
+"&style=feature:poi%7Celement:geometry%7Ccolor:0x0c4152" +
+"&style=feature:road%7Celement:geometry.fill%7Ccolor:0xc8c8c8" +
+"&style=feature:road%7Celement:labels%7Cvisibility:off" +
+"&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0x0b434f" +
+"&style=feature:road.arterial%7Celement:geometry.stroke%7Ccolor:0x0b3d51" +
+"&style=feature:road.local%7Celement:geometry%7Ccolor:0x000000" +
+"&style=feature:transit%7Celement:all%7Cvisibility:off" +
+"&style=feature:water%7Celement:all%7Ccolor:0x021019";
+
+        qs += style;
+
         /*
         qs += "&markers=color:red|label:Y|";
         qs += "|" + string.Format("{0},{1}", center.latitute, center.lontitute);

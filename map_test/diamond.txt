@@ -34,14 +34,316 @@ https://maps.googleapis.com/maps/api/staticmap?center=45.49506%2C-73.57801&zoom=
 &markers=color:red%7Clabel:Y%7C45.49506,-73.57801
 %7C45.51046,-73.57801%7C45.47966,-73.57801
 %7C45.49506,-73.55604%7C45.49506,-73.59998
+&style=feature:all%7Celement:labels.text.fill%7Ccolor:0xffffff
+&style=feature:all%7Celement:labels.text.stroke%7Ccolor:0x000000
+&style=feature:administrative%7Celement:geometry.fill%7Ccolor:0x000000
+&style=feature:administrative%7Celement:geometry.stroke%weight:1.4%7Ccolor:0x144b53
 &key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc
 
 Severity	Code	Description	Project	File	Line	Suppression State
 Error		The body of `getMap.getTexture(UnityEngine.Plane, GMPoint)' cannot be an iterator block because `void' is not an iterator interface type	Solution 'test1' ‎(1 project)	Assets/getMap.cs	32	
 
 https://maps.googleapis.com/maps/api/staticmap?size=512x512&zoom=12&amp;center=Chicago&format=png
-&style=feature:road.highway%7Celement:geometry%7Cvisibility:simplified%7Ccolor:0xc280e9
-&style=feature:transit.line%7Cvisibility:simplified%7Ccolor:0xbababa
-&style=feature:road.highway%7Celement:labels.text.stroke%7Cvisibility:on%7Ccolor:0xb06eba
-&style=feature:road.highway%7Celement:labels.text.fill%7Cvisibility:on%7Ccolor:0xffffff
+&style=feature:all%7Celement:labels.text.fill%7Ccolor:0xffffff
+&style=feature:all%7Celement:labels.text.stroke%7Ccolor:0x000000
+&style=feature:administrative%7Celement:geometry.fill%7Ccolor:0x000000
+&style=feature:administrative%7Celement:geometry.stroke%weight:1.4%7Ccolor:0x144b53
+&style=feature:landscape%7Celement:all%7Ccolor:0x08304b
+&style=feature:poi%7Celement:geometry%7Ccolor:0x0c4152
+&style=feature:road%7Celement:geometry.fill%7Ccolor:0xc8c8c8
+&style=feature:road%7Celement:labels%7Cvisibility:off
+&style=feature:road.highway%7Celement:geometry.stroke%7Ccolor:0x0b434f
+&style=feature:road.arterial%7Celement:geometry.stroke%7Ccolor:0x0b3d51
+&style=feature:road.local%7Celement:geometry%7Ccolor:0x000000
+&style=feature:transit%7Celement:all%7Cvisibility:off
+&style=feature:water%7Celement:all%7Ccolor:0x021019
 &key=YOUR_API_KEY
+
+[
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#144b53"
+            },
+            {
+                "weight": 1.4
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#08304b"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#0c4152"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#c8c8c8"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#0b434f"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#0b3d51"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#021019"
+            }
+        ]
+    }
+]
+
+/////////////////////////////////////////////////////
+
+[
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#144b53"
+            },
+            {
+                "lightness": 14
+            },
+            {
+                "weight": 1.4
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#08304b"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#0c4152"
+            },
+            {
+                "lightness": 5
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#c8c8c8"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#0b434f"
+            },
+            {
+                "lightness": 25
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#c8c8c8"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#0b3d51"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#146474"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#021019"
+            }
+        ]
+    }
+]
+
+/////////////////////////////////////////////////////////////////////////////////////////
