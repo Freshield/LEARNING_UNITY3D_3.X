@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class coordianator : MonoBehaviour {
+public class coordianator{
 
     const double a = 6378245.0;
     const double ee = 0.00669342162296594323;
@@ -54,14 +54,5 @@ public class coordianator : MonoBehaviour {
         dLon = (dLon * 180 ) / (float)(a / sqrtMagic * Mathf.Cos(radLat) * Mathf.PI);
         return new Position((float)(wgLat + dLat), (float)(wgLon + dLon), coordinate.time);
     }
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    
 }
