@@ -23,6 +23,7 @@ public class test_rigibody : MonoBehaviour {
                 foreach (Transform child in track.transform)
                 {
                     child.gameObject.AddComponent<Rigidbody>();
+
                 }
             }
         }
