@@ -30,7 +30,7 @@ public class Main : MonoBehaviour {
         map = GameObject.Find("Directional light").GetComponent<getMap>();
         map.centerPoint = center;
         map.Refresh();
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < map.planes.Length; i++)
         {
             StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
         }
@@ -53,10 +53,10 @@ public class Main : MonoBehaviour {
         {
             case 0:
                 
-                for (int i = 0; i < 25; i++)
+                for (int i = 0; i < map.planes.Length; i++)
                 {
 
-                    GameObject plane = GameObject.Find("Plane" + 0);
+                    GameObject plane = GameObject.Find("plane" + i);
                     if (plane.GetComponent<Renderer>().material.mainTexture != null)
                     {
                         button = 1;

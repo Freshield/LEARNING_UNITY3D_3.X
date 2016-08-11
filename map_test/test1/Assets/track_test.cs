@@ -40,16 +40,16 @@ public class track_test : MonoBehaviour {
                         counter++;
                         avgLat += track.avgLat;
                         avgLon += track.avgLon;
-                        Debug.Log("name: " + track.name + "lat,lon" + track.avgLat + "," + track.avgLon + " now avg " + avgLat + "," + avgLon + " counter " + counter);
+                        //Debug.Log("name: " + track.name + "lat,lon" + track.avgLat + "," + track.avgLon + " now avg " + avgLat + "," + avgLon + " counter " + counter);
                     }
                     
                 }
                 
             }
-            Debug.Log("before is " + avgLat + "," + avgLon + " counter " + counter);
+            //Debug.Log("before is " + avgLat + "," + avgLon + " counter " + counter);
             avgLat /= counter;
             avgLon /= counter;
-            Debug.Log("after is " + avgLat + "," + avgLon + " counter " + counter);
+            //Debug.Log("after is " + avgLat + "," + avgLon + " counter " + counter);
             Position result = new Position((float)avgLat, (float)avgLon, 0);
 
             return result;
@@ -66,7 +66,7 @@ public class track_test : MonoBehaviour {
     public ArrayList LoadFile(string path, string name)
     {
         StreamReader sr = null;
-        Debug.Log(path + "/" + name);
+        //Debug.Log(path + "/" + name);
         
         try
         {
@@ -126,7 +126,7 @@ public class Track
 
     public void calculAvg()
     {
-        Debug.Log(name + " " + positions.Count);
+        //Debug.Log(name + " " + positions.Count);
         if (positions.Count > 0)
         {
             Position temp = (Position)positions[0];

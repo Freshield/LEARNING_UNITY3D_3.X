@@ -3,7 +3,8 @@ using System.Collections;
 
 public class getMap : MonoBehaviour {
 
-    public GameObject[] planes = new GameObject[25];
+    public GameObject[] planes;
+    public GameObject prefab;
     public Position centerPoint = new Position(45.49506f, -73.57801f,0);
     public int size = 512;
     public int zoom = 13;
@@ -16,7 +17,7 @@ public class getMap : MonoBehaviour {
     public float fullLat;
     public float fiveperLat;
     public float fiveperLon;
-    public Position[] points = new Position[25];
+    public Position[] points;
     
 
     // Use this for initialization
@@ -36,15 +37,26 @@ public class getMap : MonoBehaviour {
         fiveperLat = 0.005f * 10 / fullLat;
         fiveperLon = 0.005f * 10 / fullLon;
 
+        /*
         for (int i = 0; i < 25; i++)
         {
             planes[i] = GameObject.Find("Plane" + i);
             
+        }*/
+
+        PlaneCreator pc = new PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, prefab);
+
+        planes = pc.planes;
+
+        //Debug.Log("refresh");
+        points = Position.PositionCreator(centerPoint, 6, 4, fullLat, fullLon);
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            Debug.Log("points" + i + ":" + points[i].latitute+","+points[i].lontitute);
         }
         
-        //Debug.Log("refresh");
-        
-
+        /*
         Position p0 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute - 2 * fullLon,0);
         Position p1 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute - fullLon, 0);
         Position p2 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute, 0);
@@ -73,6 +85,7 @@ public class getMap : MonoBehaviour {
 
         Position[] temp = {p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24};
         points = temp;
+        */
         
     }
 
@@ -103,7 +116,7 @@ public class getMap : MonoBehaviour {
 "&style=feature:transit%7Celement:all%7Cvisibility:off" +
 "&style=feature:water%7Celement:all%7Ccolor:0x021019";
 
-        qs += style;
+        //qs += style;
 
         /*
         qs += "&markers=color:red|label:Y|";

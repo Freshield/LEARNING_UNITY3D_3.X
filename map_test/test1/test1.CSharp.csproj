@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
     <Compile Include="Assets\Main.cs" />
+    <Compile Include="Assets\PlaneCreator.cs" />
     <Compile Include="Assets\Position.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ConditionalGet.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ForceProxyExample.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="Assets\test\center_map.cs" />
     <Compile Include="Assets\test\test_get.cs" />
     <Compile Include="Assets\test_mouse.cs" />
+    <Compile Include="Assets\test_rigibody.cs" />
+    <Compile Include="Assets\test_start.cs" />
     <Compile Include="Assets\track_test.cs" />
   </ItemGroup>
   <ItemGroup>
