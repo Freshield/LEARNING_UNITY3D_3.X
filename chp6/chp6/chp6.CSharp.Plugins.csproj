@@ -73,8 +73,8 @@
     <Compile Include="Assets\Standard Assets\Scripts\General Scripts\ActivateTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\CustomOutLine.shader" />
     <None Include="Assets\OutlinedSilhouetted Diffuse.shader" />
-    <None Include="Assets\Resources\CustomOutLine.shader" />
     <None Include="Assets\Standard Assets\Skyboxes\skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
