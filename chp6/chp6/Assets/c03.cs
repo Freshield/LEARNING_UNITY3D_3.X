@@ -49,5 +49,15 @@ public class c03 : MonoBehaviour {
             controller.SimpleMove(Vector3.right * moveSpeed);
         }
 
+        if (GUILayout.RepeatButton("up"))
+        {
+            transform.Translate(0, 1, 0);
+        }
+
+        if (GUILayout.RepeatButton("down"))
+        {
+            transform.Translate(0, -1, 0);
+        }
+
     }
 }
