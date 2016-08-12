@@ -82,6 +82,7 @@
     <Compile Include="Assets\c02.cs" />
     <Compile Include="Assets\c03.cs" />
     <Compile Include="Assets\c04.cs" />
+    <Compile Include="Assets\c05.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Skyboxes\skybox info.txt" />
