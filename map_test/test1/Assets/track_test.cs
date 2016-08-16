@@ -111,6 +111,7 @@ public class track_test : MonoBehaviour {
 
     }
 }
+/*
 public class Track
 {
     public string name;
@@ -146,7 +147,7 @@ public class Track
 
 }
 
-/*public class Position
+public class Position
 {
     public float latitute;
     public float lontitute;
