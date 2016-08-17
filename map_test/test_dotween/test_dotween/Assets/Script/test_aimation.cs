@@ -36,7 +36,7 @@ public class test_aimation : MonoBehaviour {
         {
             AnimationClip clip = new AnimationClip();
             GetComponent<Animation>().AddClip(clip, "cutClip");
-            clip = GetComponent<Animation>().GetClip("cubeTest").Sam
+            //clip = GetComponent<Animation>().GetClip("cubeTest").Sam
 
 
         }
