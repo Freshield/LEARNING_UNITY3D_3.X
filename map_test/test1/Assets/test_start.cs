@@ -10,10 +10,10 @@ public class test_start : MonoBehaviour {
 
         PlaneCreator pc = new PlaneCreator(new Vector3(0,0,0) ,2, 2, 10, prefab);
 
-        Position[] positions = Position.PositionCreator(new Position(0, 0, 0), 2, 2, 10, 10);
+        Position[] positions = Position.PositionCreator(new Position(0, 0, new PTime(0,0)), 2, 2, 10, 10);
         for (int i = 0; i < positions.Length; i++)
         {
-            Debug.Log("position"+ i + " lon,lat = " + positions[i].lontitute + "," + positions[i].latitute);
+            Debug.Log("position"+ i + " lon,lat = " + positions[i].lontitute + "," + positions[i].latitute + "," + positions[i].time);
         }
         
     }

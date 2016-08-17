@@ -5,9 +5,9 @@ public class Position
 {
     public float latitute;
     public float lontitute;
-    public int time;
+    public PTime time;
 
-    public Position(float latitute, float lontitute, int time)
+    public Position(float latitute, float lontitute, PTime time)
     {
         this.latitute = latitute;
         this.lontitute = lontitute;
@@ -25,7 +25,7 @@ public class Position
                 
                 float lontitute = (((-x+1) * fullon) / 2) + (fullon * j);
                 float latitute = (((y-1) * fullat) / 2) - (fullat * i);
-                Position position = new Position(latitute + center.latitute, lontitute + center.lontitute,0);
+                Position position = new Position(latitute + center.latitute, lontitute + center.lontitute,new PTime(0,0));
                 positions[x * i + j] = position;
                 
             }

@@ -5,7 +5,7 @@ public class getMap : MonoBehaviour {
 
     public GameObject[] planes;
     public GameObject prefab;
-    public Position centerPoint = new Position(45.49506f, -73.57801f,0);
+    public Position centerPoint = new Position(45.49506f, -73.57801f,new PTime(0,0));
     public int size = 512;
     public int zoom = 13;
     public int scale = 2;
@@ -50,13 +50,13 @@ public class getMap : MonoBehaviour {
 
         //Debug.Log("refresh");
         points = Position.PositionCreator(centerPoint, 6, 4, fullLat, fullLon);
-
+        /*
         for (int i = 0; i < points.Length; i++)
         {
-            Debug.Log("points" + i + ":" + points[i].latitute+","+points[i].lontitute);
+            Debug.Log("points" + i + ":" + points[i].latitute+","+points[i].lontitute+","+points[i].time);
         }
         
-        /*
+        
         Position p0 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute - 2 * fullLon,0);
         Position p1 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute - fullLon, 0);
         Position p2 = new Position(centerPoint.latitute + 2 * fullLat, centerPoint.lontitute, 0);

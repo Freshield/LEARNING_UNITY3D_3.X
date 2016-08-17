@@ -21,7 +21,7 @@ public class PlaneCreator : MonoBehaviour {
                 plane.transform.parent = plane_parent.transform;
                 float hor = (((-x+1) * width) / 2) + (width * j);
                 float ver = (((y-1) * width) / 2) - (width * i);
-                Debug.Log(plane.name + " " + hor + "," + ver);
+                //Debug.Log(plane.name + " " + hor + "," + ver);
                 plane.transform.position = new Vector3(hor + center.x, ver + center.y, center.z);
                 planes[x * i + j] = plane;
             }

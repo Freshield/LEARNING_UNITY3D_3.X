@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
     <Compile Include="Assets\Main.cs" />
+    <Compile Include="Assets\PTime.cs" />
     <Compile Include="Assets\PlaneCreator.cs" />
     <Compile Include="Assets\Position.cs" />
     <Compile Include="Assets\Track.cs" />
@@ -100,9 +101,11 @@
     <None Include="Assets\GoogleMaps\README.txt" />
     <None Include="Assets\PersistentDataPath\TrajectoryStream.txt" />
     <None Include="Assets\StreamingAssets\TrajectoryStream.txt" />
+    <None Include="Assets\StreamingAssets\new_data.txt" />
     <None Include="Assets\TrajectoryStream.txt" />
     <None Include="Assets\UniWeb-Free\FAQ.txt" />
     <None Include="Assets\UniWeb-Free\README.txt" />
+    <None Include="Assets\new_data.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

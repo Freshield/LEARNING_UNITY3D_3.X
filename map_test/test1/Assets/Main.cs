@@ -16,11 +16,11 @@ public class Main : MonoBehaviour {
 
         //get location
         track_test file = new track_test();
-        tracks = file.LoadFile(Application.streamingAssetsPath, "TrajectoryStream.txt");
+        tracks = file.LoadFile(Application.streamingAssetsPath, "new_data.txt");
         
         center = file.calculTracks(tracks);
 
-        Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
+        //Debug.Log("latitute,longtitute: " + center.latitute + "," + center.lontitute);
 
 
 

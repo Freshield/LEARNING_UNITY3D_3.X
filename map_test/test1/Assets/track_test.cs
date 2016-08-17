@@ -50,7 +50,7 @@ public class track_test : MonoBehaviour {
             avgLat /= counter;
             avgLon /= counter;
             //Debug.Log("after is " + avgLat + "," + avgLon + " counter " + counter);
-            Position result = new Position((float)avgLat, (float)avgLon, 0);
+            Position result = new Position((float)avgLat, (float)avgLon, new PTime(0,0));
 
             return result;
         }
@@ -89,17 +89,20 @@ public class track_test : MonoBehaviour {
 
         while ((line = sr.ReadLine()) != null)
         {
-            if ((pos = line.IndexOf(":")) != -1)
+            //if ((pos = line.IndexOf("T")) != -1)
+            if (line.Contains("T"))
             {
                 temp.calculAvg();
-                Track track = new Track(line.Remove(pos));
+                //Track track = new Track(line.Remove(pos));
+                Track track = new Track(line);
                 temp = track;
                 tracks.Add(track);
             }
             else if (line.Contains(","))
             {
                 string[] result = line.Split(',');
-                Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), int.Parse(result[2])));
+                Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), new PTime(result[2])));
+                Debug.Log(position.latitute + "," + position.lontitute + "," + position.time);
                 temp.positions.Add(position);
             }
         }
