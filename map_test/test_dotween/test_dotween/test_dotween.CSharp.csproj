@@ -91,6 +91,7 @@
     <Compile Include="Assets\Mybutton.cs" />
     <Compile Include="Assets\Script\test_aimation.cs" />
     <Compile Include="Assets\Script\test_dotween.cs" />
+    <Compile Include="Assets\test_linerender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
