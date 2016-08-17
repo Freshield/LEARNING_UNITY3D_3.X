@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_dotween.CSharp", "test_dotween.CSharp.csproj", "{AF98D095-157E-0B03-417F-2281F96103FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_dotween.CSharp.Editor", "test_dotween.CSharp.Editor.csproj", "{06B22890-EDAE-5A18-61F8-3F432BCE627A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF98D095-157E-0B03-417F-2281F96103FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF98D095-157E-0B03-417F-2281F96103FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF98D095-157E-0B03-417F-2281F96103FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF98D095-157E-0B03-417F-2281F96103FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B22890-EDAE-5A18-61F8-3F432BCE627A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B22890-EDAE-5A18-61F8-3F432BCE627A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B22890-EDAE-5A18-61F8-3F432BCE627A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B22890-EDAE-5A18-61F8-3F432BCE627A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
