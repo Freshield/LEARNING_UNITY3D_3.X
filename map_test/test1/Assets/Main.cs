@@ -37,11 +37,11 @@ public class Main : MonoBehaviour {
         
 
         //put ball
-        locateBall lb = new locateBall(center, map.fullLat, map.fullLon,"parent");
+        //locateBall lb = new locateBall(center, map.fullLat, map.fullLon,"parent");
         //Debug.Log("fullat,fullon" + lb.fullLat + " " + lb.fullLon);
-        ArrayList locations = new ArrayList(map.points);
-        ArrayList balls = lb.addBall(prefab, locations.Count);
-        lb.putBall(balls, locations);
+        //ArrayList locations = new ArrayList(map.points);
+        //ArrayList balls = lb.addBall(prefab, locations.Count);
+        //lb.putBall(balls, locations);
 
 
     }
