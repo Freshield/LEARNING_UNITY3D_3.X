@@ -37,7 +37,7 @@ public class test_dotween : MonoBehaviour {
 
         startPosition = obj.transform.position;
 
-        train = GameObject.Find("CubeTrain");
+        //train = GameObject.Find("CubeTrain");
 
         tweener = obj.transform.DOPath(positions, 4, PathType.CatmullRom, PathMode.Full3D, 5, null);
 
