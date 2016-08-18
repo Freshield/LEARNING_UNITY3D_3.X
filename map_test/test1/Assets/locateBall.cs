@@ -49,18 +49,7 @@ public class locateBall : MonoBehaviour {
         float y = (position.latitute - center.latitute) * 10 / fullLat;
         ball.transform.position = new Vector3(x, y, -radius);
         ball.transform.parent = parent.transform;
-        //Debug.Log(ball.name + " " + ball.transform.position + " " + ball.transform.parent);
-
-    }
-
-	// Use this for initialization
-	void Start () {
         
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    
 }

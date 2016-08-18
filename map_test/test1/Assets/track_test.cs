@@ -81,7 +81,6 @@ public class track_test : MonoBehaviour {
 
         string line;
         Track temp = new Track("temp");
-        int pos;
         
         ArrayList tracks = new ArrayList();
 

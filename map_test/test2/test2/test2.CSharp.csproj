@@ -82,9 +82,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
+    <Compile Include="Assets\Script\CoordinatorChange.cs" />
+    <Compile Include="Assets\Script\Locator.cs" />
+    <Compile Include="Assets\Script\Map.cs" />
     <Compile Include="Assets\Script\PTime.cs" />
     <Compile Include="Assets\Script\PlaneCreator.cs" />
     <Compile Include="Assets\Script\Position.cs" />
+    <Compile Include="Assets\Script\Track.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ConditionalGet.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ForceProxyExample.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\KeepAliveExample.cs" />
