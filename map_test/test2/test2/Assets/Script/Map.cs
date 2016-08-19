@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Map : MonoBehaviour {
     public GameObject[] planes;
+    public GameObject planePrefab;
     public Position centerPoint = new Position(45.49506f, -73.57801f, new PTime(0, 0));
     public int size = 512;
     public int zoom = 13;
@@ -27,7 +28,7 @@ public class Map : MonoBehaviour {
         halfLat = halfLon * ratio;
         fullLat = halfLat * 2;
         
-        PlaneCreator pc = new PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10);
+        PlaneCreator pc = new PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
 
         planes = pc.planes;
         

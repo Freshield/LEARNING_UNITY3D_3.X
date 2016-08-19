@@ -84,7 +84,9 @@
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
     <Compile Include="Assets\Script\CoordinatorChange.cs" />
     <Compile Include="Assets\Script\Locator.cs" />
+    <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Map.cs" />
+    <Compile Include="Assets\Script\MouseControllor.cs" />
     <Compile Include="Assets\Script\PTime.cs" />
     <Compile Include="Assets\Script\PlaneCreator.cs" />
     <Compile Include="Assets\Script\Position.cs" />

@@ -4,9 +4,8 @@ using System.Collections;
 public class PlaneCreator : MonoBehaviour {
     public GameObject[] planes;
     public GameObject plane_parent;
-    public GameObject prefab;
 
-    public PlaneCreator(Vector3 center, int x, int y, float width)
+    public PlaneCreator(Vector3 center, int x, int y, float width,GameObject prefab)
     {
         planes = new GameObject[x * y];
 
