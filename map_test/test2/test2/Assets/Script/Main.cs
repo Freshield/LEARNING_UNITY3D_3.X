@@ -6,6 +6,8 @@ public class Main : MonoBehaviour {
     public GameObject objPrefab;
     ArrayList tracks;
     Position center;
+    Position firstPosition;
+    Position lastPosition;
 
     int button = 0;
     int number = 0;
@@ -16,7 +18,14 @@ public class Main : MonoBehaviour {
 
         //get location
         tracks = Track.LoadFile(Application.dataPath, "new_data.txt");
-        center = Track.calculTracks(tracks);
+
+        Position[] result = Track.calculTracks(tracks);
+        center = result[0];
+        firstPosition = result[1];
+        lastPosition = result[2];
+        Debug.Log("first,last " + firstPosition.time + "," + lastPosition.time);
+        //clean
+        result = null;
         
         //get map
         map = GameObject.Find("Directional light").GetComponent<Map>();

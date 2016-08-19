@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.IO;
 using System;
+using UnityEngine;
 
 public class Track{
     public string name;
     public ArrayList positions;
     public float avgLat = 0;
     public float avgLon = 0;
+    public Position firstPosition;
+    public Position lastPosition;
 
     public Track(string name)
     {
@@ -14,18 +17,29 @@ public class Track{
         positions = new ArrayList();
     }
 
+    //calculate the average latitude and lontitude, 
+    //then find first position and last position
     public void calculAvg()
     {
-        //Debug.Log(name + " " + positions.Count);
         if (positions.Count > 0)
         {
-            Position temp = (Position)positions[0];
+            firstPosition = (Position)positions[0];
+            lastPosition = (Position)positions[0];
             double avgLat = 0;
             double avgLon = 0;
             foreach (Position position in positions)
             {
                 avgLat += position.latitute;
                 avgLon += position.lontitute;
+                //get the first position and last position
+                if (firstPosition.time.totalTime >= position.time.totalTime)
+                {
+                    firstPosition = position;
+                }
+                if (lastPosition.time.totalTime <= position.time.totalTime)
+                {
+                    lastPosition = position;
+                }
             }
             this.avgLat = (float)(avgLat / positions.Count);
             this.avgLon = (float)(avgLon / positions.Count);
@@ -77,11 +91,18 @@ public class Track{
         return tracks;
     }
 
-    public static Position calculTracks(ArrayList tracks)
+    //calculate the average position
+    //and find the first position and last position
+    //sequence is center,firstPosition,lastPosition
+    public static Position[] calculTracks(ArrayList tracks)
     {
         if (tracks.Count > 0)
         {
+            Position firstPosition;
+            Position lastPosition;
             Track temp = (Track)tracks[0];
+            firstPosition = temp.firstPosition;
+            lastPosition = temp.lastPosition;
             double avgLat = 0;
             double avgLon = 0;
             int counter = 0;
@@ -95,6 +116,14 @@ public class Track{
                         counter++;
                         avgLat += track.avgLat;
                         avgLon += track.avgLon;
+                        if (firstPosition.time.totalTime >= track.firstPosition.time.totalTime)
+                        {
+                            firstPosition = track.firstPosition;
+                        }
+                        if (lastPosition.time.totalTime <= track.lastPosition.time.totalTime)
+                        {
+                            lastPosition = track.lastPosition;
+                        }
                     }
 
                 }
@@ -103,7 +132,7 @@ public class Track{
             avgLat /= counter;
             avgLon /= counter;
             Position result = new Position((float)avgLat, (float)avgLon, new PTime(0, 0));
-            return result;
+            return new Position[] { result, firstPosition, lastPosition };
         }
         else
         {
