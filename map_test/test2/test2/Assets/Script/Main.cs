@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Main : MonoBehaviour {
     Map map;
     public GameObject objPrefab;
-    ArrayList tracks;
+    List<Track> tracks;
     Position center;
     Position firstPosition;
     Position lastPosition;
@@ -63,7 +64,7 @@ public class Main : MonoBehaviour {
                 if (track.positions.Count > 0)
                 {
                     Locator lb = new Locator(center, map.fullLat, map.fullLon, "o" + number);
-                    ArrayList pos = track.positions;
+                    List<Position> pos = track.positions;
                     lb.locateObject(objPrefab, pos);
                 }
                 number++;

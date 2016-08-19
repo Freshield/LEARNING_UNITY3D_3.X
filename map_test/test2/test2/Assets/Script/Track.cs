@@ -1,20 +1,22 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System;
 using UnityEngine;
 
 public class Track{
     public string name;
-    public ArrayList positions;
+    public List<Position> positions;
     public float avgLat = 0;
     public float avgLon = 0;
     public Position firstPosition;
     public Position lastPosition;
+    public List<Vector3> worldPositions;
 
     public Track(string name)
     {
         this.name = name;
-        positions = new ArrayList();
+        positions = new List<Position>();
     }
 
     //calculate the average latitude and lontitude, 
@@ -23,8 +25,8 @@ public class Track{
     {
         if (positions.Count > 0)
         {
-            firstPosition = (Position)positions[0];
-            lastPosition = (Position)positions[0];
+            firstPosition = positions[0];
+            lastPosition = positions[0];
             double avgLat = 0;
             double avgLon = 0;
             foreach (Position position in positions)
@@ -47,7 +49,7 @@ public class Track{
 
     }
 
-    public static ArrayList LoadFile(string path, string name)
+    public static List<Track> LoadFile(string path, string name)
     {
         StreamReader sr = null;
         try
@@ -63,7 +65,7 @@ public class Track{
         string line;
         Track temp = new Track("temp");
 
-        ArrayList tracks = new ArrayList();
+        List<Track> tracks = new List<Track>();
 
         CoordinatorChange coo = new CoordinatorChange();
 
@@ -94,13 +96,13 @@ public class Track{
     //calculate the average position
     //and find the first position and last position
     //sequence is center,firstPosition,lastPosition
-    public static Position[] calculTracks(ArrayList tracks)
+    public static Position[] calculTracks(List<Track> tracks)
     {
         if (tracks.Count > 0)
         {
             Position firstPosition;
             Position lastPosition;
-            Track temp = (Track)tracks[0];
+            Track temp = tracks[0];
             firstPosition = temp.firstPosition;
             lastPosition = temp.lastPosition;
             double avgLat = 0;

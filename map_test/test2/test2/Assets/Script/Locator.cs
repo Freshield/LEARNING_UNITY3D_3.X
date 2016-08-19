@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Locator : MonoBehaviour {
     public Position center;
@@ -16,11 +17,11 @@ public class Locator : MonoBehaviour {
         this.name = name;
     }
 
-    public GameObject locateObject(GameObject prefab, ArrayList locations)
+    public GameObject locateObject(GameObject prefab, List<Position> locations)
     {
         radius = prefab.transform.localScale.x / 2;
 
-        ArrayList objs = new ArrayList();
+        List<GameObject> objs = new List<GameObject>();
         for (int i = 0; i < locations.Count; i++)
         {
             GameObject obj = Instantiate(prefab);
@@ -31,7 +32,7 @@ public class Locator : MonoBehaviour {
 
         for (int i = 0; i < objs.Count; i++)
         {
-            locate((GameObject)objs[i], parent, (Position)locations[i]);
+            locate(objs[i], parent, locations[i]);
         }
 
         return parent;
