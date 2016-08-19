@@ -11,7 +11,7 @@ public class Track{
     public float avgLon = 0;
     public Position firstPosition;
     public Position lastPosition;
-    public List<Vector3> worldPositions;
+    public List<VecTime> worldPositions;
 
     public Track(string name)
     {
@@ -49,6 +49,23 @@ public class Track{
 
     }
 
+    public void getWorldPosition(Position center, float fullLat, float fullLon, GameObject prefab)
+    {
+        float radius = prefab.transform.localScale.x / 2;
+
+        foreach (Position position in positions)
+        {
+            float x = (position.lontitute - center.lontitute) * 10 / fullLon;
+            float y = (position.latitute - center.latitute) * 10 / fullLat;
+
+            VecTime temp = new VecTime(new Vector3(x, y, radius), position.time);
+            worldPositions.Add(temp);
+        }
+    }
+
+
+    //static function
+    //to read file
     public static List<Track> LoadFile(string path, string name)
     {
         StreamReader sr = null;
