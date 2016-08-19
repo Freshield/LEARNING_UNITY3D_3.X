@@ -91,6 +91,7 @@
     <Compile Include="Assets\test\calculate.cs" />
     <Compile Include="Assets\test\center_map.cs" />
     <Compile Include="Assets\test\test_get.cs" />
+    <Compile Include="Assets\test_filling.cs" />
     <Compile Include="Assets\test_mouse.cs" />
     <Compile Include="Assets\test_planeclone.cs" />
     <Compile Include="Assets\test_rigibody.cs" />
