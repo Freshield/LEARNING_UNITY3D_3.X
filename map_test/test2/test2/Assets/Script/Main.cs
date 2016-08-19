@@ -23,7 +23,6 @@ public class Main : MonoBehaviour {
         center = result[0];
         firstPosition = result[1];
         lastPosition = result[2];
-        Debug.Log("first,last " + firstPosition.time + "," + lastPosition.time);
         //clean
         result = null;
         
@@ -53,6 +52,7 @@ public class Main : MonoBehaviour {
                     else
                     {
                         button = 0;
+                        StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                         break;
                     }
                 }
