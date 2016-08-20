@@ -69,12 +69,21 @@ public class Track{
     }
 
     //track do filling between firstposition and lastposition
-    public void trackFilling(Position firstPosition, Position lastPosition)
+    public void trackFilling(VecTime WfirstPosition, VecTime WlastPosition)
     {
-        if (this.firstPosition.time.totalTime != firstPosition.time.totalTime)
+        //figure out if track have first or last position
+        if (this.WfirstPosition.time.totalTime != WfirstPosition.time.totalTime)
         {
-           // VecTime temp = new VecTime(this.firstPosition)
+            VecTime temp = new VecTime(this.WfirstPosition.worldPosition, WfirstPosition.time);
+            worldPositions.Add(temp);
         }
+        if (this.WlastPosition.time.totalTime != WlastPosition.time.totalTime)
+        {
+            VecTime temp = new VecTime(this.WlastPosition.worldPosition, WlastPosition.time);
+            worldPositions.Add(temp);
+        }
+        
+        VecTime.filling(worldPositions);
     }
 
 
@@ -191,13 +200,26 @@ public class Track{
         foreach (Track track in tracks)
         {
             track.getWorldPosition(center, fullLat, fullLon, objPrefab);
+            /*VecTime.filling(track.worldPositions);
+            foreach (VecTime position in track.worldPositions)
+            {
+                Debug.Log("track " + track.name + " " + position.worldPosition + position.time);
+            }*/
         }
 
     }
 
     //whole tracks do filling between firstposition and lastposition
-    public static void wholeTracksFilling(Position firstPostion, Position lastPostion, List<Track> tracks)
+    public static void wholeTracksFilling(VecTime WfirstPostion, VecTime WlastPosition, List<Track> tracks)
     {
-
+        foreach (Track track in tracks)
+        {
+            track.trackFilling(WfirstPostion, WlastPosition);
+            foreach (VecTime position in track.worldPositions)
+            {
+                Debug.Log("track " + track.name + " "+position.worldPosition+position.time);
+            }
+           
+        }
     }
 }

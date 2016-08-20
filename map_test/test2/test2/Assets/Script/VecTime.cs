@@ -55,12 +55,12 @@ public class VecTime : IComparable<VecTime>
             //vector difference per time
             vectorDif /= timeDif;
             //generate filling
-            VecTime fillTemp = new VecTime(before.worldPosition, before.time);
+            VecTime fillTemp = new VecTime(before.worldPosition, new PTime(before.time.totalTime));
             for (int j = 0; j < (int)timeDif - 1; j++)
             {
                 fillTemp.worldPosition += vectorDif;
                 fillTemp.time.setTime(fillTemp.time.totalTime + 1);
-                VecTime fill = new VecTime(fillTemp.worldPosition, fillTemp.time);
+                VecTime fill = new VecTime(fillTemp.worldPosition, new PTime(fillTemp.time.totalTime));
                 filling.Add(fill);
             }
             //prepare for next loop
