@@ -40,7 +40,12 @@ public class Main : MonoBehaviour {
 
         //generate the world position for each track
         Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
-        
+        //transfer first and last position to world position
+        WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
+        WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
+
+        Debug.Log("first,last " + WfirstPosition.worldPosition + WfirstPosition.time + "," + WlastPosition.worldPosition + WlastPosition.time);
+
     }
 
     // Update is called once per frame
