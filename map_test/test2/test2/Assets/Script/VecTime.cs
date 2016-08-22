@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 
+//unity world position + time
 public class VecTime : IComparable<VecTime>
 {
     public Vector3 worldPosition;

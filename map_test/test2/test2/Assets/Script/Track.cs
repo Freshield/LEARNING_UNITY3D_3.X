@@ -17,6 +17,7 @@ public class Track{
     {
         this.name = name;
         positions = new List<Position>();
+        worldPositions = new List<VecTime>();
     }
 
     //calculate the average latitude and lontitude, 
@@ -49,22 +50,24 @@ public class Track{
 
     }
 
-    public void getWorldPosition(Position center, float fullLat, float fullLon, GameObject prefab)
+    //save the world position
+    public void getWorldPosition(Position center, float fullLat, float fullLon, GameObject objPrefab)
     {
-        float radius = prefab.transform.localScale.x / 2;
+        float radius = objPrefab.transform.localScale.x / 2;
 
         foreach (Position position in positions)
         {
             float x = (position.lontitute - center.lontitute) * 10 / fullLon;
             float y = (position.latitute - center.latitute) * 10 / fullLat;
 
-            VecTime temp = new VecTime(new Vector3(x, y, radius), position.time);
+            VecTime temp = new VecTime(new Vector3(x, y, -radius), position.time);
             worldPositions.Add(temp);
         }
     }
 
 
-    //static function
+    /////////////////////////static function/////////////////////////////
+
     //to read file
     public static List<Track> LoadFile(string path, string name)
     {
@@ -157,5 +160,16 @@ public class Track{
         {
             return null;
         }
+    }
+
+    //give every track in tracks their world position
+    public static void generateWorldPosition(List<Track> tracks, Position center, float fullLat, float fullLon, GameObject objPrefab)
+    {
+
+        foreach (Track track in tracks)
+        {
+            track.getWorldPosition(center, fullLat, fullLon, objPrefab);
+        }
+
     }
 }

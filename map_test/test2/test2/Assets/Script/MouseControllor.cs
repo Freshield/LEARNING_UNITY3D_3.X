@@ -84,7 +84,6 @@ public class MouseControllor : MonoBehaviour {
                     distance = Input.GetAxis("Mouse ScrollWheel") * 2;
                 }
                 Camera.main.transform.position = new Vector3(0, 0, distance) + cameraPosition;
-                //Debug.Log("scrollwheel position " + Input.mousePosition);
             }
 
         }

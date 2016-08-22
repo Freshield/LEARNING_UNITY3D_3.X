@@ -20,6 +20,7 @@ public class Main : MonoBehaviour {
         //get location
         tracks = Track.LoadFile(Application.dataPath, "new_data.txt");
 
+        //get the center, firstposition and lastposition
         Position[] result = Track.calculTracks(tracks);
         center = result[0];
         firstPosition = result[1];
@@ -34,6 +35,10 @@ public class Main : MonoBehaviour {
         {
             StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
         }
+
+        //generate the world position for each track
+        Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
+        
     }
 
     // Update is called once per frame
@@ -60,12 +65,13 @@ public class Main : MonoBehaviour {
                 break;
 
             case 1:
-                Track track = (Track)tracks[number];
+                Track track = tracks[number];
                 if (track.positions.Count > 0)
                 {
                     Locator lb = new Locator(center, map.fullLat, map.fullLon, "o" + number);
-                    List<Position> pos = track.positions;
-                    lb.locateObject(objPrefab, pos);
+                    //List<Position> pos = track.positions;
+                    //lb.locateObject(objPrefab, pos);
+                    lb.worldLocate(objPrefab, track.worldPositions);
                 }
                 number++;
                 if (number == tracks.Count)

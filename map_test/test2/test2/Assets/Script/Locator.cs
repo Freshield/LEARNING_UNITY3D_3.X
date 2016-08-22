@@ -22,30 +22,45 @@ public class Locator : MonoBehaviour {
         radius = prefab.transform.localScale.x / 2;
 
         List<GameObject> objs = new List<GameObject>();
+
+        GameObject parent = new GameObject(name);
+
         for (int i = 0; i < locations.Count; i++)
         {
             GameObject obj = Instantiate(prefab);
             objs.Add(obj);
+            locate(obj, parent, locations[i]);
         }
+        
+        return parent;
+    }
+
+    //using world position to locate
+    public GameObject worldLocate(GameObject prefab, List<VecTime> locations)
+    {
+        radius = prefab.transform.localScale.x / 2;
+
+        List<GameObject> objs = new List<GameObject>();
 
         GameObject parent = new GameObject(name);
 
-        for (int i = 0; i < objs.Count; i++)
+        for (int i = 0; i < locations.Count; i++)
         {
-            locate(objs[i], parent, locations[i]);
+            GameObject obj = Instantiate(prefab);
+            objs.Add(obj);
+            obj.transform.position = locations[i].worldPosition;
+            obj.transform.parent = parent.transform;
         }
 
         return parent;
     }
     
-
+    //using true position to locate
     public void locate(GameObject ball, GameObject parent, Position position)
     {
-
         float x = (position.lontitute - center.lontitute) * 10 / fullLon;
         float y = (position.latitute - center.latitute) * 10 / fullLat;
         ball.transform.position = new Vector3(x, y, -radius);
         ball.transform.parent = parent.transform;
-
     }
 }
