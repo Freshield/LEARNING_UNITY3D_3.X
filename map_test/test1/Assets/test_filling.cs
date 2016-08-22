@@ -42,43 +42,7 @@ public class test_filling : MonoBehaviour{
             Debug.Log(vt.time);
         }
 
-        List<VT> filling = new List<VT>();
-
-        VT before = vts[0];
-        for (int i = 0; i < vts.Count; i++)
-        {
-            //get the first one
-            if (i == 0)
-            {
-                before = vts[0];
-                continue;
-            }
-            //calculate the difference
-            float timeDif = vts[i].time - before.time;
-            Vector3 vectorDif = vts[i].position - before.position;
-            //vector difference per time
-            vectorDif /= timeDif;
-            //generate filling
-            VT fillTemp = new VT(before.position, before.time);
-            for (int j = 0; j < (int)timeDif - 1; j++)
-            {
-                fillTemp.position += vectorDif;
-                fillTemp.time += 1;
-                VT fill = new VT(fillTemp.position, fillTemp.time);
-                filling.Add(fill);
-            }
-            //prepare for next loop
-            before = vts[i];
-        }
-
-        Debug.Log("filling");
-        foreach (VT vt in filling)
-        {
-            Debug.Log(vt.time);
-        }
-
-        vts.AddRange(filling);
-        vts.Sort();
+        VT.filling(vts);
 
         Debug.Log("final");
         foreach (VT vt in vts)
@@ -116,5 +80,42 @@ public class VT : IComparable<VT>
         {
             return 0;
         }
+    }
+
+    ///////////////////static function///////////////////////////
+    public static List<VT> filling(List<VT> vts)
+    {
+        List<VT> filling = new List<VT>();
+
+        VT before = vts[0];
+        for (int i = 0; i < vts.Count; i++)
+        {
+            //get the first one
+            if (i == 0)
+            {
+                before = vts[0];
+                continue;
+            }
+            //calculate the difference
+            float timeDif = vts[i].time - before.time;
+            Vector3 vectorDif = vts[i].position - before.position;
+            //vector difference per time
+            vectorDif /= timeDif;
+            //generate filling
+            VT fillTemp = new VT(before.position, before.time);
+            for (int j = 0; j < (int)timeDif - 1; j++)
+            {
+                fillTemp.position += vectorDif;
+                fillTemp.time += 1;
+                VT fill = new VT(fillTemp.position, fillTemp.time);
+                filling.Add(fill);
+            }
+            //prepare for next loop
+            before = vts[i];
+        }
+        vts.AddRange(filling);
+        vts.Sort();
+
+        return vts;
     }
 }
