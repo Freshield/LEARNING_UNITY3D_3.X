@@ -17,11 +17,11 @@ public class VecTime : IComparable<VecTime>
 
     public int CompareTo(VecTime VecToCompare)
     {
-        if (this.time.totalTime > VecToCompare.time.totalTime)
+        if (time.totalTime > VecToCompare.time.totalTime)
         {
             return 1;
         }
-        else if (this.time.totalTime < VecToCompare.time.totalTime)
+        else if (time.totalTime < VecToCompare.time.totalTime)
         {
             return -1;
         }
@@ -56,7 +56,7 @@ public class VecTime : IComparable<VecTime>
             for (int j = 0; j < (int)timeDif - 1; j++)
             {
                 fillTemp.worldPosition += vectorDif;
-                fillTemp.time.totalTime += 1;
+                fillTemp.time.setTime(fillTemp.time.totalTime + 1);
                 VecTime fill = new VecTime(fillTemp.worldPosition, fillTemp.time);
                 filling.Add(fill);
             }
