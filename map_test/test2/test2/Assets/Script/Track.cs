@@ -11,6 +11,8 @@ public class Track{
     public float avgLon = 0;
     public Position firstPosition;
     public Position lastPosition;
+    public VecTime WfirstPosition;
+    public VecTime WlastPosition;
     public List<VecTime> worldPositions;
 
     public Track(string name)
@@ -62,6 +64,22 @@ public class Track{
 
             VecTime temp = new VecTime(new Vector3(x, y, -radius), position.time);
             worldPositions.Add(temp);
+            Debug.Log("track " + name +" "+ temp.worldPosition+temp.time);
+        }
+
+        worldPositions.Sort();
+        WfirstPosition = worldPositions[0];
+        WlastPosition = worldPositions[worldPositions.Count - 1];
+        Debug.Log("track " + name + " first,last " + WfirstPosition.worldPosition+WfirstPosition.time+","+WlastPosition.worldPosition+WlastPosition.time);
+
+    }
+
+    //track do filling between firstposition and lastposition
+    public void trackFilling(Position firstPosition, Position lastPosition)
+    {
+        if (this.firstPosition.time.totalTime != firstPosition.time.totalTime)
+        {
+           // VecTime temp = new VecTime(this.firstPosition)
         }
     }
 
@@ -169,9 +187,13 @@ public class Track{
         foreach (Track track in tracks)
         {
             track.getWorldPosition(center, fullLat, fullLon, objPrefab);
-            //filling
-            VecTime.filling(track.worldPositions);
         }
+
+    }
+
+    //whole tracks do filling between firstposition and lastposition
+    public static void wholeTracksFilling(Position firstPostion, Position lastPostion, List<Track> tracks)
+    {
 
     }
 }

@@ -68,7 +68,7 @@ public class Main : MonoBehaviour {
                 Track track = tracks[number];
                 if (track.positions.Count > 0)
                 {
-                    Locator lb = new Locator(center, map.fullLat, map.fullLon, "o" + number);
+                    Locator lb = new Locator(center, map.fullLat, map.fullLon, track.name);
                     //List<Position> pos = track.positions;
                     //lb.locateObject(objPrefab, pos);
                     lb.worldLocate(objPrefab, track.worldPositions);

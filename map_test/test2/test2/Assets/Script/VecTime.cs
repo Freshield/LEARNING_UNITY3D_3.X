@@ -32,7 +32,8 @@ public class VecTime : IComparable<VecTime>
     }
 
     ////////////////////////////static function/////////////////////////////
-    ///////////////////static function///////////////////////////
+
+    //filling the position using the world position
     public static List<VecTime> filling(List<VecTime> positions)
     {
         positions.Sort();
