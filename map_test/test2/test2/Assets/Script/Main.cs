@@ -9,6 +9,8 @@ public class Main : MonoBehaviour {
     Position center;
     Position firstPosition;
     Position lastPosition;
+    VecTime WfirstPosition;
+    VecTime WlastPosition;
 
     int button = 0;
     int number = 0;

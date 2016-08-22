@@ -51,7 +51,7 @@ public class Track{
         }
 
     }
-
+    
     //save the world position
     public void getWorldPosition(Position center, float fullLat, float fullLon, GameObject objPrefab)
     {
@@ -59,19 +59,13 @@ public class Track{
 
         foreach (Position position in positions)
         {
-            float x = (position.lontitute - center.lontitute) * 10 / fullLon;
-            float y = (position.latitute - center.latitute) * 10 / fullLat;
-
-            VecTime temp = new VecTime(new Vector3(x, y, -radius), position.time);
-            worldPositions.Add(temp);
-            Debug.Log("track " + name +" "+ temp.worldPosition+temp.time);
+            worldPositions.Add(position2world(position,center,fullLat,fullLon,objPrefab));
         }
 
         worldPositions.Sort();
         WfirstPosition = worldPositions[0];
         WlastPosition = worldPositions[worldPositions.Count - 1];
-        Debug.Log("track " + name + " first,last " + WfirstPosition.worldPosition+WfirstPosition.time+","+WlastPosition.worldPosition+WlastPosition.time);
-
+        
     }
 
     //track do filling between firstposition and lastposition
@@ -85,6 +79,16 @@ public class Track{
 
 
     /////////////////////////static function/////////////////////////////
+
+    //transfer position to world position
+    public static VecTime position2world(Position position, Position center, float fullLat, float fullLon, GameObject objPrefab)
+    {
+        float radius = objPrefab.transform.localScale.x / 2;
+        float x = (position.lontitute - center.lontitute) * 10 / fullLon;
+        float y = (position.latitute - center.latitute) * 10 / fullLat;
+        VecTime temp = new VecTime(new Vector3(x, y, -radius), position.time);
+        return temp;
+    }
 
     //to read file
     public static List<Track> LoadFile(string path, string name)
