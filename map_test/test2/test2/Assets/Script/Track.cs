@@ -169,6 +169,8 @@ public class Track{
         foreach (Track track in tracks)
         {
             track.getWorldPosition(center, fullLat, fullLon, objPrefab);
+            //filling
+            VecTime.filling(track.worldPositions);
         }
 
     }

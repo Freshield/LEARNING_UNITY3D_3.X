@@ -35,6 +35,8 @@ public class VecTime : IComparable<VecTime>
     ///////////////////static function///////////////////////////
     public static List<VecTime> filling(List<VecTime> positions)
     {
+        positions.Sort();
+
         List<VecTime> filling = new List<VecTime>();
 
         VecTime before = positions[0];

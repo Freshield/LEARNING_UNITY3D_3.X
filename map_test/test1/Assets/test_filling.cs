@@ -18,6 +18,7 @@ public class test_filling : MonoBehaviour{
         VT vt2 = new VT(v2, 6);
         VT vt3 = new VT(v3, 10);
         VT vt4 = new VT(v4, 15);
+        VT vt5 = new VT(v4, 6);
 
         List<VT> vts = new List<VT>();
         vts.Add(vt2);
@@ -25,6 +26,7 @@ public class test_filling : MonoBehaviour{
         vts.Add(vt3);
         vts.Add(vt1);
         vts.Add(vt4);
+        vts.Add(vt5);
 
         Debug.Log("before sort");
         foreach (VT vt in vts)
@@ -85,6 +87,8 @@ public class VT : IComparable<VT>
     ///////////////////static function///////////////////////////
     public static List<VT> filling(List<VT> vts)
     {
+        vts.Sort();
+
         List<VT> filling = new List<VT>();
 
         VT before = vts[0];
