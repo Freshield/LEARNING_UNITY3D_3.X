@@ -44,7 +44,13 @@ public class test_dotween : MonoBehaviour {
         tweener.SetAutoKill(false).SetEase(Ease.Linear);
 
 
+        //test create linerenderer
 
+        GameObject sphere = GameObject.Find("Sphere");
+        sphere.AddComponent<LineRenderer>();
+        Material line = Resources.Load<Material>("material/New Material");
+        Debug.Log(line.name);
+        sphere.GetComponent<LineRenderer>().materials[0] = line;
         
 	
 	}
