@@ -36,6 +36,8 @@ public class Main : MonoBehaviour {
         loadingCount = anim.Length;
         loadingPlane = GameObject.Find("LoadingPlane");
         drawers = new List<Drawer>();
+        //not auto play
+        DOTween.defaultAutoPlay = AutoPlay.None;
     }
 
     // Update is called once per frame
@@ -76,6 +78,7 @@ public class Main : MonoBehaviour {
                 break;
             //filling
             case 1:
+                //here like the locate ball, filling each ball one update
                 Track fillingTemp = tracks[number];
                 if (fillingTemp.positions.Count > 0)
                 {
@@ -86,13 +89,30 @@ public class Main : MonoBehaviour {
                 number++;
                 if (number == tracks.Count)
                 {
-                    button = 5;
+                    button = 2;
                     number = 0;
                     
                 }
                 break;
-            //create plane
+
             case 2:
+                Track getTrack = tracks[number];
+                if (getTrack.positions.Count > 0)
+                {
+                    Drawer drawer = new Drawer(objPrefab, getTrack, 10);
+                    drawers.Add(drawer);
+                }
+                number++;
+                if (number == tracks.Count)
+                {
+                    
+                    button = 3;
+                    number = 0;
+                }
+                break;
+
+            //create plane
+            case 3:
 
                 for (int i = 0; i < map.planes.Length; i++)
                 {
@@ -103,14 +123,22 @@ public class Main : MonoBehaviour {
                     }
                     else
                     {
-                        button = 2;
+                        button = 3;
                         StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                         break;
                     }
                 }
+                if (button == 4)
+                {
+                    //clean loading
+                    isLoading = false;
+                    Destroy(loadingPlane);
+                }
                 break;
+            //not used part
             //create ballsS
-            case 3:
+            /*
+            case 99:
                 Track track = tracks[number];
                 if (track.positions.Count > 0)
                 {
@@ -125,19 +153,7 @@ public class Main : MonoBehaviour {
                     button = 4;
                 }
                 break;
-
-            case 5:
-                foreach (Track getTrack in tracks)
-                {
-                    Drawer drawer = new Drawer(objPrefab, getTrack, 10);
-                    drawers.Add(drawer);
-                }
-
-                //clean loading
-                isLoading = false;
-                Destroy(loadingPlane);
-                button = 4;
-                break;
+                */
 
             default:
                 break;
