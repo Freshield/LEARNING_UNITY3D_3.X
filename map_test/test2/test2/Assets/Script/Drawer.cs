@@ -21,6 +21,7 @@ public class Drawer : MonoBehaviour {
         obj = Instantiate(objPrefab);
         //send obj to its first place
         obj.transform.position = track.WfirstPosition.worldPosition;
+        obj.SetActive(false);
 
         this.duration = duration;
 

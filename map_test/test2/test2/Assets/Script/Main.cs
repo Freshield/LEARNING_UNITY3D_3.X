@@ -189,21 +189,32 @@ public class Main : MonoBehaviour {
                 }
                 isPlaying = false;
             }
-
+            /*
             if (isPlaying)
             {
-                GUILayout.HorizontalSlider(drawer.tweener.fullPosition, 0, 10, GUILayout.Width(200));
-                hSliderValue = drawer.tweener.fullPosition;
-                drawer.drawLine();
+                GUILayout.HorizontalSlider(wholeTime.fullPosition, 0, 10, GUILayout.Width(200));
+                hSliderValue = wholeTime.fullPosition;
+                foreach (Drawer drawer in drawers)
+                {
+                    drawer.drawLine();
+                }
+                
             }
             else
             {
                 hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 10, GUILayout.Width(200));
 
-                drawer.tweener.Goto(hSliderValue, false);
+                wholeTime.Goto(hSliderValue, false);
 
-                drawer.drawLine();
+                foreach (Drawer drawer in drawers)
+                {
+                    drawer.tweener.Goto(hSliderValue, false);
+
+                    drawer.drawLine();
+                }
+                
             }
+            */
         }
     }
 
