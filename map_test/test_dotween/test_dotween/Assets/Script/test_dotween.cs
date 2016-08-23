@@ -81,13 +81,13 @@ public class test_dotween : MonoBehaviour {
 
         if (tweener.IsPlaying())
         {
-            GUILayout.HorizontalSlider(tweener.fullPosition, 0, 4, GUILayout.Width(200));
+            GUILayout.HorizontalSlider(tweener.fullPosition, 0, 20, GUILayout.Width(200));
             hSliderValue = tweener.fullPosition;
             drawLine();
         }
         else
         {
-            hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 4, GUILayout.Width(200));
+            hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 20, GUILayout.Width(200));
 
             tweener.Goto(hSliderValue, false);
 

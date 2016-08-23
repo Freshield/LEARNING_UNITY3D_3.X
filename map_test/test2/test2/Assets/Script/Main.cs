@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class Main : MonoBehaviour {
     Map map;
     public GameObject objPrefab;
     List<Track> tracks;
+    List<Drawer> drawers;
     Position center;
     Position firstPosition;
     Position lastPosition;
     VecTime WfirstPosition;
     VecTime WlastPosition;
+    public float hSliderValue = 0;
 
     int button = 0;
     int number = 0;
@@ -31,6 +34,7 @@ public class Main : MonoBehaviour {
         anim = Resources.LoadAll<Texture2D>("loading");
         loadingCount = anim.Length;
         loadingPlane = GameObject.Find("LoadingPlane");
+        drawers = new List<Drawer>();
     }
 
     // Update is called once per frame
@@ -80,11 +84,9 @@ public class Main : MonoBehaviour {
                 number++;
                 if (number == tracks.Count)
                 {
-                    button = 2;
+                    button = 5;
                     number = 0;
-                    //clean loading
-                    isLoading = false;
-                    Destroy(loadingPlane);
+                    
                 }
                 break;
             //create plane
@@ -95,7 +97,7 @@ public class Main : MonoBehaviour {
                     GameObject plane = GameObject.Find("plane" + i);
                     if (plane.GetComponent<Renderer>().material.mainTexture != null)
                     {
-                        button = 3;
+                        button = 4;
                     }
                     else
                     {
@@ -122,9 +124,67 @@ public class Main : MonoBehaviour {
                 }
                 break;
 
+            case 5:
+                foreach (Track getTrack in tracks)
+                {
+                    Drawer drawer = new Drawer(objPrefab, getTrack, 10);
+                    drawers.Add(drawer);
+                }
+
+                //clean loading
+                isLoading = false;
+                Destroy(loadingPlane);
+                button = 4;
+                break;
+
             default:
                 break;
         }
+    }
+
+    void OnGUI()
+    {
+        if (button == 4)
+        {
+            if (GUILayout.Button("play", GUILayout.Height(50)))
+            {
+                foreach (Drawer drawer in drawers)
+                {
+                    drawer.tweener.PlayForward();
+                }
+                
+            }
+
+            if (GUILayout.Button("pause", GUILayout.Height(50)))
+            {
+                foreach (Drawer drawer in drawers)
+                {
+                    drawer.tweener.Pause();
+                }
+            }
+
+            foreach (Drawer drawer in drawers)
+            {
+                if (drawer.tweener.IsPlaying())
+                {
+                    GUILayout.HorizontalSlider(drawer.tweener.fullPosition, 0, 10, GUILayout.Width(200));
+                    hSliderValue = drawer.tweener.fullPosition;
+                    drawer.drawLine();
+                }
+                else
+                {
+                    hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 10, GUILayout.Width(200));
+
+                    drawer.tweener.Goto(hSliderValue, false);
+
+                    drawer.drawLine();
+                }
+            }
+
+            
+        }
+        
+        
     }
 
     void FixedUpdate()

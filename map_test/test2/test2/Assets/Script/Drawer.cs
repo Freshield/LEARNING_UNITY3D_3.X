@@ -9,7 +9,9 @@ public class Drawer : MonoBehaviour {
 
     GameObject obj;
     
-    Tweener tweener;
+    public Tweener tweener;
+
+    float duration = 20;
     
     public float hSliderValue = 0;
 
@@ -17,6 +19,8 @@ public class Drawer : MonoBehaviour {
     public Drawer(GameObject objPrefab, Track track, float duration)
     {
         obj = Instantiate(objPrefab);
+
+        this.duration = duration;
 
         List<Vector3> positions = new List<Vector3>();
 
@@ -29,9 +33,26 @@ public class Drawer : MonoBehaviour {
 
         tweener.SetAutoKill(false).SetEase(Ease.Linear);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    public void drawLine()
+    {
+        float timeNow = tweener.fullPosition;
+        float percent = timeNow / duration;
+        Vector3 nowPosition = tweener.PathGetPoint(percent);
+
+        ArrayList positions = new ArrayList();
+        
+        float count = timeNow;
+
+        while (count > 0)
+        {
+            float per = count / duration;
+            positions.Add(tweener.PathGetPoint(per));
+            count -= 0.02f;
+        }
+
+        obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
+        obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
+
+    }
 }
