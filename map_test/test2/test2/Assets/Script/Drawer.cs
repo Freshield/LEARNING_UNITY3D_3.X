@@ -11,7 +11,7 @@ public class Drawer : MonoBehaviour {
     
     public Tweener tweener;
 
-    float duration = 20;
+    float duration = 24;
     
     public float hSliderValue = 0;
 
@@ -19,6 +19,8 @@ public class Drawer : MonoBehaviour {
     public Drawer(GameObject objPrefab, Track track, float duration)
     {
         obj = Instantiate(objPrefab);
+        //send obj to its first place
+        obj.transform.position = track.WfirstPosition.worldPosition;
 
         this.duration = duration;
 
@@ -26,6 +28,7 @@ public class Drawer : MonoBehaviour {
 
         foreach (VecTime position in track.worldPositions)
         {
+            Debug.Log(track.name + " " + position.worldPosition);
             positions.Add(position.worldPosition);
         }
         
