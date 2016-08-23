@@ -28,7 +28,7 @@ public class Drawer : MonoBehaviour {
 
         foreach (VecTime position in track.worldPositions)
         {
-            Debug.Log(track.name + " " + position.worldPosition);
+            Debug.Log(track.name + " " + position.worldPosition+position.time);
             positions.Add(position.worldPosition);
         }
         

@@ -31,6 +31,7 @@ public class Main : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //prepare
         anim = Resources.LoadAll<Texture2D>("loading");
         loadingCount = anim.Length;
         loadingPlane = GameObject.Find("LoadingPlane");
@@ -79,7 +80,8 @@ public class Main : MonoBehaviour {
                 if (fillingTemp.positions.Count > 0)
                 {
                     //do filling
-                    fillingTemp.trackFilling(WfirstPosition, WlastPosition);
+                    //new version, cause dotween face problem
+                    fillingTemp.trackFilling(fillingTemp.WfirstPosition, fillingTemp.WlastPosition);
                 }
                 number++;
                 if (number == tracks.Count)

@@ -95,7 +95,7 @@ public class Track{
         float radius = objPrefab.transform.localScale.x / 2;
         float x = (position.lontitute - center.lontitute) * 10 / fullLon;
         float y = (position.latitute - center.latitute) * 10 / fullLat;
-        VecTime temp = new VecTime(new Vector3(x, y, -radius), position.time);
+        VecTime temp = new VecTime(new Vector3(x, y, -radius), new PTime(position.time.totalTime));
         return temp;
     }
 
@@ -200,11 +200,6 @@ public class Track{
         foreach (Track track in tracks)
         {
             track.getWorldPosition(center, fullLat, fullLon, objPrefab);
-            /*VecTime.filling(track.worldPositions);
-            foreach (VecTime position in track.worldPositions)
-            {
-                Debug.Log("track " + track.name + " " + position.worldPosition + position.time);
-            }*/
         }
 
     }
@@ -214,12 +209,10 @@ public class Track{
     {
         foreach (Track track in tracks)
         {
-            track.trackFilling(WfirstPostion, WlastPosition);
-            foreach (VecTime position in track.worldPositions)
-            {
-                Debug.Log("track " + track.name + " "+position.worldPosition+position.time);
-            }
-           
+            //old version, filling whole first and last position,
+            //seem it is not working for dotween
+            //track.trackFilling(WfirstPostion, WlastPosition);
+            track.trackFilling(track.WfirstPosition, track.WlastPosition);
         }
     }
 }
