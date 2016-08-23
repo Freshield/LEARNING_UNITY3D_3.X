@@ -58,4 +58,10 @@ public class Drawer : MonoBehaviour {
         obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
 
     }
+
+    //////////////////////////static function////////////////////////////
+    public static float getDuration(float beginTime, float endTime)
+    {
+        return (endTime - beginTime) / 60.0f;
+    }
 }

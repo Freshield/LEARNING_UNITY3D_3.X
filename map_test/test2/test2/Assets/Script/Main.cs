@@ -7,13 +7,11 @@ public class Main : MonoBehaviour {
     Map map;
     public GameObject objPrefab;
     List<Track> tracks;
-    List<Drawer> drawers;
     Position center;
     Position firstPosition;
     Position lastPosition;
     VecTime WfirstPosition;
     VecTime WlastPosition;
-    public float hSliderValue = 0;
 
     int button = 0;
     int number = 0;
@@ -26,6 +24,12 @@ public class Main : MonoBehaviour {
     int loadingCount = 0;
     bool isLoading = true;
     GameObject loadingPlane;
+
+    //for dotween
+    List<Drawer> drawers;
+    public float hSliderValue = 0;
+    bool isPlaying = false;
+    Tweener wholeTime;
 
 
     // Use this for initialization
@@ -73,6 +77,10 @@ public class Main : MonoBehaviour {
                 //transfer first and last position to world position
                 WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
                 WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
+
+                //create the time bar value
+                float duration = Drawer.getDuration(WfirstPosition.time.totalTime, WlastPosition.time.totalTime);
+                wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
 
                 button = 1;
                 break;
@@ -170,7 +178,7 @@ public class Main : MonoBehaviour {
                 {
                     drawer.tweener.PlayForward();
                 }
-                
+                isPlaying = true;
             }
 
             if (GUILayout.Button("pause", GUILayout.Height(50)))
@@ -179,30 +187,24 @@ public class Main : MonoBehaviour {
                 {
                     drawer.tweener.Pause();
                 }
+                isPlaying = false;
             }
 
-            foreach (Drawer drawer in drawers)
+            if (isPlaying)
             {
-                if (drawer.tweener.IsPlaying())
-                {
-                    GUILayout.HorizontalSlider(drawer.tweener.fullPosition, 0, 10, GUILayout.Width(200));
-                    hSliderValue = drawer.tweener.fullPosition;
-                    drawer.drawLine();
-                }
-                else
-                {
-                    hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 10, GUILayout.Width(200));
-
-                    drawer.tweener.Goto(hSliderValue, false);
-
-                    drawer.drawLine();
-                }
+                GUILayout.HorizontalSlider(drawer.tweener.fullPosition, 0, 10, GUILayout.Width(200));
+                hSliderValue = drawer.tweener.fullPosition;
+                drawer.drawLine();
             }
+            else
+            {
+                hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 10, GUILayout.Width(200));
 
-            
+                drawer.tweener.Goto(hSliderValue, false);
+
+                drawer.drawLine();
+            }
         }
-        
-        
     }
 
     void FixedUpdate()
