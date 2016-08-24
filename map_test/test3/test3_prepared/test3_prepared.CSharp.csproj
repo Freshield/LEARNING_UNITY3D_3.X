@@ -80,6 +80,8 @@
     <Compile Include="Assets\MeshEditor\Script\VertexIdentity.cs" />
     <Compile Include="Assets\MeshEditor\Script\test_mesheditor.cs" />
     <Compile Include="Assets\obj_text.cs" />
+    <Compile Include="Assets\test_focus.cs" />
+    <Compile Include="Assets\test_plane.cs" />
     <Compile Include="Assets\test_regularExpression.cs" />
   </ItemGroup>
   <ItemGroup>

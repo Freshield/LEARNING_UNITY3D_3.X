@@ -12,13 +12,13 @@ public class obj_text : MonoBehaviour {
 
         Vector3 vPosScreen = m_Camera.WorldToScreenPoint(m_goFollowing.transform.position + m_vOffset);
 
-        var color = new Color(0.6f, 0.1f, 0.5f, 1); //文字颜色
+        Color color = new Color(0.6f, 0.1f, 0.5f, 1); //文字颜色
 
 
-        var pcolor = new Color(1, 1, 1, 1); //描边颜色
+        Color pcolor = new Color(1, 1, 1, 1); //描边颜色
 
 
-        var pos = new Rect(vPosScreen.x, Screen.height - vPosScreen.y, 200, 80);
+        Rect pos = new Rect(vPosScreen.x, Screen.height - vPosScreen.y, 200, 80);
 
 
         MakeStroke(pos, "你好", color, pcolor, 1);
