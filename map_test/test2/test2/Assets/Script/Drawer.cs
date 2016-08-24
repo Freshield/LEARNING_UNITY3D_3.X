@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections;
 using DG.Tweening;
 
-public class Drawer : MonoBehaviour {
+public class Drawer{
 
-    Track track;
+    public Track track;
 
-    GameObject obj;
+    public GameObject obj;
     
     public Tweener tweener;
 
@@ -18,10 +18,11 @@ public class Drawer : MonoBehaviour {
     // Use this for initialization
     public Drawer(GameObject objPrefab, Track track, float duration)
     {
-        obj = Instantiate(objPrefab);
+        obj = objPrefab;
         //send obj to its first place
         obj.transform.position = track.WfirstPosition.worldPosition;
-        obj.SetActive(false);
+        //obj.GetComponent<Renderer>().enabled = false;
+        this.track = track;
 
         this.duration = duration;
 
@@ -29,7 +30,6 @@ public class Drawer : MonoBehaviour {
 
         foreach (VecTime position in track.worldPositions)
         {
-            Debug.Log(track.name + " " + position.worldPosition+position.time);
             positions.Add(position.worldPosition);
         }
         

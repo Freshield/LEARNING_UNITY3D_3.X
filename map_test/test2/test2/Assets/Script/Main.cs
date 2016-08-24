@@ -26,10 +26,11 @@ public class Main : MonoBehaviour {
     GameObject loadingPlane;
 
     //for dotween
-    List<Drawer> drawers;
+    public List<Drawer> drawers;
     public float hSliderValue = 0;
     bool isPlaying = false;
     Tweener wholeTime;
+    List<GameObject> objs;
 
 
     // Use this for initialization
@@ -81,6 +82,7 @@ public class Main : MonoBehaviour {
                 //create the time bar value
                 float duration = Drawer.getDuration(WfirstPosition.time.totalTime, WlastPosition.time.totalTime);
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
+                wholeTime.SetAutoKill(false).SetEase(Ease.Linear);
 
                 button = 1;
                 break;
@@ -107,7 +109,8 @@ public class Main : MonoBehaviour {
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
                 {
-                    Drawer drawer = new Drawer(objPrefab, getTrack, 10);
+                    GameObject obj = Instantiate(objPrefab);
+                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
                 }
                 number++;
@@ -143,6 +146,38 @@ public class Main : MonoBehaviour {
                     Destroy(loadingPlane);
                 }
                 break;
+            case 4:
+                /*foreach (Drawer drawer in drawers)
+                {
+                    if (drawer.track != null)
+                    {
+                        Debug.Log("ok");
+                    }
+                    else
+                    {
+                        Debug.Log("not ok");
+                    }
+                    
+                    if (drawer.track.WfirstPosition.time.totalTime > wholeTime.fullPosition)
+                    {
+                        drawer.obj.SetActive(true);
+                    }
+                    
+                }*/
+                if (isPlaying)
+                {
+                    foreach (Drawer drawer in drawers)
+                    {
+                        wholeTime.PlayForward();
+                        if (drawer.track.WfirstPosition.time.totalTime > wholeTime.fullPosition)
+                        {
+                            drawer.tweener.PlayForward();
+                        }
+
+                    }
+                }
+                Debug.Log("wholetime" + wholeTime.fullPosition);
+                break;
             //not used part
             //create ballsS
             /*
@@ -174,10 +209,7 @@ public class Main : MonoBehaviour {
         {
             if (GUILayout.Button("play", GUILayout.Height(50)))
             {
-                foreach (Drawer drawer in drawers)
-                {
-                    drawer.tweener.PlayForward();
-                }
+                
                 isPlaying = true;
             }
 
@@ -185,10 +217,21 @@ public class Main : MonoBehaviour {
             {
                 foreach (Drawer drawer in drawers)
                 {
-                    drawer.tweener.Pause();
+                    //if (drawer.track.WfirstPosition.time.totalTime > wholeTime.fullPosition)
+                    //{
+                        drawer.tweener.Pause();
+                    //}
+                    
                 }
                 isPlaying = false;
             }
+
+            foreach (Drawer drawer in drawers)
+            {
+                    drawer.drawLine();
+            }
+
+
             /*
             if (isPlaying)
             {
