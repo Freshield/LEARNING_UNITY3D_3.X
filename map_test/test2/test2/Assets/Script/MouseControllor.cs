@@ -19,14 +19,14 @@ public class MouseControllor : MonoBehaviour {
 
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             position = Input.mousePosition;
             cameraPosition = Camera.main.transform.position;
             //Debug.Log("press left button position " + Input.mousePosition);
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             Vector3 change = Input.mousePosition - position;
             if (Camera.main.transform.position.z > -4)
@@ -41,7 +41,7 @@ public class MouseControllor : MonoBehaviour {
             //Debug.Log("hold left button position " + Input.mousePosition + " speed " + speed);
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
         {
             //Debug.Log("up left button position " + Input.mousePosition);
         }
@@ -71,7 +71,7 @@ public class MouseControllor : MonoBehaviour {
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             //Debug.Log(Camera.main.transform.position.z);
-            if (Camera.main.transform.position.z > -20)
+            if (Camera.main.transform.position.z > -50)
             {
                 cameraPosition = Camera.main.transform.position;
                 float distance = 0;

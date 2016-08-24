@@ -11,7 +11,7 @@ public class Drawer{
     
     public Tweener tweener;
 
-    float duration = 24;
+    public float duration = 24;
     
     public float hSliderValue = 0;
 
@@ -63,6 +63,6 @@ public class Drawer{
     //////////////////////////static function////////////////////////////
     public static float getDuration(float beginTime, float endTime)
     {
-        return (endTime - beginTime) / 60.0f;
+        return (endTime - beginTime) / 30.0f;
     }
 }
