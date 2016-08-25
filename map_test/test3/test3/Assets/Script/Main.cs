@@ -112,68 +112,17 @@ public class Main : MonoBehaviour {
 
                 button = 2;
                 break;
-            //not used part cause filling cost too much resources
-            //also we can use only dotween now
-            //filling
-            /*
-            case 1:
-                //here like the locate ball, filling each ball one update
-                Track fillingTemp = tracks[number];
-                if (fillingTemp.positions.Count > 0)
-                {
-                    //do filling
-                    //new version, cause dotween face problem
-                    fillingTemp.trackFilling(fillingTemp.WfirstPosition, fillingTemp.WlastPosition);
-                }
-                number++;
-                if (number == tracks.Count)
-                {
-                    button = 2;
-                    number = 0;
-                    
-                }
-                //release
-                fillingTemp = null;
-                GC.Collect();
-                break;
-            */
 
             case 2:
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
                 {
-                    //Debug.Log(getTrack.name + ",firstPosition " + getTrack.firstPosition.latitute + "," +
-                    //    getTrack.firstPosition.lontitute + "," + getTrack.firstPosition.time + ",lastPosition " +
-                    //    getTrack.lastPosition.latitute + "," +
-                    //    getTrack.lastPosition.lontitute + "," + getTrack.lastPosition.time);
                     GameObject obj = Instantiate(objPrefab);
                     obj.name = getTrack.name;
-                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime),false);
+                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
                     drawer.obj.transform.parent = drawTracks.transform;
-
-                    //for companions
-                    //old version, for 3d show
-                    /*
-                    if (getTrack.name.Contains("6602") || getTrack.name.Contains("9789") || getTrack.name.Contains("14914"))
-                    {
-                        GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name;
-                        companions[0].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
-                    }
-                    else if (getTrack.name.Contains("7459") || getTrack.name.Contains("7585"))
-                    {
-                        GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name;
-                        companions[1].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
-                    }
-                    else if (getTrack.name.Contains("13423") || getTrack.name.Contains("13426"))
-                    {
-                        GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name;
-                        companions[2].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
-                    }
-                    */
+                    
                     //new version
                     if (drawer.obj.name.Contains("6602") || drawer.obj.name.Contains("9789") || drawer.obj.name.Contains("14914"))
                     {
