@@ -9,9 +9,9 @@ public class CoordinatorChange{
     // World Geodetic System ==> Mars Geodetic System
     bool outOfChina(Position coordinate)
     {
-        if (coordinate.lontitute < 72.004 || coordinate.lontitute > 137.8347)
+        if (coordinate.lontitute < 72.004f || coordinate.lontitute > 137.8347f)
             return true;
-        if (coordinate.latitute < 0.8293 || coordinate.latitute > 55.8271)
+        if (coordinate.latitute < 0.8293f || coordinate.latitute > 55.8271f)
             return true;
         return false;
     }
@@ -51,6 +51,6 @@ public class CoordinatorChange{
         float sqrtMagic = Mathf.Sqrt(magic);
         dLat = (dLat * 180) / (float)((a * (1 - ee)) / (magic * sqrtMagic) * Mathf.PI);
         dLon = (dLon * 180) / (float)(a / sqrtMagic * Mathf.Cos(radLat) * Mathf.PI);
-        return new Position((float)(wgLat + dLat), (float)(wgLon + dLon), coordinate.time);
+        return new Position(wgLat + dLat, wgLon + dLon, coordinate.time);
     }
 }

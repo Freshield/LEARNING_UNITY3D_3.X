@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class Track{
     public string name;
-    public List<Position> positions;
     public float avgLat = 0;
     public float avgLon = 0;
+    //for the real world position
     public Position firstPosition;
     public Position lastPosition;
+    public List<Position> positions;
+    //for the 3d world position
     public VecTime WfirstPosition;
     public VecTime WlastPosition;
     public List<VecTime> worldPositions;
 
+    //init
     public Track(string name)
     {
         this.name = name;
@@ -22,7 +25,7 @@ public class Track{
         worldPositions = new List<VecTime>();
     }
 
-    //calculate the average latitude and lontitude, 
+    //calculate this track's average latitude and lontitude, 
     //then find first position and last position
     public void calculAvg()
     {
@@ -68,28 +71,20 @@ public class Track{
         
     }
 
-    //track do filling between firstposition and lastposition
-    public void trackFilling(VecTime WfirstPosition, VecTime WlastPosition)
+    //release the track's resources
+    public void clearTrack()
     {
-        //figure out if track have first or last position
-        if (this.WfirstPosition.time.totalTime != WfirstPosition.time.totalTime)
-        {
-            VecTime temp = new VecTime(this.WfirstPosition.worldPosition, WfirstPosition.time);
-            worldPositions.Add(temp);
-            //release
-            temp = null;
-        }
-        if (this.WlastPosition.time.totalTime != WlastPosition.time.totalTime)
-        {
-            VecTime temp = new VecTime(this.WlastPosition.worldPosition, WlastPosition.time);
-            worldPositions.Add(temp);
-            //release
-            temp = null;
-        }
-        
-        VecTime.filling(worldPositions);
+        name = null;
+        firstPosition = null;
+        lastPosition = null;
+        positions.Clear();
+        positions = null;
+        WfirstPosition = null;
+        WlastPosition = null;
+        worldPositions.Clear();
+        worldPositions = null;
     }
-
+    
 
     /////////////////////////static function/////////////////////////////
 
@@ -114,7 +109,7 @@ public class Track{
         }
         catch (Exception e)
         {
-            return null;
+            Debug.Log(e.ToString());
         }
 
         string line;
@@ -134,8 +129,6 @@ public class Track{
                 Track track = new Track(line);
                 temp = track;
                 tracks.Add(track);
-                //release
-                track = null;
             }
             else if (line.Contains(","))
             {
@@ -143,16 +136,14 @@ public class Track{
                 Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), new PTime(result[2])));
                 temp.positions.Add(position);
                 //release
-                position = null;
                 Array.Clear(result, 0, result.Length);
             }
         }
         temp.calculAvg();//last one to calculate
+
         sr.Close();
         sr.Dispose();
-        //release
-        temp = null;
-        coo = null;
+
         return tracks;
     }
 
@@ -196,9 +187,9 @@ public class Track{
             }
             avgLat /= counter;
             avgLon /= counter;
-            Position result = new Position((float)avgLat, (float)avgLon, new PTime(0, 0));
+            Position avgPosition = new Position((float)avgLat, (float)avgLon, new PTime(0, 0));
             
-            return new Position[] { result, firstPosition, lastPosition };
+            return new Position[] { avgPosition, firstPosition, lastPosition };
         }
         else
         {
@@ -215,17 +206,5 @@ public class Track{
             track.getWorldPosition(center, fullLat, fullLon, objPrefab);
         }
 
-    }
-
-    //whole tracks do filling between firstposition and lastposition
-    public static void wholeTracksFilling(VecTime WfirstPostion, VecTime WlastPosition, List<Track> tracks)
-    {
-        foreach (Track track in tracks)
-        {
-            //old version, filling whole first and last position,
-            //seem it is not working for dotween
-            //track.trackFilling(WfirstPostion, WlastPosition);
-            track.trackFilling(track.WfirstPosition, track.WlastPosition);
-        }
     }
 }

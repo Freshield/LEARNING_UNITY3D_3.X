@@ -67,23 +67,12 @@ public class Drawer{
         durations.Add(0.01f);
         for (int i = 0; i < track.worldPositions.Count; i++)
         {
-            if (isCompanion)
-            {
-                positions.Add(track.worldPositions[i].worldPosition + companionHeight);
-            }
-            else
-            {
+            
                 positions.Add(track.worldPositions[i].worldPosition);
-            }
             
             if (i != 0)
             {
                 durations.Add(getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
-                //Debug.Log(track.name + ",firstPosition " + track.worldPositions[i - 1].worldPosition + "," +
-                //    track.worldPositions[i - 1].time + ",lastPosition " +
-                //    track.worldPositions[i].worldPosition + "," + track.worldPositions[i].time+
-                //    ",true time is "+ getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
-
             }
         }
 
