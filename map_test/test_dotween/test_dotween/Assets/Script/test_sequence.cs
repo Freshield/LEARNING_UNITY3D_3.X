@@ -91,8 +91,15 @@ public class test_sequence : MonoBehaviour {
         {
             hSliderValue = GUILayout.HorizontalSlider(hSliderValue, 0, 10, GUILayout.Width(200));
 
-            Vsequence.Goto(hSliderValue, false);
-            sequence.Goto(hSliderValue, false);
+
+            if (hSliderValue != Vsequence.fullPosition)
+            {
+                Vsequence.Goto(hSliderValue, false);
+                sequence.Goto(hSliderValue, false);
+
+                drawLine();
+            }
+
         }
 
     }
@@ -116,12 +123,26 @@ public class test_sequence : MonoBehaviour {
 
         
         float count = timeNow;
-        
+        /*
+        for (int i = 0; i < positions.Length; i++)
+        {
+            if (hSliderValue > i)
+            {
+                Apositions.Add(positions[i]);
+            }
+            else
+            {
+                break;
+            }
+
+        }
+        Apositions.Add(myVector);
+        */
         while (count > 0)
         {
             sequence.Goto(count);
             positions.Add(mVector);
-            count -= 0.02f;
+            count -= 0.04f;
         }
 
         sequence.Goto(timeNow);
