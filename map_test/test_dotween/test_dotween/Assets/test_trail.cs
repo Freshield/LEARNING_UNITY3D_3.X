@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class test_sequence : MonoBehaviour {
+public class test_trail : MonoBehaviour {
 
     GameObject obj;
 
@@ -21,7 +21,6 @@ public class test_sequence : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
 
         DOTween.defaultAutoPlay = AutoPlay.None;
 
@@ -45,7 +44,7 @@ public class test_sequence : MonoBehaviour {
 
 
         Vector3[] endValues = positions;
-        float[] durations = new[] { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
+        float[] durations = new[] { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f };
         Vsequence = DOTween.ToArray(() => myVector, x => myVector = x, endValues, durations);
         sequence = DOTween.ToArray(() => mVector, x => mVector = x, endValues, durations);
 
@@ -55,13 +54,12 @@ public class test_sequence : MonoBehaviour {
         Vsequence.Pause();
         sequence.Pause();
 
-
-
     }
 
     // Update is called once per frame
-    void OnGUI () {
-        
+    void OnGUI()
+    {
+
         GUILayout.Label(obj.transform.position.ToString());
         GUILayout.Label(myVector.ToString());
 
@@ -84,8 +82,8 @@ public class test_sequence : MonoBehaviour {
         {
             GUILayout.HorizontalSlider(Vsequence.fullPosition, 0, 10, GUILayout.Width(200));
             hSliderValue = Vsequence.fullPosition;
+            obj.transform.position = myVector;
 
-            drawLine();
         }
         else
         {
@@ -93,6 +91,23 @@ public class test_sequence : MonoBehaviour {
 
             Vsequence.Goto(hSliderValue, false);
             sequence.Goto(hSliderValue, false);
+
+            obj.transform.position = positions[0];
+            obj.GetComponent<TrailRenderer>().Clear();
+            for (int i = 0; i < positions.Length; i++)
+            {
+                if (hSliderValue > i)
+                {
+                    obj.transform.position = positions[i];
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+
+            obj.transform.position = myVector;
         }
 
     }
@@ -100,35 +115,8 @@ public class test_sequence : MonoBehaviour {
     void Update()
     {
 
-        obj.transform.position = myVector;
 
 
     }
 
-    void drawLine()
-    {
-
-        float timeNow = Vsequence.fullPosition;
-        
-
-        ArrayList positions = new ArrayList();
-        //positions.Add(nowPosition);
-
-        
-        float count = timeNow;
-        
-        while (count > 0)
-        {
-            sequence.Goto(count);
-            positions.Add(mVector);
-            count -= 0.02f;
-        }
-
-        sequence.Goto(timeNow);
-
-
-        obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
-        obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
-
-    }
 }
