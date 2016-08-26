@@ -1,0 +1,133 @@
+/*
+这里只负责UI交互
+
+
+
+ */
+
+
+
+
+
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+
+public class InventoryItem_V : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,IPointerEnterHandler,IPointerExitHandler
+{
+	private InventoryItem_M M;
+
+
+	private GameObject m_DraggingIcon;
+	private RectTransform m_DraggingPlane;
+	private GameObject item = null;
+
+	void Awake(){
+		M = GetComponent<InventoryItem_M>();
+
+	}
+
+	public void OnPointerEnter (PointerEventData eventData){
+		(InventoryItemDes._instance.ShowItemDes(M.id)).position = eventData.position;
+		InventoryItemDes._instance.ShowDes();
+	}
+
+	public void OnPointerExit (PointerEventData eventData){
+		InventoryItemDes._instance.HideDes();
+	}
+	public void OnBeginDrag(PointerEventData eventData)
+	{
+		var canvas = FindInParents<Canvas>(gameObject);
+		if (canvas == null)
+			return;
+
+		item = transform.FindChild("image").gameObject;
+		// We have clicked something that can be dragged.
+		// What we want to do is create an icon for this.
+		m_DraggingIcon = new GameObject("icon");
+
+		m_DraggingIcon.transform.SetParent (canvas.transform, false);
+		m_DraggingIcon.transform.SetAsLastSibling();
+		
+		var image = m_DraggingIcon.AddComponent<Image>();
+		// The icon will be under the cursor.
+		// We want it to be ignored by the event system.
+		CanvasGroup group = m_DraggingIcon.AddComponent<CanvasGroup>();
+		group.blocksRaycasts = false;
+
+		image.sprite = item.GetComponent<Image>().sprite; 
+		image.SetNativeSize();
+	    m_DraggingPlane = canvas.transform as RectTransform;
+		
+		SetDraggedPosition(eventData);
+		//隐藏item
+		item.SetActive(false);
+	}
+
+	public void OnDrag(PointerEventData data)
+	{
+		if (m_DraggingIcon != null)
+			SetDraggedPosition(data);
+	}
+
+	private void SetDraggedPosition(PointerEventData data)
+	{
+		var rt = m_DraggingIcon.GetComponent<RectTransform>();
+		Vector3 globalMousePos;
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlane, data.position, data.pressEventCamera, out globalMousePos))
+		{
+			rt.position = globalMousePos;
+
+		}
+	}
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
+		GameObject go = eventData.pointerEnter; 
+		if (go != null){
+			if(go.tag == Tags.InventoryItem){
+				ExchangeItem(go); 
+
+			}
+			else if(go.tag == Tags.InventoryItemGrid){ print(11);
+				//得到之前的格子；清空信息
+				InvetoryItemGrid grid = transform.GetComponentInParent<InvetoryItemGrid>();
+				M.ClearOldGridInfo(grid);
+				//作为go格子的子物体
+				transform.SetParent(go.transform,false);
+				item.SetActive(true);
+				transform.localPosition = Vector3.zero;
+			
+			}
+		}
+		item.SetActive(true);	
+		Destroy(m_DraggingIcon);
+		//背包数据更新
+		Inventory.UpdateAllGrids();
+		    
+	}
+
+	void ExchangeItem( GameObject item){ 
+		Transform temp = transform.parent;
+		transform.SetParent(item.transform.parent.parent.parent,false);
+		item.transform.parent.parent.SetParent(temp,false);
+	}
+
+	static public T FindInParents<T>(GameObject go) where T : Component
+	{
+		if (go == null) return null;
+		var comp = go.GetComponent<T>();
+
+		if (comp != null)
+			return comp;
+		
+		Transform t = go.transform.parent;
+		while (t != null && comp == null)
+		{
+			comp = t.gameObject.GetComponent<T>();
+			t = t.parent;
+		}
+		return comp;
+	}
+}

@@ -36,6 +36,15 @@ public class Drawer{
         tweener = obj.transform.DOPath(positions.ToArray(), duration, PathType.CatmullRom, PathMode.Full3D, 5, null);
 
         tweener.SetAutoKill(false).SetEase(Ease.Linear);
+
+        //release
+        positions.Clear();
+        positions = null;
+
+        this.track.positions.Clear();
+        this.track.positions = null;
+        this.track.worldPositions.Clear();
+        this.track.worldPositions = null;
     }
 
     public void drawLine()
@@ -57,6 +66,10 @@ public class Drawer{
 
         obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
         obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
+
+        //release
+        positions.Clear();
+        positions = null;
 
     }
 

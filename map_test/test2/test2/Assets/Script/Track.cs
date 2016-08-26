@@ -76,11 +76,15 @@ public class Track{
         {
             VecTime temp = new VecTime(this.WfirstPosition.worldPosition, WfirstPosition.time);
             worldPositions.Add(temp);
+            //release
+            temp = null;
         }
         if (this.WlastPosition.time.totalTime != WlastPosition.time.totalTime)
         {
             VecTime temp = new VecTime(this.WlastPosition.worldPosition, WlastPosition.time);
             worldPositions.Add(temp);
+            //release
+            temp = null;
         }
         
         VecTime.filling(worldPositions);
@@ -130,17 +134,25 @@ public class Track{
                 Track track = new Track(line);
                 temp = track;
                 tracks.Add(track);
+                //release
+                track = null;
             }
             else if (line.Contains(","))
             {
                 string[] result = line.Split(',');
                 Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), new PTime(result[2])));
                 temp.positions.Add(position);
+                //release
+                position = null;
+                Array.Clear(result, 0, result.Length);
             }
         }
         temp.calculAvg();//last one to calculate
         sr.Close();
         sr.Dispose();
+        //release
+        temp = null;
+        coo = null;
         return tracks;
     }
 
@@ -185,6 +197,7 @@ public class Track{
             avgLat /= counter;
             avgLon /= counter;
             Position result = new Position((float)avgLat, (float)avgLon, new PTime(0, 0));
+            
             return new Position[] { result, firstPosition, lastPosition };
         }
         else

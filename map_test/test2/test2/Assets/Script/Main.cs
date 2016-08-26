@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -30,7 +31,7 @@ public class Main : MonoBehaviour {
     public float hSliderValue = 0;
     public float duration = 0;
     bool isPlaying = false;
-    bool isPause = false;
+    bool isPause = true;
     Tweener wholeTime;
     List<GameObject> objs;
     public float barValue = 0;
@@ -65,6 +66,7 @@ public class Main : MonoBehaviour {
                 firstPosition = result[1];
                 lastPosition = result[2];
                 //clean
+                Array.Clear(result,0,result.Length);
                 result = null;
 
                 //get map
@@ -107,6 +109,9 @@ public class Main : MonoBehaviour {
                     number = 0;
                     
                 }
+                //release
+                fillingTemp = null;
+                GC.Collect();
                 break;
 
             case 2:
@@ -116,14 +121,22 @@ public class Main : MonoBehaviour {
                     GameObject obj = Instantiate(objPrefab);
                     Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
+                    //release
+                    drawer = null;
                 }
                 number++;
                 if (number == tracks.Count)
                 {
-                    
+                    //release
+                    tracks.Clear();
+                    tracks = null;
+
                     button = 3;
                     number = 0;
+                    GC.Collect();
                 }
+                //release
+                getTrack = null;
                 break;
 
             //create plane
@@ -147,7 +160,12 @@ public class Main : MonoBehaviour {
                 {
                     //clean loading
                     isLoading = false;
+                    Array.Clear(anim, 0, anim.Length);
+                    anim = null;
                     Destroy(loadingPlane);
+                    //release map
+                    map = null;
+                    GC.Collect();
                     //prepare
                     barValue = hSliderValue;
                 }

@@ -41,7 +41,7 @@ public class Map : MonoBehaviour {
     public IEnumerator _Refresh(GameObject plane, Position center)
     {
         
-        string url = "https://maps.googleapis.com/maps/api/staticmap?";
+        string url = "http://maps.googleapis.com/maps/api/staticmap?";
         string qs = "";
         qs += "center=" + HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute));
         qs += "&zoom=" + zoom.ToString();
