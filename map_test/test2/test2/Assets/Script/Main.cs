@@ -89,9 +89,12 @@ public class Main : MonoBehaviour {
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear);
 
-                button = 1;
+                button = 2;
                 break;
+            //not used part cause filling cost too much resources
+            //also we can use only dotween now
             //filling
+            /*
             case 1:
                 //here like the locate ball, filling each ball one update
                 Track fillingTemp = tracks[number];
@@ -112,11 +115,16 @@ public class Main : MonoBehaviour {
                 fillingTemp = null;
                 GC.Collect();
                 break;
+            */
 
             case 2:
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
                 {
+                    //Debug.Log(getTrack.name + ",firstPosition " + getTrack.firstPosition.latitute + "," +
+                    //    getTrack.firstPosition.lontitute + "," + getTrack.firstPosition.time + ",lastPosition " +
+                    //    getTrack.lastPosition.latitute + "," +
+                    //    getTrack.lastPosition.lontitute + "," + getTrack.lastPosition.time);
                     GameObject obj = Instantiate(objPrefab);
                     Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
@@ -259,9 +267,8 @@ public class Main : MonoBehaviour {
 
                 if (hSliderValue != wholeTime.fullPosition)
                 {
-
-                    wholeTime.Goto((hSliderValue - WfirstPosition.time.totalTime) / 30.0f, false);
-
+                    wholeTime.Goto(Drawer.getDuration(WfirstPosition.time.totalTime, hSliderValue), false);
+                    
                     foreach (Drawer drawer in drawers)
                     {
                         if (hSliderValue < drawer.WfirstPosition.time.totalTime)
@@ -270,7 +277,7 @@ public class Main : MonoBehaviour {
                         }
                         else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
-                            drawer.tweener.Goto((hSliderValue - drawer.WfirstPosition.time.totalTime) / 30.0f, false);
+                            drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
                         }
                         else
                         {

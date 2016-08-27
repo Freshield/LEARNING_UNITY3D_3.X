@@ -20,6 +20,9 @@ public class Drawer{
     public Vector3 myPosition;
 
     public bool button = true;
+
+    //static value
+    public static float playRadio = 0.5f;
     
     // Use this for initialization
     public Drawer(GameObject objPrefab, Track track, float duration)
@@ -49,6 +52,11 @@ public class Drawer{
             if (i != 0)
             {
                 durations.Add(getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
+                //Debug.Log(track.name + ",firstPosition " + track.worldPositions[i - 1].worldPosition + "," +
+                //    track.worldPositions[i - 1].time + ",lastPosition " +
+                //    track.worldPositions[i].worldPosition + "," + track.worldPositions[i].time+
+                //    ",true time is "+ getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
+
             }
         }
 
@@ -116,6 +124,6 @@ public class Drawer{
     //////////////////////////static function////////////////////////////
     public static float getDuration(float beginTime, float endTime)
     {
-        return (endTime - beginTime) / 30.0f;
+        return (endTime - beginTime) / (60.0f * playRadio);
     }
 }
