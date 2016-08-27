@@ -10,7 +10,6 @@ public class test_sequence : MonoBehaviour {
     
     Tweener Vsequence;
 
-    Vector3[] positions;
 
     Vector3 myVector;
 
@@ -27,9 +26,12 @@ public class test_sequence : MonoBehaviour {
         DOTween.defaultAutoPlay = AutoPlay.None;
 
 
-        positions = new Vector3[10];
 
-        for (int i = 0; i < 5; i++)
+        Vector3[] positions = new Vector3[10];
+
+        positions[0] = new Vector3(0, 0, 0);
+
+        for (int i = 1; i < 5; i++)
         {
             positions[i] = new Vector3(0, i, 0);
         }
@@ -45,7 +47,7 @@ public class test_sequence : MonoBehaviour {
         
 
         Vector3[] endValues = positions;
-        float[] durations = new[] { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
+        float[] durations = new[] { 0.01f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
         Vsequence = DOTween.ToArray(() => myVector, x => myVector = x, endValues, durations);
         
         Vsequence.SetAutoKill(false).SetEase(Ease.Linear);

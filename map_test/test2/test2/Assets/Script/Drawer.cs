@@ -5,53 +5,83 @@ using DG.Tweening;
 
 public class Drawer{
 
-    public Track track;
+    //public Track track;
+    public VecTime WfirstPosition;
+
+    public VecTime WlastPosition;
 
     public GameObject obj;
     
     public Tweener tweener;
 
     public float duration = 24;
-    
-    public float hSliderValue = 0;
 
+    //new version
+    public Vector3 myPosition;
+
+    public bool button = true;
+    
     // Use this for initialization
     public Drawer(GameObject objPrefab, Track track, float duration)
     {
         obj = objPrefab;
         //send obj to its first place
         obj.transform.position = track.WfirstPosition.worldPosition;
+
+        myPosition = obj.transform.position;
         //obj.GetComponent<Renderer>().enabled = false;
-        this.track = track;
+        //this.track = track;
 
         this.duration = duration;
 
-        List<Vector3> positions = new List<Vector3>();
+        WfirstPosition = track.WfirstPosition;
 
-        foreach (VecTime position in track.worldPositions)
+        WlastPosition = track.WlastPosition;
+
+        List<Vector3> positions = new List<Vector3>();
+        List<float> durations = new List<float>();
+
+        //avoid first duration time
+        durations.Add(0.01f);
+        for (int i = 0; i < track.worldPositions.Count; i++)
         {
-            positions.Add(position.worldPosition);
+            positions.Add(track.worldPositions[i].worldPosition);
+            if (i != 0)
+            {
+                durations.Add(getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
+            }
         }
-        
-        tweener = obj.transform.DOPath(positions.ToArray(), duration, PathType.CatmullRom, PathMode.Full3D, 5, null);
+
+        tweener = DOTween.ToArray(() => myPosition, x => myPosition = x, positions.ToArray(), durations.ToArray());
+
+        //tweener = obj.transform.DOPath(positions.ToArray(), duration, PathType.CatmullRom, PathMode.Full3D, 5, null);
 
         tweener.SetAutoKill(false).SetEase(Ease.Linear);
 
         //release
         positions.Clear();
         positions = null;
+        durations.Clear();
+        durations = null;
 
-        this.track.positions.Clear();
-        this.track.positions = null;
-        this.track.worldPositions.Clear();
-        this.track.worldPositions = null;
+        //this.track.positions.Clear();
+        //this.track.positions = null;
+        //this.track.worldPositions.Clear();
+        //this.track.worldPositions = null;
     }
 
-    public void drawLine()
+    public void drawLine(bool isPlaying)
     {
+        if (isPlaying)
+        {
+            tweener.Pause();
+        }
+
+        button = false;
+        
         float timeNow = tweener.fullPosition;
-        float percent = timeNow / duration;
-        Vector3 nowPosition = tweener.PathGetPoint(percent);
+        //float percent = timeNow / duration;
+        //Vector3 nowPosition = tweener.PathGetPoint(percent);
 
         ArrayList positions = new ArrayList();
         
@@ -59,13 +89,23 @@ public class Drawer{
 
         while (count > 0)
         {
-            float per = count / duration;
-            positions.Add(tweener.PathGetPoint(per));
-            count -= 0.02f;
+            tweener.Goto(count);
+            positions.Add(myPosition);
+            count -= 0.03f;
         }
+        tweener.Goto(timeNow);
+        obj.transform.position = myPosition;
 
         obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
         obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
+
+
+        button = true;
+
+        if (isPlaying)
+        {
+            tweener.Play();
+        }
 
         //release
         positions.Clear();

@@ -34,7 +34,6 @@ public class Main : MonoBehaviour {
     bool isPause = true;
     Tweener wholeTime;
     List<GameObject> objs;
-    public float barValue = 0;
 
 
     // Use this for initialization
@@ -166,36 +165,18 @@ public class Main : MonoBehaviour {
                     //release map
                     map = null;
                     GC.Collect();
-                    //prepare
-                    barValue = hSliderValue;
                 }
                 break;
             case 4:
-                /*foreach (Drawer drawer in drawers)
-                {
-                    if (drawer.track != null)
-                    {
-                        Debug.Log("ok");
-                    }
-                    else
-                    {
-                        Debug.Log("not ok");
-                    }
-                    
-                    if (drawer.track.WfirstPosition.time.totalTime > wholeTime.fullPosition)
-                    {
-                        drawer.obj.SetActive(true);
-                    }
-                    
-                }*/
                 if (isPlaying)
                 {
                     foreach (Drawer drawer in drawers)
                     {
                         wholeTime.PlayForward();
-                        if (hSliderValue >= drawer.track.WfirstPosition.time.totalTime)
+                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.PlayForward();
+                            drawer.drawLine(isPlaying);
                         }
 
                     }
@@ -205,7 +186,7 @@ public class Main : MonoBehaviour {
                     foreach (Drawer drawer in drawers)
                     {
                         wholeTime.Pause();
-                        if (hSliderValue >= drawer.track.WfirstPosition.time.totalTime)
+                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Pause();
                         }
@@ -242,7 +223,7 @@ public class Main : MonoBehaviour {
     {
         if (button == 4)
         {
-            if (GUILayout.Button("TIME NOW: " + (int)barValue / 60 + ":" + (int)barValue % 60,GUILayout.Height(50)))
+            if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
             {
 
             }
@@ -258,46 +239,47 @@ public class Main : MonoBehaviour {
                 isPause = true;
                 isPlaying = false;
             }
-
-            if (hSliderValue == WlastPosition.time.totalTime)
-            {
-                isPause = true;
-                isPlaying = false;
-            }
-
-            foreach (Drawer drawer in drawers)
-            {
-                    drawer.drawLine();
-            }
-
-
             
-            if (wholeTime.IsPlaying())
+            
+            if (isPlaying)
             {
                 GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
-                barValue = hSliderValue;
+                
+                if (hSliderValue == WlastPosition.time.totalTime)
+                {
+                    isPause = true;
+                    isPlaying = false;
+                }
+                
+
             }
             else
             {
-                barValue = GUILayout.HorizontalSlider(barValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
+                hSliderValue = GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
 
-                wholeTime.Goto((barValue - WfirstPosition.time.totalTime) / 30.0f, false);
-
-                foreach (Drawer drawer in drawers)
+                if (hSliderValue != wholeTime.fullPosition)
                 {
-                    if (barValue < drawer.track.WfirstPosition.time.totalTime)
+
+                    wholeTime.Goto((hSliderValue - WfirstPosition.time.totalTime) / 30.0f, false);
+
+                    foreach (Drawer drawer in drawers)
                     {
-                        drawer.tweener.Goto(0, false);
-                    }
-                    else if (barValue < drawer.track.WlastPosition.time.totalTime)
-                    {
-                        drawer.tweener.Goto((barValue - drawer.track.WfirstPosition.time.totalTime) / 30.0f, false);
-                    }
-                    else
-                    {
-                        drawer.tweener.Goto(drawer.duration,false);
+                        if (hSliderValue < drawer.WfirstPosition.time.totalTime)
+                        {
+                            drawer.tweener.Goto(0, false);
+                        }
+                        else if (hSliderValue < drawer.WlastPosition.time.totalTime)
+                        {
+                            drawer.tweener.Goto((hSliderValue - drawer.WfirstPosition.time.totalTime) / 30.0f, false);
+                        }
+                        else
+                        {
+                            drawer.tweener.Goto(drawer.duration, false);
+                        }
+                        drawer.drawLine(isPlaying);
                     }
                 }
+
             }
         }
     }

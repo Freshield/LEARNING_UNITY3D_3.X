@@ -93,6 +93,7 @@
     <Compile Include="Assets\Script\test_aimation.cs" />
     <Compile Include="Assets\Script\test_dotween.cs" />
     <Compile Include="Assets\Script\test_sequence.cs" />
+    <Compile Include="Assets\Script\test_value.cs" />
     <Compile Include="Assets\Solutions.cs" />
     <Compile Include="Assets\test_crystal.cs" />
     <Compile Include="Assets\test_linerender.cs" />
