@@ -7,17 +7,18 @@ public class test_sequence : MonoBehaviour {
     GameObject obj;
 
     Tweener tweener;
-
-    Tweener sequence;
-
+    
     Tweener Vsequence;
 
     Vector3[] positions;
 
     Vector3 myVector;
-    Vector3 mVector;
 
     public float hSliderValue = 0;
+
+    bool button = true;
+
+    bool isPlaying = false;
 
     // Use this for initialization
     void Start () {
@@ -41,20 +42,16 @@ public class test_sequence : MonoBehaviour {
         obj = GameObject.Find("Cube");
 
         myVector = obj.transform.position;
-        mVector = obj.transform.position;
-
+        
 
         Vector3[] endValues = positions;
         float[] durations = new[] { 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f};
         Vsequence = DOTween.ToArray(() => myVector, x => myVector = x, endValues, durations);
-        sequence = DOTween.ToArray(() => mVector, x => mVector = x, endValues, durations);
-
+        
         Vsequence.SetAutoKill(false).SetEase(Ease.Linear);
-        sequence.SetAutoKill(false).SetEase(Ease.Linear);
-
+        
         Vsequence.Pause();
-        sequence.Pause();
-
+        
 
 
     }
@@ -69,23 +66,28 @@ public class test_sequence : MonoBehaviour {
         if (GUILayout.Button("play", GUILayout.Height(50)))
         {
             Vsequence.PlayForward();
-            sequence.PlayForward();
+            isPlaying = true;
 
         }
 
         if (GUILayout.Button("pause", GUILayout.Height(50)))
         {
             Vsequence.Pause();
-            sequence.Pause();
+            isPlaying = false;
         }
 
 
-        if (Vsequence.IsPlaying())
+        if (isPlaying)
         {
             GUILayout.HorizontalSlider(Vsequence.fullPosition, 0, 10, GUILayout.Width(200));
             hSliderValue = Vsequence.fullPosition;
 
             drawLine();
+
+            if (Vsequence.fullPosition == 10)
+            {
+                isPlaying = false;
+            }
         }
         else
         {
@@ -95,8 +97,7 @@ public class test_sequence : MonoBehaviour {
             if (hSliderValue != Vsequence.fullPosition)
             {
                 Vsequence.Goto(hSliderValue, false);
-                sequence.Goto(hSliderValue, false);
-
+                
                 drawLine();
             }
 
@@ -106,50 +107,51 @@ public class test_sequence : MonoBehaviour {
 
     void Update()
     {
-
-        obj.transform.position = myVector;
+        if (button)
+        {
+            obj.transform.position = myVector;
+        }
+        
 
 
     }
 
     void drawLine()
     {
+        if (isPlaying)
+        {
+            Vsequence.Pause();
+        }
+        
+
+        button = false;
 
         float timeNow = Vsequence.fullPosition;
         
 
         ArrayList positions = new ArrayList();
-        //positions.Add(nowPosition);
-
         
         float count = timeNow;
-        /*
-        for (int i = 0; i < positions.Length; i++)
-        {
-            if (hSliderValue > i)
-            {
-                Apositions.Add(positions[i]);
-            }
-            else
-            {
-                break;
-            }
-
-        }
-        Apositions.Add(myVector);
-        */
+        
         while (count > 0)
         {
-            sequence.Goto(count);
-            positions.Add(mVector);
-            count -= 0.04f;
+            Vsequence.Goto(count);
+            positions.Add(myVector);
+            count -= 0.03f;
         }
 
-        sequence.Goto(timeNow);
+        Vsequence.Goto(timeNow);
 
 
         obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
         obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
 
+        button = true;
+
+        if (isPlaying)
+        {
+            Vsequence.Play();
+        }
+        
     }
 }

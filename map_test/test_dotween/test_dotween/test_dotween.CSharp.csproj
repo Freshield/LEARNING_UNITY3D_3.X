@@ -87,11 +87,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Crystal.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
     <Compile Include="Assets\Mybutton.cs" />
     <Compile Include="Assets\Script\test_aimation.cs" />
     <Compile Include="Assets\Script\test_dotween.cs" />
     <Compile Include="Assets\Script\test_sequence.cs" />
+    <Compile Include="Assets\Solutions.cs" />
+    <Compile Include="Assets\test_crystal.cs" />
     <Compile Include="Assets\test_linerender.cs" />
     <Compile Include="Assets\test_trail.cs" />
   </ItemGroup>
