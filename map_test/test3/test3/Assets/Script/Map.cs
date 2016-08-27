@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Text;
 
 public class Map : MonoBehaviour {
     public GameObject[] planes;
     public GameObject planePrefab;
-    public Position centerPoint = new Position(45.49506f, -73.57801f, new PTime(0, 0));
+    public Position centerPoint;// = new Position(45.49506f, -73.57801f, new PTime(0, 0));
     public int size = 512;
     public int zoom = 13;
     public int scale = 2;
 
-    public float ratio;
-    public float halfLon;
     public float fullLon;
-    public float halfLat;
     public float fullLat;
     public Position[] points;
     
@@ -21,12 +19,10 @@ public class Map : MonoBehaviour {
     {
         this.centerPoint = centerPoint;
 
-        ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        float ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
         float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
-        halfLon = (onesecond * size / 3600);
-        fullLon = halfLon * 2;
-        halfLat = halfLon * ratio;
-        fullLat = halfLat * 2;
+        fullLon = (onesecond * size / 3600) * 2;
+        fullLat = fullLon * ratio;
         
         planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
 
@@ -35,33 +31,33 @@ public class Map : MonoBehaviour {
     }
 
 
-
+    //get the map image
     public IEnumerator _Refresh(GameObject plane, Position center)
     {
+
+        StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/staticmap?");
         
-        string url = "http://maps.googleapis.com/maps/api/staticmap?";
-        string qs = "";
-        qs += "center=" + HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute));
-        qs += "&zoom=" + zoom.ToString();
-        qs += "&size=" + HTTP.URL.Encode(string.Format("{0}x{0}", size));
-        qs += "&scale=2";
-        qs += "&maptype=terrain&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc";
+        url.Append("center=").Append(HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute)));
+        url.Append("&zoom=").Append(zoom);
+        url.Append("&size=").Append(HTTP.URL.Encode(string.Format("{0}x{0}", size)));
+        url.Append("&scale=2");
+        url.Append("&maptype=terrain&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc");
         
-        var req = new HTTP.Request("GET", url + qs, true);
+        var req = new HTTP.Request("GET", url.ToString(), true);
         
         req.Send();
         while (!req.isDone)
             yield return null;
         if (req.exception == null)
         {
-            var tex = new Texture2D(size, size);
+            Texture2D tex = new Texture2D(size, size);
             tex.LoadImage(req.response.Bytes);
             plane.GetComponent<Renderer>().material.mainTexture = tex;
         }
     }
 
-
-    public GameObject[] PlaneCreator(Vector3 center, int x, int z, float width, GameObject prefab)
+    //create plane gameobject
+    public GameObject[] PlaneCreator(Vector3 center, int x, int z, float width, GameObject planePrefab)
     {
         GameObject[] planes = new GameObject[x * z];
 
@@ -71,7 +67,7 @@ public class Map : MonoBehaviour {
         {
             for (int j = 0; j < x; j++)
             {
-                GameObject plane = Instantiate(prefab);
+                GameObject plane = Instantiate(planePrefab);
                 plane.name = "plane" + (x * i + j);
                 plane.transform.parent = plane_parent.transform;
                 float hor = (((x - 1) * width) / 2) - (width * j);
