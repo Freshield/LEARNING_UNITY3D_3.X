@@ -5,13 +5,13 @@ public class PlaneCreator : MonoBehaviour {
     public GameObject[] planes;
     public GameObject plane_parent;
 
-    public PlaneCreator(Vector3 center, int x, int y, float width,GameObject prefab)
+    public PlaneCreator(Vector3 center, int x, int z, float width,GameObject prefab)
     {
-        planes = new GameObject[x * y];
+        planes = new GameObject[x * z];
 
         plane_parent = new GameObject("plane_parent");
 
-        for (int i = 0; i < y; i++)
+        for (int i = 0; i < z; i++)
         {
             for (int j = 0; j < x; j++)
             {
@@ -19,9 +19,10 @@ public class PlaneCreator : MonoBehaviour {
                 plane.name = "plane" + (x * i + j);
                 plane.transform.parent = plane_parent.transform;
                 float hor = (((-x + 1) * width) / 2) + (width * j);
-                float ver = (((y - 1) * width) / 2) - (width * i);
+                float ver = (((z - 1) * width) / 2) - (width * i);
                 //Debug.Log(plane.name + " " + hor + "," + ver);
-                plane.transform.position = new Vector3(hor + center.x, ver + center.y, center.z);
+                plane.transform.position = new Vector3(hor + center.x, center.y, ver + center.z);
+                
                 planes[x * i + j] = plane;
             }
         }

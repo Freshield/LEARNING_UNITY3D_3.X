@@ -99,7 +99,7 @@ public class Track{
         float radius = objPrefab.transform.localScale.x / 2;
         float x = (position.lontitute - center.lontitute) * 10 / fullLon;
         float y = (position.latitute - center.latitute) * 10 / fullLat;
-        VecTime temp = new VecTime(new Vector3(x, -radius, y), new PTime(position.time.totalTime));
+        VecTime temp = new VecTime(new Vector3(x, radius, y), new PTime(position.time.totalTime));
         return temp;
     }
 
