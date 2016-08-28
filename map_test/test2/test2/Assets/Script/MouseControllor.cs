@@ -56,11 +56,13 @@ public class MouseControllor : MonoBehaviour {
                     position = Input.mousePosition;
                     cameraPosition = Camera.main.transform.position;
                     //Debug.Log("press left button position " + Input.mousePosition);
+                    Debug.Log("mouse " + position);
+                    Debug.Log("camera " + cameraPosition);
                 }
 
                 if (Input.GetMouseButton(1))
                 {
-                    Vector3 change = Input.mousePosition - position;
+                    Vector3 change = new Vector3(Input.mousePosition.x - position.x,0, Input.mousePosition.y - position.y);
                     if (Camera.main.transform.position.y < 4)
                     {
                         speed = 0.01f;
@@ -69,7 +71,7 @@ public class MouseControllor : MonoBehaviour {
                     {
                         speed = 0.05f;
                     }
-                    Camera.main.transform.position = -change * speed + cameraPosition;
+                    Camera.main.transform.position = change * speed + cameraPosition;
                     //Debug.Log("hold left button position " + Input.mousePosition + " speed " + speed);
                 }
 
@@ -90,7 +92,7 @@ public class MouseControllor : MonoBehaviour {
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
-                        theCamera.transform.position = new Vector3(0, distance, 0);
+                        theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
                     }
 
                 }
@@ -107,7 +109,7 @@ public class MouseControllor : MonoBehaviour {
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
-                        theCamera.transform.position = new Vector3(0, distance, 0);
+                        theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
                     }
 
                 }

@@ -50,6 +50,7 @@ public class Map : MonoBehaviour {
         qs += "&maptype=terrain";
         
         var req = new HTTP.Request("GET", url + qs, true);
+        Debug.Log(url + qs);
         req.Send();
         while (!req.isDone)
             yield return null;
