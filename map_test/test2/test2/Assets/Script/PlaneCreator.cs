@@ -20,9 +20,7 @@ public class PlaneCreator : MonoBehaviour {
                 plane.transform.parent = plane_parent.transform;
                 float hor = (((x - 1) * width) / 2) - (width * j);
                 float ver = (((-z + 1) * width) / 2) + (width * i);
-                Debug.Log(plane.name + " " + hor + "," + ver);
                 plane.transform.position = new Vector3(hor + center.x, center.y, ver + center.z);
-                Debug.Log(plane.name + " " + plane.transform.position);
                 planes[x * i + j] = plane;
             }
         }
