@@ -153,6 +153,14 @@
     <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\Resources\Shaders\OutLine.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineComposer.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineCutoffBody.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineShapeBlur.shader" />
+    <None Include="Assets\Resources\Shaders\RimLightSpce.shader" />
+    <None Include="Assets\Resources\Shaders\RimLightSpecBump.shader" />
+    <None Include="Assets\Shader\CustomOutLine.shader" />
+    <None Include="Assets\Shader\OutlinedSilhouetted Diffuse.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

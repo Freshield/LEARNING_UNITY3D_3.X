@@ -87,17 +87,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Crystal.cs" />
     <Compile Include="Assets\Demigiant\DOTweenPro\DOTweenAnimation.cs" />
-    <Compile Include="Assets\Mybutton.cs" />
+    <Compile Include="Assets\Resources\Scripts\MouseOrbit_ForRTS_CSharp.cs" />
+    <Compile Include="Assets\Resources\Scripts\SelectObject.cs" />
+    <Compile Include="Assets\Resources\Scripts\SelectObjectNew.cs" />
+    <Compile Include="Assets\Resources\Scripts\ShowSelected.cs" />
+    <Compile Include="Assets\Resources\Scripts\ShowSelectedBump.cs" />
+    <Compile Include="Assets\Resources\Scripts\test_outline.cs" />
+    <Compile Include="Assets\Script\Crystal.cs" />
+    <Compile Include="Assets\Script\Mybutton.cs" />
+    <Compile Include="Assets\Script\Solutions.cs" />
     <Compile Include="Assets\Script\test_aimation.cs" />
+    <Compile Include="Assets\Script\test_crystal.cs" />
     <Compile Include="Assets\Script\test_dotween.cs" />
+    <Compile Include="Assets\Script\test_linerender.cs" />
     <Compile Include="Assets\Script\test_sequence.cs" />
+    <Compile Include="Assets\Script\test_trail.cs" />
     <Compile Include="Assets\Script\test_value.cs" />
-    <Compile Include="Assets\Solutions.cs" />
-    <Compile Include="Assets\test_crystal.cs" />
-    <Compile Include="Assets\test_linerender.cs" />
-    <Compile Include="Assets\test_trail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
@@ -112,6 +118,14 @@
     <None Include="Assets\Demigiant\DemiLib\DemiLib.xml" />
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
+    <None Include="Assets\Resources\Shaders\OutLine.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineComposer.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineCutoffBody.shader" />
+    <None Include="Assets\Resources\Shaders\OutterLineShapeBlur.shader" />
+    <None Include="Assets\Resources\Shaders\RimLightSpce.shader" />
+    <None Include="Assets\Resources\Shaders\RimLightSpecBump.shader" />
+    <None Include="Assets\Shader\CustomOutLine.shader" />
+    <None Include="Assets\Shader\OutlinedSilhouetted Diffuse.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
