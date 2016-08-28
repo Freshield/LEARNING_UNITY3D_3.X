@@ -28,10 +28,8 @@ public class Map : MonoBehaviour {
         halfLat = halfLon * ratio;
         fullLat = halfLat * 2;
         
-        PlaneCreator pc = new PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
+        planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
 
-        planes = pc.planes;
-        
         points = Position.PositionCreator(centerPoint, 6, 4, fullLat, fullLon);
         
     }
@@ -60,5 +58,30 @@ public class Map : MonoBehaviour {
             tex.LoadImage(req.response.Bytes);
             plane.GetComponent<Renderer>().material.mainTexture = tex;
         }
+    }
+
+
+    public GameObject[] PlaneCreator(Vector3 center, int x, int z, float width, GameObject prefab)
+    {
+        GameObject[] planes = new GameObject[x * z];
+
+        GameObject plane_parent = new GameObject("plane_parent");
+
+        for (int i = 0; i < z; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                GameObject plane = Instantiate(prefab);
+                plane.name = "plane" + (x * i + j);
+                plane.transform.parent = plane_parent.transform;
+                float hor = (((x - 1) * width) / 2) - (width * j);
+                float ver = (((-z + 1) * width) / 2) + (width * i);
+                plane.transform.position = new Vector3(hor + center.x, center.y, ver + center.z);
+                planes[x * i + j] = plane;
+            }
+        }
+
+        return planes;
+
     }
 }

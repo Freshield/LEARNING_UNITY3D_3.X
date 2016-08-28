@@ -172,7 +172,6 @@
     <None Include="Assets\StreamingAssets\new_data.txt" />
     <None Include="Assets\UniWeb-Free\FAQ.txt" />
     <None Include="Assets\UniWeb-Free\README.txt" />
-    <None Include="Assets\new_data.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

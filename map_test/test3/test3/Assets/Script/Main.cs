@@ -57,11 +57,7 @@ public class Main : MonoBehaviour {
         //not auto play
         DOTween.defaultAutoPlay = AutoPlay.None;
         mouseControllor = GameObject.Find("Main Camera").GetComponent<MouseControllor>();
-
-        //for companions
-        Companion1.onValueChanged.AddListener(Companion0Changed);
-        Companion2.onValueChanged.AddListener(Companion1Changed);
-        Companion3.onValueChanged.AddListener(Companion2Changed);
+        
 
         companions = new List<List<Drawer>>();
         for (int i = 0; i < 3; i++)
@@ -315,25 +311,6 @@ public class Main : MonoBehaviour {
                     }
                 }
                 break;
-            //not used part
-            //create ballsS
-            /*
-            case 99:
-                Track track = tracks[number];
-                if (track.positions.Count > 0)
-                {
-                    Locator lb = new Locator(center, map.fullLat, map.fullLon, track.name);
-                    //List<Position> pos = track.positions;
-                    //lb.locateObject(objPrefab, pos);
-                    lb.worldLocate(objPrefab, track.worldPositions);
-                }
-                number++;
-                if (number == tracks.Count)
-                {
-                    button = 4;
-                }
-                break;
-                */
 
             default:
                 break;
