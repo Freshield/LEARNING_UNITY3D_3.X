@@ -32,15 +32,54 @@ public class test_outline : MonoBehaviour {
         theCamera = GameObject.Find("Main Camera");
 
         //obj.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.01f);
+        distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
         switch (button)
         {
             case 0:
+
+                
+                if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                {
+                    Debug.Log("here");
+                    if (distance > 0.7)
+                    {
+                        if (distance > 4)
+                        {
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                        }
+                        else
+                        {
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
+                        }
+                        theCamera.transform.position = new Vector3(0, distance, 0);
+                    }
+
+                }
+
+                if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                {
+                    Debug.Log("here1");
+                    if (distance < 50)
+                    {
+                        if (distance > 4)
+                        {
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                        }
+                        else
+                        {
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
+                        }
+                        theCamera.transform.position = new Vector3(0,distance,0);
+                    }
+
+                }
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
@@ -58,7 +97,6 @@ public class test_outline : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("not hit");
                     if (hited != null)
                     {
                         hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);

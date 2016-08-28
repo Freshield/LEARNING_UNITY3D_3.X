@@ -39,6 +39,8 @@ public class MouseControllor : MonoBehaviour {
 
         theCamera = GameObject.Find("Main Camera");
 
+        distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+        
     }
 
     // Update is called once per frame
@@ -48,7 +50,7 @@ public class MouseControllor : MonoBehaviour {
         switch (button)
         {
             case 0:
-
+                
                 if (Input.GetMouseButtonDown(1))
                 {
                     position = Input.mousePosition;
@@ -59,7 +61,7 @@ public class MouseControllor : MonoBehaviour {
                 if (Input.GetMouseButton(1))
                 {
                     Vector3 change = Input.mousePosition - position;
-                    if (Camera.main.transform.position.z > -4)
+                    if (Camera.main.transform.position.y < 4)
                     {
                         speed = 0.01f;
                     }
@@ -78,41 +80,34 @@ public class MouseControllor : MonoBehaviour {
 
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
-                    //Debug.Log(Camera.main.transform.position.z);
-                    if (Camera.main.transform.position.z < -0.7)
+                    if (distance > 0.7)
                     {
-                        cameraPosition = Camera.main.transform.position;
-                        float distance = 0;
-                        if (Camera.main.transform.position.z < -4)
+                        if (distance > 4)
                         {
-                            distance = Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
                         }
                         else
                         {
-                            distance = Input.GetAxis("Mouse ScrollWheel") * 2;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
-
-                        Camera.main.transform.position = new Vector3(0, 0, distance) + cameraPosition;
-                        //Debug.Log("scrollwheel position " + Input.mousePosition);
+                        theCamera.transform.position = new Vector3(0, distance, 0);
                     }
 
                 }
 
                 if (Input.GetAxis("Mouse ScrollWheel") < 0)
                 {
-                    if (Camera.main.transform.position.z > -50)
+                    if (distance < 50)
                     {
-                        cameraPosition = Camera.main.transform.position;
-                        float distance = 0;
-                        if (Camera.main.transform.position.z < -4)
+                        if (distance > 4)
                         {
-                            distance = Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
                         }
                         else
                         {
-                            distance = Input.GetAxis("Mouse ScrollWheel") * 2;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
-                        Camera.main.transform.position = new Vector3(0, 0, distance) + cameraPosition;
+                        theCamera.transform.position = new Vector3(0, distance, 0);
                     }
 
                 }
@@ -151,7 +146,6 @@ public class MouseControllor : MonoBehaviour {
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButton(0))
                         {
-                            Debug.Log("here");
                             button = 1;
                             hited = hit.collider.gameObject;
                         }
@@ -165,21 +159,19 @@ public class MouseControllor : MonoBehaviour {
                 {
                     //look at the target first
                     case 0:
-                        Debug.Log("here1");
-                        changeTarget = theCamera.transform.DOLookAt(hited.transform.position, 1);
+                        changeTarget = theCamera.transform.DOLookAt(hited.transform.position, 0.8f);
                         changeTarget.SetAutoKill(false).SetEase(Ease.Linear);
                         changeTarget.Play();
                         cameraButton = 1;
                         break;
                     //set path and rotate
                     case 1:
-                        Debug.Log("here2");
                         if (changeTarget.IsComplete())
                         {
                             Vector3[] path = new Vector3[3];
-                            path[0] = hited.transform.position + new Vector3(0, 12, -12);
-                            path[1] = hited.transform.position + new Vector3(0, 8, -14.5f);
-                            path[2] = hited.transform.position + new Vector3(0, 2.5f, -5);
+                            path[0] = hited.transform.position + new Vector3(0, 22, 12);
+                            path[1] = hited.transform.position + new Vector3(0, 8, 14.5f);
+                            path[2] = hited.transform.position + new Vector3(0, 2.5f, 5);
 
 
                             changeTarget = theCamera.transform.DOPath(path, 3, PathType.CatmullRom, PathMode.Full3D, 5, null).SetLookAt(hited.transform.position);
@@ -187,7 +179,7 @@ public class MouseControllor : MonoBehaviour {
                             changeTarget.SetAutoKill(false).SetEase(Ease.Linear);
                             changeTarget.Play();
 
-                            theCamera.transform.DORotate(new Vector3(27, 2, 0), 3).Play();
+                            theCamera.transform.DORotate(new Vector3(27, 180, 0), 3).Play();
 
                             cameraButton = 2;
 
@@ -219,7 +211,7 @@ public class MouseControllor : MonoBehaviour {
                 break;
             //focuse rotate
             case 2:
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(1))
                 {
                     if (hited)
                     {
