@@ -106,6 +106,7 @@
     <None Include="Assets\Demigiant\DemiLib\Editor\DemiEditor.XML" />
     <None Include="Assets\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\GoogleMaps\README.txt" />
+    <None Include="Assets\Resources\prefab\CustomOutLine.shader" />
     <None Include="Assets\StreamingAssets\new_data.txt" />
     <None Include="Assets\UniWeb-Free\FAQ.txt" />
     <None Include="Assets\UniWeb-Free\README.txt" />

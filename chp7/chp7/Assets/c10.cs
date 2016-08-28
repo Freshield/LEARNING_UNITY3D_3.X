@@ -10,11 +10,11 @@ public class c10 : MonoBehaviour {
     float x;
     float y;
 
-    float yMinLimit = -20.0f;
-    float yMaxLimit = 80.0f;
+    const float yMinLimit = 0.0f;
+    const float yMaxLimit = 80.0f;
 
-    float xSpeed = 250.0f;
-    float ySpeed = 120.0f;
+    const float xSpeed = 250.0f;
+    const float ySpeed = 120.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +28,9 @@ public class c10 : MonoBehaviour {
         {
             GetComponent<Rigidbody>().freezeRotation = true;
         }
+
+        //distance = Vector3.Distance(target.position,transform.position);
+        distance = (transform.position - target.position).magnitude;
 	
 	}
 	

@@ -126,6 +126,7 @@ public class Main : MonoBehaviour {
                     //    getTrack.lastPosition.latitute + "," +
                     //    getTrack.lastPosition.lontitute + "," + getTrack.lastPosition.time);
                     GameObject obj = Instantiate(objPrefab);
+                    obj.name = getTrack.name;
                     Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
                     //release
