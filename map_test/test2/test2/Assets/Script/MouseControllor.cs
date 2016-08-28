@@ -11,7 +11,7 @@ public class MouseControllor : MonoBehaviour {
     GameObject hited;
     GameObject label;
 
-    int button = 0;
+    public int button = 0;
 
     int cameraButton = 0;
 
@@ -30,6 +30,13 @@ public class MouseControllor : MonoBehaviour {
 
     const float xSpeed = 250.0f;
     const float ySpeed = 120.0f;
+
+    //for ray hit test
+    Ray ray;
+    RaycastHit hit;
+    string focusObjName;
+    GameObject focusObj;
+
 
 
     // Use this for initialization
@@ -55,9 +62,6 @@ public class MouseControllor : MonoBehaviour {
                 {
                     position = Input.mousePosition;
                     cameraPosition = Camera.main.transform.position;
-                    //Debug.Log("press left button position " + Input.mousePosition);
-                    Debug.Log("mouse " + position);
-                    Debug.Log("camera " + cameraPosition);
                 }
 
                 if (Input.GetMouseButton(1))
@@ -115,10 +119,9 @@ public class MouseControllor : MonoBehaviour {
                 }
 
                 //the ray hit
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                RaycastHit hit;
-
+                
                 if (Physics.Raycast(ray, out hit))
                 {
                     if (hit.collider.gameObject.name.Contains("lane"))
@@ -149,7 +152,8 @@ public class MouseControllor : MonoBehaviour {
                         if (Input.GetMouseButton(0))
                         {
                             button = 1;
-                            hited = hit.collider.gameObject;
+                            focusObj = hit.collider.gameObject;
+                            focusObjName = "The target object is " + focusObj.name;
                         }
                     }
                 }
@@ -161,7 +165,7 @@ public class MouseControllor : MonoBehaviour {
                 {
                     //look at the target first
                     case 0:
-                        changeTarget = theCamera.transform.DOLookAt(hited.transform.position, 0.8f);
+                        changeTarget = theCamera.transform.DOLookAt(focusObj.transform.position, 0.8f);
                         changeTarget.SetAutoKill(false).SetEase(Ease.Linear);
                         changeTarget.Play();
                         cameraButton = 1;
@@ -171,12 +175,12 @@ public class MouseControllor : MonoBehaviour {
                         if (changeTarget.IsComplete())
                         {
                             Vector3[] path = new Vector3[3];
-                            path[0] = hited.transform.position + new Vector3(0, 22, 12);
-                            path[1] = hited.transform.position + new Vector3(0, 8, 14.5f);
-                            path[2] = hited.transform.position + new Vector3(0, 2.5f, 5);
+                            path[0] = focusObj.transform.position + new Vector3(0, 22, 12);
+                            path[1] = focusObj.transform.position + new Vector3(0, 8, 14.5f);
+                            path[2] = focusObj.transform.position + new Vector3(0, 2.5f, 5);
 
 
-                            changeTarget = theCamera.transform.DOPath(path, 3, PathType.CatmullRom, PathMode.Full3D, 5, null).SetLookAt(hited.transform.position);
+                            changeTarget = theCamera.transform.DOPath(path, 3, PathType.CatmullRom, PathMode.Full3D, 5, null).SetLookAt(focusObj.transform.position);
 
                             changeTarget.SetAutoKill(false).SetEase(Ease.Linear);
                             changeTarget.Play();
@@ -202,8 +206,9 @@ public class MouseControllor : MonoBehaviour {
                             }
 
                             //distance = Vector3.Distance(target.position,transform.position);
-                            distance = (theCamera.transform.position - hited.transform.position).magnitude;
+                            distance = (theCamera.transform.position - focusObj.transform.position).magnitude;
                             button = 2;
+                            cameraButton = 0;
                         }
                         break;
                     default:
@@ -215,7 +220,7 @@ public class MouseControllor : MonoBehaviour {
             case 2:
                 if (Input.GetMouseButton(1))
                 {
-                    if (hited)
+                    if (focusObj)
                     {
                         x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
                         y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
@@ -261,6 +266,47 @@ public class MouseControllor : MonoBehaviour {
 
                 moveCamear();
 
+                //the ray hit
+                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.gameObject.name.Contains("lane"))
+                    {
+                        if (hited != null && hited != focusObj)
+                        {
+                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+                        }
+                        label.GetComponent<Text>().text = focusObjName;
+
+                    }
+                    else if (hited != hit.collider.gameObject)
+                    {
+
+                        if (hited != null && hited != focusObj)
+                        {
+                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+
+                        }
+                        hited = hit.collider.gameObject;
+                        label.GetComponent<Text>().text = focusObjName;
+                    }
+                    else
+                    {
+                        hited = hit.collider.gameObject;
+                        hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.01f);
+                        label.GetComponent<Text>().text = "The target object is " + hited.name;
+                        if (Input.GetMouseButton(0))
+                        {
+                            button = 1;
+                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+                            focusObj = hit.collider.gameObject;
+                            focusObjName = "The target object is " + focusObj.name;
+                        }
+                    }
+                }
+
                 break;
 
             default:
@@ -286,7 +332,7 @@ public class MouseControllor : MonoBehaviour {
     void moveCamear()
     {
         Quaternion rotation = Quaternion.Euler(y, x, 0);
-        Vector3 position = rotation * new Vector3(0.0f, 0.0f, -distance) + hited.transform.position;
+        Vector3 position = rotation * new Vector3(0.0f, 0.0f, -distance) + focusObj.transform.position;
         theCamera.transform.rotation = rotation;
         theCamera.transform.position = position;
     }

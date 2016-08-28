@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour {
     Map map;
@@ -13,6 +14,7 @@ public class Main : MonoBehaviour {
     Position lastPosition;
     VecTime WfirstPosition;
     VecTime WlastPosition;
+    MouseControllor mouseControllor;
 
     int button = 0;
     int number = 0;
@@ -35,6 +37,12 @@ public class Main : MonoBehaviour {
     Tweener wholeTime;
     List<GameObject> objs;
 
+    //for toggle
+    public Toggle Companion1, Companion2, Companion3;
+
+    //for companion
+    List<List<Drawer>> companions;
+
 
     // Use this for initialization
     void Start()
@@ -46,6 +54,19 @@ public class Main : MonoBehaviour {
         drawers = new List<Drawer>();
         //not auto play
         DOTween.defaultAutoPlay = AutoPlay.None;
+        mouseControllor = GameObject.Find("Main Camera").GetComponent<MouseControllor>();
+
+        //for companions
+        Companion1.onValueChanged.AddListener(Companion1Changed);
+        Companion2.onValueChanged.AddListener(Companion2Changed);
+        Companion3.onValueChanged.AddListener(Companion3Changed);
+
+        companions = new List<List<Drawer>>();
+        for (int i = 0; i < 3; i++)
+        {
+            List<Drawer> companion = new List<Drawer>();
+            companions.Add(companion);
+        }
     }
 
     // Update is called once per frame
@@ -127,8 +148,29 @@ public class Main : MonoBehaviour {
                     //    getTrack.lastPosition.lontitute + "," + getTrack.lastPosition.time);
                     GameObject obj = Instantiate(objPrefab);
                     obj.name = getTrack.name;
-                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
+                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime),false);
                     drawers.Add(drawer);
+
+                    //for companions
+                    if (getTrack.name.Contains("6602") || getTrack.name.Contains("9789") || getTrack.name.Contains("14914"))
+                    {
+                        GameObject objC = Instantiate(objPrefab);
+                        objC.name = getTrack.name + "companion";
+                        companions[0].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
+                    }
+                    else if (getTrack.name.Contains("7459") || getTrack.name.Contains("7585"))
+                    {
+                        GameObject objC = Instantiate(objPrefab);
+                        objC.name = getTrack.name + "companion";
+                        companions[1].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
+                    }
+                    else if (getTrack.name.Contains("13423") || getTrack.name.Contains("13426"))
+                    {
+                        GameObject objC = Instantiate(objPrefab);
+                        objC.name = getTrack.name + "companion";
+                        companions[2].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
+                    }
+
                     //release
                     drawer = null;
                 }
@@ -234,7 +276,7 @@ public class Main : MonoBehaviour {
         {
             if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
             {
-
+                
             }
 
             if (GUILayout.Button("play", GUILayout.Height(50)))
@@ -290,6 +332,19 @@ public class Main : MonoBehaviour {
 
             }
         }
+    }
+
+    public void Companion1Changed(bool check)
+    {
+        Debug.Log("companion1"+check);
+    }
+    public void Companion2Changed(bool check)
+    {
+        Debug.Log("companion2" + check);
+    }
+    public void Companion3Changed(bool check)
+    {
+        Debug.Log("companion3" + check);
     }
 
     void FixedUpdate()

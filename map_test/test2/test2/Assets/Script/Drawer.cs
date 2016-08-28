@@ -23,13 +23,20 @@ public class Drawer{
 
     //static value
     public static float playRadio = 0.5f;
+
+    public static Vector3 companionHeight = new Vector3(0, 10, 0);
     
     // Use this for initialization
-    public Drawer(GameObject objPrefab, Track track, float duration)
+    public Drawer(GameObject objPrefab, Track track, float duration, bool isCompanion)
     {
         obj = objPrefab;
         //send obj to its first place
         obj.transform.position = track.WfirstPosition.worldPosition;
+
+        if (isCompanion)
+        {
+            obj.transform.position += companionHeight;
+        }
 
         myPosition = obj.transform.position;
         //obj.GetComponent<Renderer>().enabled = false;
@@ -39,7 +46,17 @@ public class Drawer{
 
         WfirstPosition = track.WfirstPosition;
 
+        if (isCompanion)
+        {
+            WfirstPosition.worldPosition += companionHeight;
+        }
+
         WlastPosition = track.WlastPosition;
+
+        if (isCompanion)
+        {
+            WlastPosition.worldPosition += companionHeight;
+        }
 
         List<Vector3> positions = new List<Vector3>();
         List<float> durations = new List<float>();
@@ -48,7 +65,15 @@ public class Drawer{
         durations.Add(0.01f);
         for (int i = 0; i < track.worldPositions.Count; i++)
         {
-            positions.Add(track.worldPositions[i].worldPosition);
+            if (isCompanion)
+            {
+                positions.Add(track.worldPositions[i].worldPosition + companionHeight);
+            }
+            else
+            {
+                positions.Add(track.worldPositions[i].worldPosition);
+            }
+            
             if (i != 0)
             {
                 durations.Add(getDuration(track.worldPositions[i - 1].time.totalTime, track.worldPositions[i].time.totalTime));
@@ -66,6 +91,12 @@ public class Drawer{
 
         tweener.SetAutoKill(false).SetEase(Ease.Linear);
 
+        if (isCompanion)
+        {
+            obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1,0,0, 0));
+            obj.GetComponent<MeshRenderer>().material.SetColor("_OutlineColor", new Color(3f/255f,225f / 255f, 115f / 255f, 0));
+        }
+
         //release
         positions.Clear();
         positions = null;
@@ -77,6 +108,7 @@ public class Drawer{
         //this.track.worldPositions.Clear();
         //this.track.worldPositions = null;
     }
+    
 
     public void drawLine(bool isPlaying)
     {

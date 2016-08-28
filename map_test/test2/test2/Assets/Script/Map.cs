@@ -47,10 +47,10 @@ public class Map : MonoBehaviour {
         qs += "&zoom=" + zoom.ToString();
         qs += "&size=" + HTTP.URL.Encode(string.Format("{0}x{0}", size));
         qs += "&scale=2";
-        qs += "&maptype=terrain";
+        qs += "&maptype=terrain&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc";
         
         var req = new HTTP.Request("GET", url + qs, true);
-        Debug.Log(url + qs);
+        
         req.Send();
         while (!req.isDone)
             yield return null;
