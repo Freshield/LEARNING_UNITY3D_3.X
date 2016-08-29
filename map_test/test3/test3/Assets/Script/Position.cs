@@ -11,6 +11,8 @@ public class Position{
         this.time = time;
     }
 
+    ////////////////////////////static function///////////////////////////////////////
+    //to create the map planes position
     public static Position[] PositionCreator(Position center, int x, int y, float fullat, float fullon)
     {
         Position[] positions = new Position[x * y];
