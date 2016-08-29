@@ -15,6 +15,7 @@ public class Main : MonoBehaviour {
     VecTime WfirstPosition;
     VecTime WlastPosition;
     MouseControllor mouseControllor;
+    GameObject drawTracks;
 
     int button = 0;
     int number = 0;
@@ -41,7 +42,8 @@ public class Main : MonoBehaviour {
     public Toggle Companion1, Companion2, Companion3;
 
     //for companion
-    List<List<Drawer>> companions;
+    public List<List<Drawer>> companions;
+    public bool companionPrepared = false;
 
 
     // Use this for initialization
@@ -57,9 +59,9 @@ public class Main : MonoBehaviour {
         mouseControllor = GameObject.Find("Main Camera").GetComponent<MouseControllor>();
 
         //for companions
-        Companion1.onValueChanged.AddListener(Companion1Changed);
-        Companion2.onValueChanged.AddListener(Companion2Changed);
-        Companion3.onValueChanged.AddListener(Companion3Changed);
+        Companion1.onValueChanged.AddListener(Companion0Changed);
+        Companion2.onValueChanged.AddListener(Companion1Changed);
+        Companion3.onValueChanged.AddListener(Companion2Changed);
 
         companions = new List<List<Drawer>>();
         for (int i = 0; i < 3; i++)
@@ -67,6 +69,8 @@ public class Main : MonoBehaviour {
             List<Drawer> companion = new List<Drawer>();
             companions.Add(companion);
         }
+
+        drawTracks = new GameObject("drawTracks");
     }
 
     // Update is called once per frame
@@ -150,24 +154,25 @@ public class Main : MonoBehaviour {
                     obj.name = getTrack.name;
                     Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime),false);
                     drawers.Add(drawer);
+                    drawer.obj.transform.parent = drawTracks.transform;
 
                     //for companions
                     if (getTrack.name.Contains("6602") || getTrack.name.Contains("9789") || getTrack.name.Contains("14914"))
                     {
                         GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name + "companion";
+                        objC.name = getTrack.name;
                         companions[0].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
                     }
                     else if (getTrack.name.Contains("7459") || getTrack.name.Contains("7585"))
                     {
                         GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name + "companion";
+                        objC.name = getTrack.name;
                         companions[1].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
                     }
                     else if (getTrack.name.Contains("13423") || getTrack.name.Contains("13426"))
                     {
                         GameObject objC = Instantiate(objPrefab);
-                        objC.name = getTrack.name + "companion";
+                        objC.name = getTrack.name;
                         companions[2].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
                     }
 
@@ -221,9 +226,9 @@ public class Main : MonoBehaviour {
             case 4:
                 if (isPlaying)
                 {
+                    wholeTime.PlayForward();
                     foreach (Drawer drawer in drawers)
                     {
-                        wholeTime.PlayForward();
                         if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.PlayForward();
@@ -231,17 +236,39 @@ public class Main : MonoBehaviour {
                         }
 
                     }
+                    if (companionPrepared)
+                    {
+                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
+                        {
+                            if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
+                            {
+                                drawer.tweener.PlayForward();
+                                drawer.drawLine(isPlaying);
+                            }
+                        }
+                    }
                 }
                 if (isPause)
                 {
+                    wholeTime.Pause();
                     foreach (Drawer drawer in drawers)
                     {
-                        wholeTime.Pause();
+                        
                         if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Pause();
                         }
 
+                    }
+                    if (companionPrepared)
+                    {
+                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
+                        {
+                            if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
+                            {
+                                drawer.tweener.Pause();
+                            }
+                        }
                     }
                 }
                 break;
@@ -328,23 +355,63 @@ public class Main : MonoBehaviour {
                         }
                         drawer.drawLine(isPlaying);
                     }
+
+                    if (companionPrepared)
+                    {
+                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
+                        {
+                            if (hSliderValue < drawer.WfirstPosition.time.totalTime)
+                            {
+                                drawer.tweener.Goto(0, false);
+                            }
+                            else if (hSliderValue < drawer.WlastPosition.time.totalTime)
+                            {
+                                drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
+                            }
+                            else
+                            {
+                                drawer.tweener.Goto(drawer.duration, false);
+                            }
+                            drawer.drawLine(isPlaying);
+                        }
+                    }
                 }
 
+            }
+
+            if (companionPrepared)
+            {
+                for (int i = 0; i < mouseControllor.targetCompanion[mouseControllor.companionNumber].Count; i++)
+                {
+                    mouseControllor.cylinders[i].transform.position = mouseControllor.targetCompanion[mouseControllor.companionNumber][i].obj.transform.position + new Vector3(0, -5, 0);
+                }
             }
         }
     }
 
+    public void Companion0Changed(bool check)
+    {
+        if (check)
+        {
+            mouseControllor.button = 3;
+            mouseControllor.companionNumber = 0;
+        }
+    }
     public void Companion1Changed(bool check)
     {
-        Debug.Log("companion1"+check);
+        if (check)
+        {
+            mouseControllor.button = 3;
+            mouseControllor.companionNumber = 1;
+        }
     }
     public void Companion2Changed(bool check)
     {
-        Debug.Log("companion2" + check);
-    }
-    public void Companion3Changed(bool check)
-    {
-        Debug.Log("companion3" + check);
+        if (check)
+        {
+            mouseControllor.button = 3;
+            mouseControllor.companionNumber = 2;
+        }
     }
 
     void FixedUpdate()

@@ -48,14 +48,14 @@ public class Drawer{
 
         if (isCompanion)
         {
-            WfirstPosition.worldPosition += companionHeight;
+            //WfirstPosition.worldPosition += companionHeight;
         }
 
         WlastPosition = track.WlastPosition;
 
         if (isCompanion)
         {
-            WlastPosition.worldPosition += companionHeight;
+           // WlastPosition.worldPosition += companionHeight;
         }
 
         List<Vector3> positions = new List<Vector3>();
