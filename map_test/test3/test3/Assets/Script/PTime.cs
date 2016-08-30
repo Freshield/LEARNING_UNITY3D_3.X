@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 public class PTime{
     public int hour;
     public int minute;
@@ -8,13 +9,17 @@ public class PTime{
     {
         if (time.Contains(":"))
         {
+            //read from file
             string[] times = time.Split(':');
             hour = int.Parse(times[0]);
             minute = int.Parse(times[1]);
             totalTime = hour * 60 + minute;
+            //release
+            Array.Clear(times, 0, times.Length);
         }
         else
         {
+            //direct read totaltime
             totalTime = float.Parse(time);
             hour = (int)(totalTime / 60);
             minute = (int)(totalTime % 60);
