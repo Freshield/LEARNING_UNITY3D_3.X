@@ -376,6 +376,7 @@ public class Main : MonoBehaviour {
             }
             else
             {
+
                 hSliderValue = GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
                 if (hSliderValue != wholeTime.fullPosition)
                 {
