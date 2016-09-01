@@ -6,6 +6,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public class Main : MonoBehaviour {
+
     Map map;
     public GameObject objPrefab;
     List<Track> tracks;
@@ -17,7 +18,7 @@ public class Main : MonoBehaviour {
     MouseControllor mouseControllor;
     GameObject drawTracks;
 
-    int button = 0;
+    int flow = 0;
     int number = 0;
 
     int frame = 0;
@@ -37,10 +38,7 @@ public class Main : MonoBehaviour {
     bool isPause = true;
     Tweener wholeTime;
     List<GameObject> objs;
-
-    //for toggle
-    public Toggle Companion1, Companion2, Companion3;
-
+    
     //for companion
     public List<List<Drawer>> companions;
     public bool companionPrepared = false;
@@ -53,13 +51,13 @@ public class Main : MonoBehaviour {
         anim = Resources.LoadAll<Texture2D>("loading");
         loadingCount = anim.Length;
         loadingPlane = GameObject.Find("LoadingPlane");
+
         drawers = new List<Drawer>();
-        //not auto play
-        DOTween.defaultAutoPlay = AutoPlay.None;
+
         mouseControllor = GameObject.Find("Main Camera").GetComponent<MouseControllor>();
         
-
         companions = new List<List<Drawer>>();
+
         for (int i = 0; i < 3; i++)
         {
             List<Drawer> companion = new List<Drawer>();
@@ -73,7 +71,7 @@ public class Main : MonoBehaviour {
     void Update()
     {
         
-        switch (button)
+        switch (flow)
         {
             //load file and prepare
             case 0:
@@ -110,7 +108,7 @@ public class Main : MonoBehaviour {
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
 
-                button = 2;
+                flow = 2;
                 break;
 
             case 2:
@@ -150,7 +148,7 @@ public class Main : MonoBehaviour {
                     tracks.Clear();
                     tracks = null;
 
-                    button = 3;
+                    flow = 3;
                     number = 0;
                     GC.Collect();
                 }
@@ -166,16 +164,16 @@ public class Main : MonoBehaviour {
                     GameObject plane = GameObject.Find("plane" + i);
                     if (plane.GetComponent<Renderer>().material.mainTexture != null)
                     {
-                        button = 4;
+                        flow = 4;
                     }
                     else
                     {
-                        button = 3;
+                        flow = 3;
                         StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                         break;
                     }
                 }
-                if (button == 4)
+                if (flow == 4)
                 {
                     //clean loading
                     isLoading = false;
@@ -212,22 +210,6 @@ public class Main : MonoBehaviour {
                         }
 
                     }
-                    if (companionPrepared)
-                    {
-                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
-                        {
-                            if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
-                            {
-                                drawer.tweener.PlayForward();
-                                drawer.drawLine(isPlaying);
-                                if (drawer.isCompanion)
-                                {
-                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
-                                    drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
-                                }
-                            }
-                        }
-                    }
                 }
                 if (isPause)
                 {
@@ -238,25 +220,8 @@ public class Main : MonoBehaviour {
                         if (hSliderValue >= drawer.WfirstPosition.time.totalTime && hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
                             drawer.tweener.Pause();
-                            /*
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
-                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
-                            }
-                            */
                         }
 
-                    }
-                    if (companionPrepared)
-                    {
-                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
-                        {
-                            if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
-                            {
-                                drawer.tweener.Pause();
-                            }
-                        }
                     }
                 }
                 break;
@@ -268,7 +233,7 @@ public class Main : MonoBehaviour {
 
     void OnGUI()
     {
-        if (button == 4)
+        if (flow == 4)
         {
             if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
             {
@@ -286,8 +251,7 @@ public class Main : MonoBehaviour {
                 isPause = true;
                 isPlaying = false;
             }
-            
-            
+
             if (isPlaying)
             {
                 GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
@@ -297,12 +261,9 @@ public class Main : MonoBehaviour {
                     isPause = true;
                     isPlaying = false;
                 }
-                
-
             }
             else
             {
-
                 hSliderValue = GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
                 if (hSliderValue != wholeTime.fullPosition)
                 {
@@ -334,81 +295,18 @@ public class Main : MonoBehaviour {
                         }
                         drawer.drawLine(isPlaying);
                     }
-
-                    if (companionPrepared)
-                    {
-                        foreach (Drawer drawer in mouseControllor.targetCompanion[mouseControllor.companionNumber])
-                        {
-                            if (hSliderValue < drawer.WfirstPosition.time.totalTime)
-                            {
-                                drawer.tweener.Goto(0, false);
-                                if (drawer.isCompanion)
-                                {
-                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-                                }
-                            }
-                            else if (hSliderValue < drawer.WlastPosition.time.totalTime)
-                            {
-                                drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
-                            }
-                            else
-                            {
-                                drawer.tweener.Goto(drawer.duration, false);
-                                if (drawer.isCompanion)
-                                {
-                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-                                }
-                            }
-                            drawer.drawLine(isPlaying);
-                        }
-                    }
-                }
-
-            }
-
-            if (companionPrepared)
-            {
-                for (int i = 0; i < mouseControllor.targetCompanion[mouseControllor.companionNumber].Count; i++)
-                {
-                    mouseControllor.cylinders[i].transform.position = mouseControllor.targetCompanion[mouseControllor.companionNumber][i].obj.transform.position + new Vector3(0, -5, 0);
                 }
             }
         }
     }
-
-    public void Companion0Changed(bool check)
-    {
-        if (check)
-        {
-            mouseControllor.button = 3;
-            mouseControllor.companionNumber = 0;
-        }
-    }
-    public void Companion1Changed(bool check)
-    {
-        if (check)
-        {
-            mouseControllor.button = 3;
-            mouseControllor.companionNumber = 1;
-        }
-    }
-    public void Companion2Changed(bool check)
-    {
-        if (check)
-        {
-            mouseControllor.button = 3;
-            mouseControllor.companionNumber = 2;
-        }
-    }
-
+    
     void FixedUpdate()
     {
         if (isLoading)
         {
             loadingPlane.GetComponent<Renderer>().material.mainTexture = anim[nowFram];
             nowFram++;
-            if (nowFram == loadingCount)
+            if (nowFram >= loadingCount)
             {
                 nowFram = 0;
             }
