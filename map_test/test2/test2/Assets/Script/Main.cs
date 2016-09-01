@@ -157,6 +157,8 @@ public class Main : MonoBehaviour {
                     drawer.obj.transform.parent = drawTracks.transform;
 
                     //for companions
+                    //old version, for 3d show
+                    /*
                     if (getTrack.name.Contains("6602") || getTrack.name.Contains("9789") || getTrack.name.Contains("14914"))
                     {
                         GameObject objC = Instantiate(objPrefab);
@@ -174,6 +176,23 @@ public class Main : MonoBehaviour {
                         GameObject objC = Instantiate(objPrefab);
                         objC.name = getTrack.name;
                         companions[2].Add(new Drawer(objC, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime), true));
+                    }
+                    */
+                    //new version
+                    if (drawer.obj.name.Contains("6602") || drawer.obj.name.Contains("9789") || drawer.obj.name.Contains("14914"))
+                    {
+                        drawer.isCompanion = true;
+                        companions[0].Add(drawer);
+                    }
+                    else if (drawer.obj.name.Contains("7459") || drawer.obj.name.Contains("7585"))
+                    {
+                        drawer.isCompanion = true;
+                        companions[1].Add(drawer);
+                    }
+                    else if (drawer.obj.name.Contains("13423") || drawer.obj.name.Contains("13426"))
+                    {
+                        drawer.isCompanion = true;
+                        companions[2].Add(drawer);
                     }
 
                     //release
@@ -233,6 +252,18 @@ public class Main : MonoBehaviour {
                         {
                             drawer.tweener.PlayForward();
                             drawer.drawLine(isPlaying);
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f/255f, 1, 1));
+                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
+                            }
+                        }
+                        if (hSliderValue >= drawer.WlastPosition.time.totalTime)
+                        {
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                            }
                         }
 
                     }
@@ -244,6 +275,11 @@ public class Main : MonoBehaviour {
                             {
                                 drawer.tweener.PlayForward();
                                 drawer.drawLine(isPlaying);
+                                if (drawer.isCompanion)
+                                {
+                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
+                                    drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
+                                }
                             }
                         }
                     }
@@ -254,9 +290,16 @@ public class Main : MonoBehaviour {
                     foreach (Drawer drawer in drawers)
                     {
                         
-                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
+                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime && hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
                             drawer.tweener.Pause();
+                            /*
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
+                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
+                            }
+                            */
                         }
 
                     }
@@ -344,14 +387,24 @@ public class Main : MonoBehaviour {
                         if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(0, false);
+                            drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
                         }
                         else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
+                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
+                            }
                         }
                         else
                         {
                             drawer.tweener.Goto(drawer.duration, false);
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                            }
                         }
                         drawer.drawLine(isPlaying);
                     }
@@ -363,14 +416,23 @@ public class Main : MonoBehaviour {
                             if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                             {
                                 drawer.tweener.Goto(0, false);
+                                if (drawer.isCompanion)
+                                {
+                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                                }
                             }
                             else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                             {
                                 drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
                             }
                             else
                             {
                                 drawer.tweener.Goto(drawer.duration, false);
+                                if (drawer.isCompanion)
+                                {
+                                    drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                                }
                             }
                             drawer.drawLine(isPlaying);
                         }

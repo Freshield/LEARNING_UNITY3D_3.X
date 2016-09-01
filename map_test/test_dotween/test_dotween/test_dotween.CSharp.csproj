@@ -101,6 +101,7 @@
     <Compile Include="Assets\Script\test_crystal.cs" />
     <Compile Include="Assets\Script\test_dotween.cs" />
     <Compile Include="Assets\Script\test_linerender.cs" />
+    <Compile Include="Assets\Script\test_lines.cs" />
     <Compile Include="Assets\Script\test_sequence.cs" />
     <Compile Include="Assets\Script\test_trail.cs" />
     <Compile Include="Assets\Script\test_value.cs" />
