@@ -58,8 +58,6 @@ public class Track{
     //save the world position
     public void getWorldPosition(Position center, float fullLat, float fullLon, GameObject objPrefab)
     {
-        float radius = objPrefab.transform.localScale.x / 2;
-
         foreach (Position position in positions)
         {
             worldPositions.Add(position2world(position,center,fullLat,fullLon,objPrefab));

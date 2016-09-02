@@ -15,14 +15,11 @@ public class Main : MonoBehaviour {
     Position lastPosition;
     VecTime WfirstPosition;
     VecTime WlastPosition;
-    MouseControllor mouseControllor;
     GameObject drawTracks;
 
     int flow = 0;
     int number = 0;
-
-    int frame = 0;
-
+    
     //for loading
     Texture2D[] anim;
     int nowFram = 0;
@@ -53,8 +50,6 @@ public class Main : MonoBehaviour {
         loadingPlane = GameObject.Find("LoadingPlane");
 
         drawers = new List<Drawer>();
-
-        mouseControllor = GameObject.Find("Main Camera").GetComponent<MouseControllor>();
         
         companions = new List<List<Drawer>>();
 

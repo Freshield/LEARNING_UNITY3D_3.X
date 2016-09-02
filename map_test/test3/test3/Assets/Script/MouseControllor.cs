@@ -5,13 +5,11 @@ using System.Collections.Generic;
 using System;
 
 public class MouseControllor : MonoBehaviour {
-    int MouseFrame = 0;
     Vector3 position;
     float speed = 0.05f;
     Vector3 cameraPosition;
     GameObject hited;
     GameObject label;
-    Main main;
 
     public int mouseFlow = 0;
 
@@ -47,9 +45,6 @@ public class MouseControllor : MonoBehaviour {
     public GameObject cylinderPrefab;
     public List<GameObject> cylinders;
     string labelText;
-    string companionText = "";
-    string targetText = "";
-    int focusNumber = 0;
 
 
     // Use this for initialization
@@ -60,8 +55,6 @@ public class MouseControllor : MonoBehaviour {
         theCamera = GameObject.Find("Main Camera");
 
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-        
-        main = GameObject.Find("Main Camera").GetComponent<Main>();
         
     }
 
