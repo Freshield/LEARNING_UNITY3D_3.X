@@ -85,7 +85,6 @@ public class MouseControllor : MonoBehaviour {
                         speed = 0.05f;
                     }
                     Camera.main.transform.position = change * speed + cameraPosition;
-                    //Debug.Log("hold left button position " + Input.mousePosition + " speed " + speed);
                 }
                 //zoom in
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -126,7 +125,7 @@ public class MouseControllor : MonoBehaviour {
                 if (Physics.Raycast(ray, out hit))
                 {
                     //for plane
-                    if (hit.collider.gameObject.name.Contains("lane"))
+                    if (hit.collider.gameObject.name.Contains("lane") || hit.collider.gameObject.name.Contains("board"))
                     {
                         if (hited != null)
                         {
@@ -150,7 +149,7 @@ public class MouseControllor : MonoBehaviour {
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         //left press to focus object
-                        if (Input.GetMouseButton(0))
+                        if (Input.GetMouseButtonUp(0))
                         {
                             mouseFlow = 1;
                             focusObj = hit.collider.gameObject;
@@ -204,7 +203,10 @@ public class MouseControllor : MonoBehaviour {
                             Vector2 angles = theCamera.transform.eulerAngles;
                             x = angles.y;
                             y = angles.x;
-                            
+
+                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
+                            focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+
                             if (GetComponent<Rigidbody>())
                             {
                                 GetComponent<Rigidbody>().freezeRotation = true;
@@ -290,7 +292,7 @@ public class MouseControllor : MonoBehaviour {
                         hited = hit.collider.gameObject;
                         
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
-                        if (Input.GetMouseButton(0))
+                        if (Input.GetMouseButtonUp(0))
                         {
                             mouseFlow = 1;
                             
