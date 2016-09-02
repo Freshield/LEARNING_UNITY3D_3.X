@@ -78,10 +78,10 @@ public class Main : MonoBehaviour {
             case 0:
                 //get location
                 tracks = Track.LoadFile(Application.streamingAssetsPath, "new_data.txt");
-                flow = 20;
+                flow = 1;
                 break;
 
-            case 20:
+            case 1:
                 //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
@@ -90,10 +90,10 @@ public class Main : MonoBehaviour {
                 //release
                 Array.Clear(result,0,result.Length);
                 result = null;
-                flow = 21;
+                flow = 2;
                 break;
 
-            case 21:
+            case 2:
                 //get map
                 map = GameObject.Find("Directional light").GetComponent<Map>();
                 map.Refresh(center);
@@ -101,16 +101,16 @@ public class Main : MonoBehaviour {
                 {
                     StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                 }
-                flow = 1;
+                flow = 3;
                 break;
 
-            case 1:
+            case 3:
                 //generate the world position for each track
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
-                flow = 22;
+                flow = 4;
                 break;
 
-            case 22:
+            case 4:
                 //transfer first and last position to world position
                 WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
                 WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
@@ -121,10 +121,10 @@ public class Main : MonoBehaviour {
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
 
-                flow = 2;
+                flow = 5;
                 break;
 
-            case 2:
+            case 5:
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
                 {
@@ -167,7 +167,7 @@ public class Main : MonoBehaviour {
                     tracks.Clear();
                     tracks = null;
 
-                    flow = 3;
+                    flow = 6;
                     //back number
                     number = 0;
                     GC.Collect();
@@ -175,23 +175,23 @@ public class Main : MonoBehaviour {
                 break;
 
             //create plane
-            case 3:
+            case 6:
 
                 for (int i = 0; i < map.planes.Length; i++)
                 {
                     GameObject plane = GameObject.Find("plane" + i);
                     if (plane.GetComponent<Renderer>().material.mainTexture != null)
                     {
-                        flow = 4;
+                        flow = 7;
                     }
                     else
                     {
-                        flow = 3;
+                        flow = 6;
                         StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                         break;
                     }
                 }
-                if (flow == 4)
+                if (flow == 7)
                 {
                     //clean loading
                     isLoading = false;
@@ -203,7 +203,7 @@ public class Main : MonoBehaviour {
                     GC.Collect();
                 }
                 break;
-            case 4:
+            case 7:
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();
@@ -246,7 +246,7 @@ public class Main : MonoBehaviour {
 
     void OnGUI()
     {
-        if (flow == 4)
+        if (flow == 7)
         {
             if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
             {

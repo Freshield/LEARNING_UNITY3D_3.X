@@ -12,7 +12,7 @@ public class MouseControllor : MonoBehaviour {
     GameObject label;
     Main main;
 
-    public int button = 0;
+    public int mouseFlow = 0;
 
     int cameraButton = 0;
 
@@ -61,17 +61,14 @@ public class MouseControllor : MonoBehaviour {
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
         
         main = GameObject.Find("Main Camera").GetComponent<Main>();
-
-        cylinders = new List<GameObject>();
-
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        switch (button)
+        switch (mouseFlow)
         {
             case 0:
                 
@@ -171,7 +168,7 @@ public class MouseControllor : MonoBehaviour {
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButton(0))
                         {
-                            button = 1;
+                            mouseFlow = 1;
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
                         }
@@ -226,7 +223,7 @@ public class MouseControllor : MonoBehaviour {
 
                             //distance = Vector3.Distance(target.position,transform.position);
                             distance = (theCamera.transform.position - focusObj.transform.position).magnitude;
-                            button = 2;
+                            mouseFlow = 2;
                             cameraButton = 0;
                         }
                         break;
@@ -318,7 +315,7 @@ public class MouseControllor : MonoBehaviour {
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButton(0))
                         {
-                            button = 1;
+                            mouseFlow = 1;
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
