@@ -89,7 +89,7 @@ public class Track{
     //transfer position to world position
     public static VecTime position2world(Position position, Position center, float fullLat, float fullLon, GameObject objPrefab)
     {
-        float radius = objPrefab.transform.localScale.x / 2;
+        float radius = objPrefab.transform.localScale.x;
         float x = (position.lontitute - center.lontitute) * 10 / fullLon;
         float z = (position.latitute - center.latitute) * 10 / fullLat;
         VecTime temp = new VecTime(new Vector3(-x, radius, -z), new PTime(position.time.totalTime));

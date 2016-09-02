@@ -85,7 +85,7 @@ public class Drawer{
         while (count > 0)
         {
             tweener.Goto(count);
-            positions.Add(myPosition);
+            positions.Add(myPosition - new Vector3(0,0.48f,0));
             count -= 0.03f;
         }
         tweener.Goto(timeNow);

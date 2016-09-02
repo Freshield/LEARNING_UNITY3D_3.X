@@ -100,6 +100,7 @@
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
     <Compile Include="Assets\Script\CoordinatorChange.cs" />
     <Compile Include="Assets\Script\Drawer.cs" />
+    <Compile Include="Assets\Script\Lookat.cs" />
     <Compile Include="Assets\Script\Main.cs" />
     <Compile Include="Assets\Script\Map.cs" />
     <Compile Include="Assets\Script\MouseControllor.cs" />

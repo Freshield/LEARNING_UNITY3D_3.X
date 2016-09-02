@@ -130,8 +130,7 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null)
                         {
-                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
-                            hited.GetComponent<LineRenderer>().material.SetFloat("_Outline", 0.00f);
+                           
                         }
                         label.GetComponent<Text>().text = "";
 
@@ -141,9 +140,7 @@ public class MouseControllor : MonoBehaviour {
 
                         if (hited != null)
                         {
-                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
-                            hited.GetComponent<LineRenderer>().material.SetFloat("_Outline", 0.00f);
-
+                            
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = "";
@@ -151,8 +148,6 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.005f);
-                        hited.GetComponent<LineRenderer>().material.SetFloat("_Outline", 0.005f);
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         //left press to focus object
                         if (Input.GetMouseButton(0))
@@ -276,7 +271,7 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+                           
                         }
                         label.GetComponent<Text>().text = focusObjName;
 
@@ -285,7 +280,7 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                            hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+                            
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = focusObjName;
@@ -293,12 +288,12 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        hited.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.005f);
+                        
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButton(0))
                         {
                             mouseFlow = 1;
-                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_Outline", 0.00f);
+                            
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
                         }
