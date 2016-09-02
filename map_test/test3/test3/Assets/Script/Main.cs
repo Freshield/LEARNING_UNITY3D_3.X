@@ -125,6 +125,8 @@ public class Main : MonoBehaviour {
                 {
                     GameObject obj = Instantiate(objPrefab);
                     obj.name = getTrack.name;
+                    obj.transform.FindChild("board").transform.FindChild("ID").GetComponent<TextMesh>().text = obj.name;
+
                     Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
                     drawer.obj.transform.parent = drawTracks.transform;

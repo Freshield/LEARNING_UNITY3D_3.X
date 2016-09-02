@@ -36,6 +36,7 @@ public class MouseControllor : MonoBehaviour {
     RaycastHit hit;
     string focusObjName;
     GameObject focusObj;
+    ParticleSystem focusParticle;
 
     //for companion
     public int companionNumber;
@@ -55,6 +56,9 @@ public class MouseControllor : MonoBehaviour {
         theCamera = GameObject.Find("Main Camera");
 
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+
+        focusParticle = new ParticleSystem();
+
         
     }
 
@@ -124,12 +128,13 @@ public class MouseControllor : MonoBehaviour {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
                 {
+                    
                     //for plane
                     if (hit.collider.gameObject.name.Contains("lane") || hit.collider.gameObject.name.Contains("board"))
                     {
                         if (hited != null)
                         {
-                           
+                            hited.GetComponent<ParticleSystem>().enableEmission = false;
                         }
                         label.GetComponent<Text>().text = "";
 
@@ -139,7 +144,7 @@ public class MouseControllor : MonoBehaviour {
 
                         if (hited != null)
                         {
-                            
+                            hited.GetComponent<ParticleSystem>().enableEmission = false;
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = "";
@@ -147,6 +152,7 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
+                        hited.GetComponent<ParticleSystem>().enableEmission = true;
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         //left press to focus object
                         if (Input.GetMouseButtonUp(0))
@@ -206,6 +212,8 @@ public class MouseControllor : MonoBehaviour {
 
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
                             focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+                            focusObj.GetComponent<ParticleSystem>().enableEmission = false;
+                            hited.GetComponent<ParticleSystem>().enableEmission = false;
 
                             if (GetComponent<Rigidbody>())
                             {
@@ -273,7 +281,11 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                           
+                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                        }
+                        else
+                        {
+                            focusObj.GetComponent<ParticleSystem>().enableEmission = false;
                         }
                         label.GetComponent<Text>().text = focusObjName;
 
@@ -282,7 +294,7 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                            
+                            hited.GetComponent<ParticleSystem>().enableEmission = false;
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = focusObjName;
@@ -290,14 +302,18 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        
+                        hited.GetComponent<ParticleSystem>().enableEmission = true;
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButtonUp(0))
                         {
                             mouseFlow = 1;
-                            
+
+                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
+                            focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
+
+                            
                         }
                     }
                 }
