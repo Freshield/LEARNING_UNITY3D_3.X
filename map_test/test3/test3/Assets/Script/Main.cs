@@ -65,6 +65,7 @@ public class Main : MonoBehaviour {
         }
 
         drawTracks = new GameObject("drawTracks");
+
     }
 
     // Update is called once per frame
@@ -77,16 +78,22 @@ public class Main : MonoBehaviour {
             case 0:
                 //get location
                 tracks = Track.LoadFile(Application.streamingAssetsPath, "new_data.txt");
+                flow = 20;
+                break;
 
+            case 20:
                 //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
                 firstPosition = result[1];
                 lastPosition = result[2];
-                //clean
+                //release
                 Array.Clear(result,0,result.Length);
                 result = null;
+                flow = 21;
+                break;
 
+            case 21:
                 //get map
                 map = GameObject.Find("Directional light").GetComponent<Map>();
                 map.Refresh(center);
@@ -94,10 +101,16 @@ public class Main : MonoBehaviour {
                 {
                     StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                 }
+                flow = 1;
+                break;
 
+            case 1:
                 //generate the world position for each track
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
+                flow = 22;
+                break;
 
+            case 22:
                 //transfer first and last position to world position
                 WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
                 WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
@@ -141,7 +154,13 @@ public class Main : MonoBehaviour {
                     //release
                     drawer = null;
                 }
+                
                 number++;
+
+                //release
+                getTrack.clearTrack();
+                getTrack = null;
+
                 if (number == tracks.Count)
                 {
                     //release
@@ -149,11 +168,10 @@ public class Main : MonoBehaviour {
                     tracks = null;
 
                     flow = 3;
+                    //back number
                     number = 0;
                     GC.Collect();
                 }
-                //release
-                getTrack = null;
                 break;
 
             //create plane
@@ -216,12 +234,7 @@ public class Main : MonoBehaviour {
                     wholeTime.Pause();
                     foreach (Drawer drawer in drawers)
                     {
-                        
-                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime && hSliderValue < drawer.WlastPosition.time.totalTime)
-                        {
-                            drawer.tweener.Pause();
-                        }
-
+                       drawer.tweener.Pause();
                     }
                 }
                 break;
@@ -274,7 +287,10 @@ public class Main : MonoBehaviour {
                         if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(0, false);
-                            drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                            if (drawer.isCompanion)
+                            {
+                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+                            }
                         }
                         else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
