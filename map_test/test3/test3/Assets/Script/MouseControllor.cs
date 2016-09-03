@@ -36,7 +36,6 @@ public class MouseControllor : MonoBehaviour {
     RaycastHit hit;
     string focusObjName;
     GameObject focusObj;
-    ParticleSystem focusParticle;
 
     //for companion
     public int companionNumber;
@@ -56,8 +55,7 @@ public class MouseControllor : MonoBehaviour {
         theCamera = GameObject.Find("Main Camera");
 
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-
-        focusParticle = new ParticleSystem();
+        
 
         
     }

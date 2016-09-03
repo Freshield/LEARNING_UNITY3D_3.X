@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 using DG.Tweening;
 
-public class Drawer{
+public class Drawer
+{
 
     //public Track track;
     public VecTime WfirstPosition;
@@ -85,8 +86,10 @@ public class Drawer{
         while (count > 0)
         {
             tweener.Goto(count);
+            //let line near the ground
             positions.Add(myPosition - new Vector3(0,0.48f,0));
-            count -= 0.03f;
+            //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s
+            count -= 0.13f;
         }
         tweener.Goto(timeNow);
         obj.transform.position = myPosition;
