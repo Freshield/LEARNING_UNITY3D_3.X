@@ -155,7 +155,7 @@ public class Main : MonoBehaviour {
                 number++;
 
                 //release
-                getTrack.clearTrack();
+                getTrack.clearSelf();
                 getTrack = null;
 
                 if (number == tracks.Count)
@@ -177,14 +177,14 @@ public class Main : MonoBehaviour {
                 for (int i = 0; i < map.planes.Length; i++)
                 {
                     GameObject plane = GameObject.Find("plane" + i);
-                    if (plane.GetComponent<Renderer>().material.mainTexture != null)
+                    if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
                     {
                         flow = 7;
                     }
                     else
                     {
                         flow = 6;
-                        StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
+                        //StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                         break;
                     }
                 }
@@ -196,6 +196,7 @@ public class Main : MonoBehaviour {
                     anim = null;
                     Destroy(loadingPlane);
                     //release map
+                    map.clearSelf();
                     map = null;
                     GC.Collect();
                 }

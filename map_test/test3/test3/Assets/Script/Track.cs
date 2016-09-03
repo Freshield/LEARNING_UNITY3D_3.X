@@ -70,7 +70,7 @@ public class Track{
     }
 
     //release the track's resources
-    public void clearTrack()
+    public void clearSelf()
     {
         name = null;
         firstPosition = null;

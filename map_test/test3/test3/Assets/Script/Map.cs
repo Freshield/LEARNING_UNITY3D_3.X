@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text;
+using System;
 
 public class Map : MonoBehaviour {
     public GameObject[] planes;
@@ -13,6 +14,14 @@ public class Map : MonoBehaviour {
     public float fullLon;
     public float fullLat;
     public Position[] points;
+
+    public void clearSelf()
+    {
+        Array.Clear(planes, 0, planes.Length);
+        planePrefab = null;
+        centerPoint = null;
+        Array.Clear(points, 0, points.Length);
+    }
     
 
     public void Refresh(Position centerPoint)
