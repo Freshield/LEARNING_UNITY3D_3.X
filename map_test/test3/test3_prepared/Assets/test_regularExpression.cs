@@ -115,6 +115,8 @@ public class test_regularExpression : MonoBehaviour {
             }
         }
 
+        Debug.Log((481 / 60) * 60);
+
 
     }
 	

@@ -29,6 +29,7 @@ public class Drawer
     //for companion
     public Dictionary<float, CPTime> companionTimes = new Dictionary<float, CPTime>();
     public List<GameObject> lineObjects = new List<GameObject>();
+    public Dictionary<int, bool> moveTimes = new Dictionary<int, bool>();
 
     //static value
     public static float playRadio = 0.5f;
@@ -78,6 +79,11 @@ public class Drawer
         int firstValue = index[0];
         int lastValue = index[0];
         CPTime temp = new CPTime();
+
+        foreach (int value in index)
+        {
+            moveTimes.Add(value, true);
+        }
 
         for (int i = 0; i <= index.Count; i++)
         {

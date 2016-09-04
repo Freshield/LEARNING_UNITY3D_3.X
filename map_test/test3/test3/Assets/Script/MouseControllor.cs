@@ -179,7 +179,7 @@ public class MouseControllor : MonoBehaviour {
                             changeTarget.Kill();
 
                             Vector3[] path = new Vector3[2];
-                            path[0] = focusObj.transform.position + new Vector3(0, 8, 14.5f);
+                            path[0] = focusObj.transform.position + new Vector3(0, 5, 8);
                             path[1] = focusObj.transform.position + new Vector3(0, 2.5f, 5);
                             
                             changeTarget = theCamera.transform.DOPath(path, 3, PathType.CatmullRom, PathMode.Full3D, 5, null).SetLookAt(focusObj.transform.position);

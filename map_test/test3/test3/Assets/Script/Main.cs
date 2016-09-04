@@ -41,6 +41,8 @@ public class Main : MonoBehaviour {
     public bool companionPrepared = false;
     public Dictionary<string, List<int>> index;
     public GameObject linePrefab;
+    public Texture2D normalTexture;
+    public Texture2D companionTexture;
 
 
     // Use this for initialization
@@ -251,6 +253,19 @@ public class Main : MonoBehaviour {
                             drawer.obj.SetActive(false);
                         }
 
+                        //for companion
+                        if (drawer.isCompanion)
+                        {
+                            if (drawer.moveTimes.ContainsKey(((int)hSliderValue/60)))
+                            {
+                                drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
+                            }
+                            else
+                            {
+                                drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
+                            }
+                        }
+
                     }
                 }
                 break;
@@ -324,6 +339,19 @@ public class Main : MonoBehaviour {
                             drawer.obj.SetActive(false);
                             
                         }
+                        //for companion
+                        if (drawer.isCompanion)
+                        {
+                            if (drawer.moveTimes.ContainsKey(((int)hSliderValue / 60)))
+                            {
+                                drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
+                            }
+                            else
+                            {
+                                drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
+                            }
+                        }
+
                         drawer.obj.transform.position = drawer.myPosition;
                         drawer.drawLine(isPlaying);
                     }
