@@ -39,6 +39,7 @@ public class Main : MonoBehaviour {
     //for companion
     public List<List<Drawer>> companions;
     public bool companionPrepared = false;
+    public Dictionary<string, List<int>> index;
 
 
     // Use this for initialization
@@ -61,6 +62,8 @@ public class Main : MonoBehaviour {
 
         drawTracks = new GameObject("drawTracks");
 
+        index = new Dictionary<string, List<int>>();
+
     }
 
     // Update is called once per frame
@@ -73,6 +76,21 @@ public class Main : MonoBehaviour {
             case 0:
                 //get location
                 tracks = Track.LoadFile(Application.streamingAssetsPath, "new_data.txt");
+                flow = 233;
+                break;
+
+            case 233:
+                //get index
+                index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
+                foreach (string drawer in index.Keys)
+                {
+                    Debug.Log(drawer);
+                    index[drawer].Sort();
+                    foreach (int time in index[drawer])
+                    {
+                        Debug.Log(time);
+                    }
+                }
                 flow = 1;
                 break;
 

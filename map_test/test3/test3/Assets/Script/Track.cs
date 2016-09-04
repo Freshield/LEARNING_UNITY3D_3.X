@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 public class Track{
     public string name;
@@ -94,6 +96,75 @@ public class Track{
         float z = (position.latitute - center.latitute) * 10 / fullLat;
         VecTime temp = new VecTime(new Vector3(-x, radius, -z), new PTime(position.time.totalTime));
         return temp;
+    }
+
+    //use regular expression to read index
+    //create drawer name and companion pair
+    public static Dictionary<string,List<int>> LoadIndex(string path, string name)
+    {
+        StreamReader sr = null;
+        try
+        {
+            sr = File.OpenText(path + "//" + name);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        string line;
+
+        Dictionary<string, List<int>> companions = new Dictionary<string, List<int>>();
+
+
+        Regex regName = new Regex(@"\((.+)\[");
+        Regex regValue = new Regex(@"\[(.+)\]\)");
+        while ((line = sr.ReadLine()) != null)
+        {
+            
+            Match match = regName.Match(line);
+            string value = match.Groups[1].Value;
+            MatchCollection mc = Regex.Matches(value, @"(\d+),");
+            List<string> drawers = new List<string>();
+            foreach (Match m in mc)
+            {
+                drawers.Add("T" + m.Groups[1].Value);
+            }
+            
+            match = regValue.Match(line);
+            value = match.Groups[1].Value;
+            string[] results = value.Split(',');
+            List<int> times = new List<int>();
+            foreach (string result in results)
+            {
+                times.Add(int.Parse(result));
+            }
+            try
+            {
+                foreach (string drawer in drawers)
+                {
+                    if (!companions.ContainsKey(drawer))
+                    {
+                        companions.Add(drawer, times);
+                    }
+                    else
+                    {
+                        companions[drawer] = companions[drawer].Union(times).ToList();
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+        
+        sr.Close();
+        sr.Dispose();
+
+        return companions;
+
     }
 
     //to read file

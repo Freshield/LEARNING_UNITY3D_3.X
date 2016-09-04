@@ -98,6 +98,7 @@
     <Compile Include="Assets\Glow11\Glow11DemoScene\Scripts\ColorChangerVertex.cs" />
     <Compile Include="Assets\Glow11\Glow11DemoScene\Scripts\Set60Fps.cs" />
     <Compile Include="Assets\GoogleMaps\Scripts\GoogleMap.cs" />
+    <Compile Include="Assets\Script\CPTime.cs" />
     <Compile Include="Assets\Script\CoordinatorChange.cs" />
     <Compile Include="Assets\Script\Drawer.cs" />
     <Compile Include="Assets\Script\Lookat.cs" />
