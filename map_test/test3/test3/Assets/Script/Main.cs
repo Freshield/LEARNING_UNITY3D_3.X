@@ -40,6 +40,7 @@ public class Main : MonoBehaviour {
     public List<List<Drawer>> companions;
     public bool companionPrepared = false;
     public Dictionary<string, List<int>> index;
+    public GameObject linePrefab;
 
 
     // Use this for initialization
@@ -193,10 +194,11 @@ public class Main : MonoBehaviour {
                 foreach (Drawer drawer in drawers)
                 {
                     //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
-                    int number = drawer.getObjectNumber();
+                    int lineNumber = drawer.getObjectNumber();
                     for (int i = 0; i < number; i++)
                     {
-
+                        GameObject lineObj = Instantiate(linePrefab);
+                        drawer.lineObjects.Add(lineObj);
                     }
                 }
                 flow = 6;
