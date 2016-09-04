@@ -43,6 +43,8 @@ public class Main : MonoBehaviour {
     public GameObject linePrefab;
     public Texture2D normalTexture;
     public Texture2D companionTexture;
+    public Material normalMaterial;
+    public Material companionMaterial;
 
     //for wait time
     float planeWaitTime = 1;
@@ -52,6 +54,7 @@ public class Main : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Drawer.normalMaterial = normalMaterial;
         anim = new List<Texture2D>();
         //prepare
         for (int i = 0; i < 12; i++)
