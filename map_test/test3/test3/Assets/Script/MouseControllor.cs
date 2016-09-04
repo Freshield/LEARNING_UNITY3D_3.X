@@ -207,7 +207,7 @@ public class MouseControllor : MonoBehaviour {
                             y = angles.x;
 
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
-                            focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+                            //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
                             focusObj.GetComponent<ParticleSystem>().enableEmission = false;
                             hited.GetComponent<ParticleSystem>().enableEmission = false;
 
@@ -305,7 +305,7 @@ public class MouseControllor : MonoBehaviour {
                             mouseFlow = 1;
 
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
-                            focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
+                            //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
 

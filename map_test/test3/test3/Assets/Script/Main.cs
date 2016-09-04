@@ -195,9 +195,11 @@ public class Main : MonoBehaviour {
                 {
                     //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
                     int lineNumber = drawer.getObjectNumber();
-                    for (int i = 0; i < number; i++)
+                    for (int i = 0; i < lineNumber; i++)
                     {
                         GameObject lineObj = Instantiate(linePrefab);
+                        lineObj.name = "line" + i;
+                        lineObj.transform.parent = drawer.obj.transform;
                         drawer.lineObjects.Add(lineObj);
                     }
                 }

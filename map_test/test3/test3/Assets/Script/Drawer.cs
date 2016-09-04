@@ -163,8 +163,8 @@ public class Drawer
             tweener.Goto(timeNow);
             obj.transform.position = myPosition;
 
-            obj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
-            obj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
+            obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetVertexCount(positions.Count);
+            obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
 
 
             button = true;
