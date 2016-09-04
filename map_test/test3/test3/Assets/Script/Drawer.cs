@@ -22,8 +22,6 @@ public class Drawer
     //the tweener controlled postion
     public Vector3 myPosition;
 
-    public bool button = true;
-
     public bool isCompanion = false;
 
     //for companion
@@ -139,18 +137,12 @@ public class Drawer
 
     public void drawLine(bool isPlaying)
     {
-        if (false)//isCompanion)
-        {
-
-        }
-        else
+        if (isCompanion)
         {
             if (isPlaying)
             {
                 tweener.Pause();
             }
-
-            button = false;
 
             float timeNow = tweener.fullPosition;
 
@@ -166,15 +158,11 @@ public class Drawer
                 //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s
                 count -= 0.13f;
             }
-            tweener.Goto(timeNow);
-            obj.transform.position = myPosition;
 
             obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetVertexCount(positions.Count);
             obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
 
-
-            button = true;
-
+            tweener.Goto(timeNow);
             if (isPlaying)
             {
                 tweener.Play();
@@ -184,9 +172,43 @@ public class Drawer
             positions.Clear();
             positions = null;
         }
-        
+        else
+        {
+            if (isPlaying)
+            {
+                tweener.Pause();
+            }
+            
+            float timeNow = tweener.fullPosition;
 
+            ArrayList positions = new ArrayList();
+
+            float count = timeNow;
+
+            while (count > 0)
+            {
+                tweener.Goto(count);
+                //let line near the ground
+                positions.Add(myPosition - new Vector3(0, 0.48f, 0));
+                //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s
+                count -= 0.13f;
+            }
+
+            obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetVertexCount(positions.Count);
+            obj.transform.FindChild("line0").GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
+
+            tweener.Goto(timeNow);
+            if (isPlaying)
+            {
+                tweener.Play();
+            }
+
+            //release
+            positions.Clear();
+            positions = null;
+        }
     }
+    
 
     //////////////////////////static function////////////////////////////
     public static float getDuration(float beginTime, float endTime)

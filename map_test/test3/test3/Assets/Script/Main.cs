@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Main : MonoBehaviour {
 
@@ -21,9 +22,8 @@ public class Main : MonoBehaviour {
     int number = 0;
     
     //for loading
-    Texture2D[] anim;
+    List<Texture2D> anim;
     int nowFram = 0;
-    int loadingCount = 0;
     bool isLoading = true;
     GameObject loadingPlane;
 
@@ -44,13 +44,21 @@ public class Main : MonoBehaviour {
     public Texture2D normalTexture;
     public Texture2D companionTexture;
 
+    //for wait time
+    float planeWaitTime = 1;
+    float loadingWaitTime = 0.1f;
+
 
     // Use this for initialization
     void Start()
     {
+        anim = new List<Texture2D>();
         //prepare
-        anim = Resources.LoadAll<Texture2D>("loading");
-        loadingCount = anim.Length;
+        for (int i = 0; i < 12; i++)
+        {
+            Texture2D temp = Resources.Load<Texture2D>("loading/loading" + i);
+            anim.Add(temp);
+        }
         loadingPlane = GameObject.Find("LoadingPlane");
 
         drawers = new List<Drawer>();
@@ -203,33 +211,38 @@ public class Main : MonoBehaviour {
 
             //create plane
             case 6:
-
-                for (int i = 0; i < map.planes.Length; i++)
+                planeWaitTime -= Time.deltaTime;
+                if (planeWaitTime < 0)
                 {
-                    GameObject plane = GameObject.Find("plane" + i);
-                    if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
+                    planeWaitTime = 1;
+                    for (int i = 0; i < map.planes.Length; i++)
                     {
-                        flow = 7;
+                        GameObject plane = GameObject.Find("plane" + i);
+                        if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
+                        {
+                            flow = 7;
+                        }
+                        else
+                        {
+                            flow = 6;
+                            StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
+                            break;
+                        }
                     }
-                    else
+                    if (flow == 7)
                     {
-                        flow = 6;
-                        //StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
-                        break;
+                        //clean loading
+                        isLoading = false;
+                        anim.Clear();
+                        anim = null;
+                        Destroy(loadingPlane);
+                        //release map
+                        map.clearSelf();
+                        map = null;
+                        GC.Collect();
                     }
                 }
-                if (flow == 7)
-                {
-                    //clean loading
-                    isLoading = false;
-                    Array.Clear(anim, 0, anim.Length);
-                    anim = null;
-                    Destroy(loadingPlane);
-                    //release map
-                    map.clearSelf();
-                    map = null;
-                    GC.Collect();
-                }
+                
                 break;
             case 7:
                 if (isPlaying)
@@ -332,6 +345,8 @@ public class Main : MonoBehaviour {
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
                             drawer.obj.SetActive(true);
+                            drawer.drawLine(isPlaying);
+                            drawer.obj.transform.position = drawer.myPosition;
                         }
                         else
                         {
@@ -350,10 +365,10 @@ public class Main : MonoBehaviour {
                             {
                                 drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
                             }
+                            
                         }
 
-                        drawer.obj.transform.position = drawer.myPosition;
-                        drawer.drawLine(isPlaying);
+                        
                     }
                 }
             }
@@ -364,12 +379,18 @@ public class Main : MonoBehaviour {
     {
         if (isLoading)
         {
-            loadingPlane.GetComponent<Renderer>().material.mainTexture = anim[nowFram];
-            nowFram++;
-            if (nowFram >= loadingCount)
+            loadingWaitTime -= Time.deltaTime;
+            if (loadingWaitTime < 0)
             {
-                nowFram = 0;
+                loadingWaitTime = 0.1f;
+                loadingPlane.GetComponent<Renderer>().material.mainTexture = anim[nowFram];
+                nowFram++;
+                if (nowFram >= anim.Count)
+                {
+                    nowFram = 0;
+                }
             }
         }
     }
+    
 }
