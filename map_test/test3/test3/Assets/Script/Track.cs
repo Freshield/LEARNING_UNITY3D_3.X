@@ -163,6 +163,11 @@ public class Track{
         sr.Close();
         sr.Dispose();
 
+        foreach (string drawer in companions.Keys)
+        {
+            companions[drawer].Sort();
+        }
+
         return companions;
 
     }

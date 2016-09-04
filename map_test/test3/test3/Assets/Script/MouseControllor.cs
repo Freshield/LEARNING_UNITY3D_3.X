@@ -56,8 +56,6 @@ public class MouseControllor : MonoBehaviour {
 
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
         
-
-        
     }
 
     // Update is called once per frame

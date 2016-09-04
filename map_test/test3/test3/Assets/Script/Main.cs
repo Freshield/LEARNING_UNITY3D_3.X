@@ -82,16 +82,15 @@ public class Main : MonoBehaviour {
             case 233:
                 //get index
                 index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
+                flow = 1;
                 foreach (string drawer in index.Keys)
                 {
                     Debug.Log(drawer);
-                    index[drawer].Sort();
                     foreach (int time in index[drawer])
                     {
                         Debug.Log(time);
                     }
                 }
-                flow = 1;
                 break;
 
             case 1:
@@ -149,23 +148,6 @@ public class Main : MonoBehaviour {
                     drawers.Add(drawer);
                     drawer.obj.transform.parent = drawTracks.transform;
                     
-                    //new version
-                    if (drawer.obj.name.Contains("6602") || drawer.obj.name.Contains("9789") || drawer.obj.name.Contains("14914"))
-                    {
-                        drawer.isCompanion = true;
-                        companions[0].Add(drawer);
-                    }
-                    else if (drawer.obj.name.Contains("7459") || drawer.obj.name.Contains("7585"))
-                    {
-                        drawer.isCompanion = true;
-                        companions[1].Add(drawer);
-                    }
-                    else if (drawer.obj.name.Contains("13423") || drawer.obj.name.Contains("13426"))
-                    {
-                        drawer.isCompanion = true;
-                        companions[2].Add(drawer);
-                    }
-
                     //release
                     drawer = null;
                 }
@@ -182,11 +164,42 @@ public class Main : MonoBehaviour {
                     tracks.Clear();
                     tracks = null;
 
-                    flow = 6;
+                    flow = 82;
                     //back number
                     number = 0;
                     GC.Collect();
                 }
+                break;
+
+            case 82:
+                foreach (Drawer drawer in drawers)
+                {
+                    if (index.ContainsKey(drawer.obj.name))
+                    {
+                        //Debug.Log(drawer.obj.name);
+                        drawer.getCompanionTimes(index[drawer.obj.name]);
+                        drawer.isCompanion = true;
+                        
+                        //foreach (float time in drawer.companionTimes.Keys)
+                        //{
+                        //    Debug.Log(time);
+                        //}
+                    }
+                }
+                flow = 83;
+                break;
+
+            case 83:
+                foreach (Drawer drawer in drawers)
+                {
+                    //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
+                    int number = drawer.getObjectNumber();
+                    for (int i = 0; i < number; i++)
+                    {
+
+                    }
+                }
+                flow = 6;
                 break;
 
             //create plane
@@ -229,18 +242,10 @@ public class Main : MonoBehaviour {
                         {
                             drawer.tweener.PlayForward();
                             drawer.drawLine(isPlaying);
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f/255f, 1, 1));
-                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
-                            }
                         }
                         if (hSliderValue >= drawer.WlastPosition.time.totalTime)
                         {
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-                            }
+                            
                         }
 
                     }
@@ -303,27 +308,17 @@ public class Main : MonoBehaviour {
                         if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(0, false);
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-                            }
+                            
                         }
                         else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0, 234f / 255f, 1, 1));
-                                drawer.obj.GetComponent<LineRenderer>().material.SetColor("_OutlineColor", new Color(0, 234f / 255f, 1, 1));
-                            }
+                            
                         }
                         else
                         {
                             drawer.tweener.Goto(drawer.duration, false);
-                            if (drawer.isCompanion)
-                            {
-                                drawer.obj.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-                            }
+                            
                         }
                         drawer.drawLine(isPlaying);
                     }
