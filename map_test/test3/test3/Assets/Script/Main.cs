@@ -84,14 +84,6 @@ public class Main : MonoBehaviour {
                 //get index
                 index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
                 flow = 1;
-                foreach (string drawer in index.Keys)
-                {
-                    Debug.Log(drawer);
-                    foreach (int time in index[drawer])
-                    {
-                        Debug.Log(time);
-                    }
-                }
                 break;
 
             case 1:
@@ -142,6 +134,7 @@ public class Main : MonoBehaviour {
                 if (getTrack.positions.Count > 0)
                 {
                     GameObject obj = Instantiate(objPrefab);
+                    obj.SetActive(false);
                     obj.name = getTrack.name;
                     obj.transform.FindChild("board").transform.FindChild("ID").GetComponent<TextMesh>().text = obj.name;
 
@@ -242,24 +235,22 @@ public class Main : MonoBehaviour {
                     wholeTime.PlayForward();
                     foreach (Drawer drawer in drawers)
                     {
-                        if (hSliderValue >= drawer.WfirstPosition.time.totalTime)
+                        if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                         {
+                            drawer.obj.SetActive(false);
+                        }
+                        else if (hSliderValue < drawer.WlastPosition.time.totalTime)
+                        {
+                            drawer.obj.SetActive(true);
                             drawer.tweener.PlayForward();
+                            drawer.obj.transform.position = drawer.myPosition;
                             drawer.drawLine(isPlaying);
                         }
-                        if (hSliderValue >= drawer.WlastPosition.time.totalTime)
+                        else
                         {
-                            
+                            drawer.obj.SetActive(false);
                         }
 
-                    }
-                }
-                if (isPause)
-                {
-                    wholeTime.Pause();
-                    foreach (Drawer drawer in drawers)
-                    {
-                       drawer.tweener.Pause();
                     }
                 }
                 break;
@@ -288,6 +279,13 @@ public class Main : MonoBehaviour {
             {
                 isPause = true;
                 isPlaying = false;
+
+                wholeTime.Pause();
+                foreach (Drawer drawer in drawers)
+                {
+                    drawer.tweener.Pause();
+                    drawer.obj.transform.position = drawer.myPosition;
+                }
             }
 
             if (isPlaying)
@@ -312,18 +310,21 @@ public class Main : MonoBehaviour {
                         if (hSliderValue < drawer.WfirstPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(0, false);
+                            drawer.obj.SetActive(false);
                             
                         }
                         else if (hSliderValue < drawer.WlastPosition.time.totalTime)
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
-                            
+                            drawer.obj.SetActive(true);
                         }
                         else
                         {
                             drawer.tweener.Goto(drawer.duration, false);
+                            drawer.obj.SetActive(false);
                             
                         }
+                        drawer.obj.transform.position = drawer.myPosition;
                         drawer.drawLine(isPlaying);
                     }
                 }

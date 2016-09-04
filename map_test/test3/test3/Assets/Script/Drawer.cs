@@ -133,7 +133,7 @@ public class Drawer
 
     public void drawLine(bool isPlaying)
     {
-        if (isCompanion)
+        if (false)//isCompanion)
         {
 
         }
