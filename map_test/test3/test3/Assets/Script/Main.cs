@@ -55,6 +55,7 @@ public class Main : MonoBehaviour {
     void Start()
     {
         Drawer.normalMaterial = normalMaterial;
+        Drawer.companionMaterial = companionMaterial;
         anim = new List<Texture2D>();
         //prepare
         for (int i = 0; i < 12; i++)

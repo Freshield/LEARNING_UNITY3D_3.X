@@ -143,8 +143,9 @@ public class Drawer
 
     public void drawLine(bool isPlaying)
     {
-        if (false)
+        if (isCompanion)
         {
+            
             if(isPlaying)
             {
                 tweener.Pause();
@@ -154,70 +155,81 @@ public class Drawer
 
             //get the time now
             float timeNow = tweener.fullPosition;
+            //change to worldTime
+            float worldTimeNow = timeNow2worldTime(timeNow, WfirstPosition.time.totalTime);
             //get how many companion before time now
-            int numberOfCompanionBefore = getNumberOfCompanionBefore(timeNow);
+            int numberOfCompanionBefore = getNumberOfCompanionBefore(worldTimeNow);
             //temp save positions
             ArrayList positions = new ArrayList();
             //if do not have companion before
             if (numberOfCompanionBefore == 0)
             {
-                drawOneLine(obj.transform.FindChild("line0").gameObject, normalMaterial, 0, timeNow);
+                drawOneLine(obj.transform.FindChild("line0").gameObject, normalMaterial, WfirstPosition.time.totalTime, worldTimeNow);
                 
             }
             else
             {
                 int lineNumber = 0;
-                for (int i = 0; i < numberOfCompanionBefore; i++)
+                //if only have one companion
+                if (numberOfCompanionBefore == 1)
                 {
-                    //for the first companion
-                    if (i == 0)
+                    
+                    //if timenow bigger than the only companion's endtime
+                    if (worldTimeNow > listCompanionTimes[0].endTime)
                     {
-                        //if only have one companion
-                        if (numberOfCompanionBefore == 1)
+                        
+                        if (WfirstPosition.time.totalTime == listCompanionTimes[0].beginTime)
                         {
-                            //if timenow bigger than the only companion's endtime
-                            if (timeNow > companionTimes.First().Value.endTime)
-                            {
-                                if (WfirstPosition.time.totalTime == companionTimes.First().Key)
-                                {
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, companionTimes.First().Key, companionTimes.First().Value.endTime);
-                                    lineNumber++;
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, companionTimes.First().Value.endTime, timeNow);
-                                    lineNumber++;
-                                }
-                                else
-                                {
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, companionTimes.First().Key);
-                                    lineNumber++;
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, companionTimes.First().Key, companionTimes.First().Value.endTime);
-                                    lineNumber++;
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, companionTimes.First().Value.endTime, timeNow);
-                                    lineNumber++;
-                                }
-                            }//if in the only companion time
-                            else
-                            {
-                                if (WfirstPosition.time.totalTime == companionTimes.First().Key)
-                                {
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, companionTimes.First().Key, timeNow);
-                                    lineNumber++;
-                                }
-                                else
-                                {
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, companionTimes.First().Key);
-                                    lineNumber++;
-                                    drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, companionTimes.First().Key, timeNow);
-                                    lineNumber++;
-                                }
-                            }
-                            
-                        }//if companion number bigger than one
+                            Debug.Log(obj.name + " 1 ");
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
+                            lineNumber++;
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[0].endTime, worldTimeNow);
+                            lineNumber++;
+                        }
                         else
                         {
+                            Debug.Log(obj.name + " 2 ");
                             
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, listCompanionTimes[0].beginTime);
+                            lineNumber++;
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
+                            lineNumber++;
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[0].endTime, worldTimeNow);
+                            lineNumber++;
+                        }
+                    }//if in the only companion time
+                    else
+                    {
+                        if (WfirstPosition.time.totalTime == listCompanionTimes[0].beginTime)
+                        {
+                            Debug.Log(obj.name + " 3 ");
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, worldTimeNow);
+                            lineNumber++;
+                        }
+                        else
+                        {
+                            Debug.Log(obj.name + " 4 ");
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, listCompanionTimes[0].beginTime);
+                            lineNumber++;
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, worldTimeNow);
+                            lineNumber++;
+                        }
+                    }
+                }//if companion number bigger than one
+                else
+                {
+                    Debug.Log(obj.name + " 5 ");
+                    
+
+                    for (int i = 0; i < numberOfCompanionBefore; i++)
+                    {
+                        if (i == 0)
+                        {
                             if (WfirstPosition.time.totalTime == companionTimes.First().Key)
                             {
                                 drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
+                                lineNumber++;
+                                drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[0].endTime, listCompanionTimes[1].beginTime);
                                 lineNumber++;
                             }
                             else
@@ -226,25 +238,46 @@ public class Drawer
                                 lineNumber++;
                                 drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
                                 lineNumber++;
+                                drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[0].endTime, listCompanionTimes[1].beginTime);
+                                lineNumber++;
                             }
                         }
-                        
+                        else if (i != (numberOfCompanionBefore - 1))
+                        {
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[i].beginTime, listCompanionTimes[i].endTime);
+                            lineNumber++;
+                            drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[i].endTime, listCompanionTimes[i + 1].beginTime);
+                            lineNumber++;
+                        }
+                        else
+                        {
+                            Debug.Log(obj.name + " 6 ");
+                            Debug.Log(obj.name + " " + worldTimeNow + ":" + ":" + listCompanionTimes[i].beginTime + ":" + listCompanionTimes[i].endTime + ":" + WfirstPosition.time.totalTime);
+                            //if timenow bigger then the endtime
+                            if (worldTimeNow > listCompanionTimes[i].endTime)
+                            {
+                                drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[i].beginTime, listCompanionTimes[i].endTime);
+                                lineNumber++;
+                                drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[i].endTime, worldTimeNow);
+                                lineNumber++;
+                            }
+                            else
+                            {
+                                drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[i].beginTime, worldTimeNow);
+                                lineNumber++;
+                            }
+                        }
                     }
                     
                 }
             }
             
             ////////////////////////drawline part///////////////////////////////
-
-            tweener.Goto(timeNow);
+            
             if (isPlaying)
             {
                 tweener.Play();
             }
-
-            //release
-            positions.Clear();
-            positions = null;
         }
         else
         {
@@ -254,8 +287,9 @@ public class Drawer
             }
             
             float timeNow = tweener.fullPosition;
+            float worldTimeNow = timeNow2worldTime(timeNow, WfirstPosition.time.totalTime);
 
-            drawOneLine(obj.transform.FindChild("line0").gameObject, normalMaterial, WfirstPosition.time.totalTime, timeNow);
+            drawOneLine(obj.transform.FindChild("line0").gameObject, normalMaterial, WfirstPosition.time.totalTime, worldTimeNow);
             
             if (isPlaying)
             {
@@ -264,38 +298,43 @@ public class Drawer
         }
     }
 
+    //only use the absolute time
     public void drawOneLine(GameObject lineObj, Material material, float beginTime, float endTime)
     {
         ArrayList positions = new ArrayList();
 
-        float count = endTime;
+        float realBeginTime = getDuration(WfirstPosition.time.totalTime, beginTime);
+        float realEndTime = getDuration(WfirstPosition.time.totalTime, endTime);
 
-        float trueBeginTime = beginTime - WfirstPosition.time.totalTime;
-
-        while (count > trueBeginTime)
+        float count = realEndTime;
+        
+        while (count > realBeginTime)
         {
             tweener.Goto(count);
             //let line near the ground
             positions.Add(myPosition - new Vector3(0, 0.48f, 0));
-            //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s
+            //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s, 4 minute equal 4 points
             count -= 0.13f;
         }
+        //clean linerenderer
+        lineObj.GetComponent<LineRenderer>().SetVertexCount(0);
+
         lineObj.GetComponent<LineRenderer>().material = material;
         lineObj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
         lineObj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));
 
+        tweener.Goto(realEndTime);
         //release
         positions.Clear();
         positions = null;
-        tweener.Goto(endTime);
     }
 
     public int getNumberOfCompanionBefore(float totaltime)
     {
         int number = 0;
-        foreach (float key in companionTimes.Keys)
+        foreach (CPTime time in listCompanionTimes)
         {
-            if (totaltime > key)
+            if (totaltime > time.beginTime)
             {
                 number++;
             }
@@ -309,4 +348,10 @@ public class Drawer
     {
         return (endTime - beginTime) / (60.0f * playRadio);
     }
+
+    public static float timeNow2worldTime(float timeNow, float beginTime)
+    {
+        return (timeNow * 60.0f * playRadio) + beginTime;
+    }
+    
 }
