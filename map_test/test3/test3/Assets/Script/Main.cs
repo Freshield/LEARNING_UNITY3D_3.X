@@ -44,6 +44,8 @@ public class Main : MonoBehaviour {
     public Texture2D companionTexture;
     public Material normalMaterial;
     public Material companionMaterial;
+    public Material focusNormalMaterial;
+    public Material focusCompanionMaterial;
 
     //for wait time
     float planeWaitTime = 1;
@@ -55,6 +57,8 @@ public class Main : MonoBehaviour {
     {
         Drawer.normalMaterial = normalMaterial;
         Drawer.companionMaterial = companionMaterial;
+        Drawer.focusNormalMaterial = focusNormalMaterial;
+        Drawer.focusCompanionMaterial = focusCompanionMaterial;
         anim = new List<Texture2D>();
         //prepare
         for (int i = 0; i < 12; i++)
