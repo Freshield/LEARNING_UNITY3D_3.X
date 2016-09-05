@@ -133,7 +133,8 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null)
                         {
-                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                         label.GetComponent<Text>().text = "";
 
@@ -143,7 +144,8 @@ public class MouseControllor : MonoBehaviour {
 
                         if (hited != null)
                         {
-                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = "";
@@ -151,7 +153,8 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        hited.GetComponent<ParticleSystem>().enableEmission = true;
+                        var em = hited.GetComponent<ParticleSystem>().emission;
+                        em.enabled = true;
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         //left press to focus object
                         if (Input.GetMouseButtonUp(0))
@@ -219,9 +222,10 @@ public class MouseControllor : MonoBehaviour {
                             }
                             temp.isFocus = true;
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
-                            //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
-                            focusObj.GetComponent<ParticleSystem>().enableEmission = false;
-                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
+                            em = focusObj.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
 
                             if (GetComponent<Rigidbody>())
                             {
@@ -289,11 +293,13 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                         else
                         {
-                            focusObj.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = focusObj.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                         label.GetComponent<Text>().text = focusObjName;
 
@@ -302,7 +308,8 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (hited != null && hited != focusObj)
                         {
-                            hited.GetComponent<ParticleSystem>().enableEmission = false;
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                         hited = hit.collider.gameObject;
                         label.GetComponent<Text>().text = focusObjName;
@@ -310,7 +317,8 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        hited.GetComponent<ParticleSystem>().enableEmission = true;
+                        var em = hited.GetComponent<ParticleSystem>().emission;
+                        em.enabled = true;
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButtonUp(0))
                         {

@@ -32,7 +32,6 @@ public class Main : MonoBehaviour {
     public float hSliderValue = 0;
     public float duration = 0;
     bool isPlaying = false;
-    bool isPause = true;
     Tweener wholeTime;
     List<GameObject> objs;
     
@@ -91,16 +90,16 @@ public class Main : MonoBehaviour {
             case 0:
                 //get location
                 tracks = Track.LoadFile(Application.streamingAssetsPath, "new_data.txt");
-                flow = 233;
-                break;
-
-            case 233:
-                //get index
-                index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
                 flow = 1;
                 break;
 
             case 1:
+                //get index
+                index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
+                flow = 2;
+                break;
+
+            case 2:
                 //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
@@ -109,10 +108,10 @@ public class Main : MonoBehaviour {
                 //release
                 Array.Clear(result,0,result.Length);
                 result = null;
-                flow = 2;
+                flow = 3;
                 break;
 
-            case 2:
+            case 3:
                 //get map
                 map = GameObject.Find("Directional light").GetComponent<Map>();
                 map.Refresh(center);
@@ -120,16 +119,16 @@ public class Main : MonoBehaviour {
                 {
                     StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                 }
-                flow = 3;
-                break;
-
-            case 3:
-                //generate the world position for each track
-                Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
                 flow = 4;
                 break;
 
             case 4:
+                //generate the world position for each track
+                Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
+                flow = 5;
+                break;
+
+            case 5:
                 //transfer first and last position to world position
                 WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
                 WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
@@ -140,10 +139,10 @@ public class Main : MonoBehaviour {
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
 
-                flow = 5;
+                flow = 6;
                 break;
 
-            case 5:
+            case 6:
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
                 {
@@ -172,32 +171,26 @@ public class Main : MonoBehaviour {
                     tracks.Clear();
                     tracks = null;
 
-                    flow = 82;
+                    flow = 7;
                     //back number
                     number = 0;
                     GC.Collect();
                 }
                 break;
 
-            case 82:
+            case 7:
                 foreach (Drawer drawer in drawers)
                 {
                     if (index.ContainsKey(drawer.obj.name))
                     {
-                        //Debug.Log(drawer.obj.name);
                         drawer.getCompanionTimes(index[drawer.obj.name]);
                         drawer.isCompanion = true;
-                        
-                        //foreach (float time in drawer.companionTimes.Keys)
-                        //{
-                        //    Debug.Log(time);
-                        //}
                     }
                 }
-                flow = 83;
+                flow = 8;
                 break;
 
-            case 83:
+            case 8:
                 foreach (Drawer drawer in drawers)
                 {
                     //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
@@ -210,11 +203,11 @@ public class Main : MonoBehaviour {
                         drawer.lineObjects.Add(lineObj);
                     }
                 }
-                flow = 6;
+                flow = 9;
                 break;
 
             //create plane
-            case 6:
+            case 9:
                 planeWaitTime -= Time.deltaTime;
                 if (planeWaitTime < 0)
                 {
@@ -224,16 +217,16 @@ public class Main : MonoBehaviour {
                         GameObject plane = GameObject.Find("plane" + i);
                         if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
                         {
-                            flow = 7;
+                            flow = 10;
                         }
                         else
                         {
-                            flow = 6;
+                            flow = 9;
                             StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                             break;
                         }
                     }
-                    if (flow == 7)
+                    if (flow == 10)
                     {
                         //clean loading
                         isLoading = false;
@@ -248,7 +241,7 @@ public class Main : MonoBehaviour {
                 }
                 
                 break;
-            case 7:
+            case 10:
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();
@@ -311,7 +304,7 @@ public class Main : MonoBehaviour {
 
     void OnGUI()
     {
-        if (flow == 7)
+        if (flow == 10)
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -329,12 +322,10 @@ public class Main : MonoBehaviour {
             if (GUILayout.Button("play", GUILayout.Height(50)))
             {
                 isPlaying = true;
-                isPause = false;
             }
 
             if (GUILayout.Button("pause", GUILayout.Height(50)))
             {
-                isPause = true;
                 isPlaying = false;
 
                 wholeTime.Pause();
@@ -358,7 +349,6 @@ public class Main : MonoBehaviour {
                 
                 if (hSliderValue == WlastPosition.time.totalTime)
                 {
-                    isPause = true;
                     isPlaying = false;
                 }
             }

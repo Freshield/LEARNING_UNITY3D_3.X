@@ -25,7 +25,6 @@ public class Drawer
     public bool isCompanion = false;
 
     //for companion
-    //public Dictionary<float, CPTime> companionTimes = new Dictionary<float, CPTime>();
     public List<GameObject> lineObjects = new List<GameObject>();
     public Dictionary<int, bool> moveTimes = new Dictionary<int, bool>();
     public List<CPTime> listCompanionTimes = new List<CPTime>();
@@ -101,7 +100,6 @@ public class Drawer
             else if (i == index.Count)
             {
                 temp = new CPTime(firstValue, lastValue);
-                //companionTimes.Add(temp.beginTime, temp);
                 listCompanionTimes.Add(temp);
             }
             else
@@ -113,15 +111,12 @@ public class Drawer
                 else
                 {
                     temp = new CPTime(firstValue, lastValue);
-                    //companionTimes.Add(temp.beginTime, temp);
                     listCompanionTimes.Add(temp);
                     firstValue = index[i];
                     lastValue = index[i];
                 }
             }
         }
-
-        //listCompanionTimes = companionTimes.Values.ToList();
     }
 
     //find there should be how many object for one drawer line
@@ -166,13 +161,10 @@ public class Drawer
             float worldTimeNow = timeNow2worldTime(timeNow, WfirstPosition.time.totalTime);
             //get how many companion before time now
             int numberOfCompanionBefore = getNumberOfCompanionBefore(worldTimeNow);
-            //temp save positions
-            ArrayList positions = new ArrayList();
             //if do not have companion before
             if (numberOfCompanionBefore == 0)
             {
                 drawOneLine(obj.transform.FindChild("line0").gameObject, normalMaterial, WfirstPosition.time.totalTime, worldTimeNow);
-                
             }
             else
             {
@@ -267,9 +259,7 @@ public class Drawer
                     }
                 }
             }
-            
             ////////////////////////drawline part///////////////////////////////
-            
             if (isPlaying)
             {
                 tweener.Play();
