@@ -25,7 +25,7 @@ public class Drawer
     public bool isCompanion = false;
 
     //for companion
-    public Dictionary<float, CPTime> companionTimes = new Dictionary<float, CPTime>();
+    //public Dictionary<float, CPTime> companionTimes = new Dictionary<float, CPTime>();
     public List<GameObject> lineObjects = new List<GameObject>();
     public Dictionary<int, bool> moveTimes = new Dictionary<int, bool>();
     public List<CPTime> listCompanionTimes = new List<CPTime>();
@@ -101,7 +101,8 @@ public class Drawer
             else if (i == index.Count)
             {
                 temp = new CPTime(firstValue, lastValue);
-                companionTimes.Add(temp.beginTime, temp);
+                //companionTimes.Add(temp.beginTime, temp);
+                listCompanionTimes.Add(temp);
             }
             else
             {
@@ -112,30 +113,32 @@ public class Drawer
                 else
                 {
                     temp = new CPTime(firstValue, lastValue);
-                    companionTimes.Add(temp.beginTime, temp);
+                    //companionTimes.Add(temp.beginTime, temp);
+                    listCompanionTimes.Add(temp);
                     firstValue = index[i];
                     lastValue = index[i];
                 }
             }
         }
 
-        listCompanionTimes = companionTimes.Values.ToList();
+        //listCompanionTimes = companionTimes.Values.ToList();
     }
 
+    //find there should be how many object for one drawer line
     public int getObjectNumber()
     {
         if (isCompanion)
         {
             int count = 0;
-            if (WfirstPosition.time.totalTime != companionTimes[companionTimes.Keys.First()].beginTime)
+            if (WfirstPosition.time.totalTime != listCompanionTimes[0].beginTime)
             {
                 count++;
             }
-            if (WlastPosition.time.totalTime != companionTimes[companionTimes.Keys.Last()].endTime)
+            if (WlastPosition.time.totalTime != listCompanionTimes[listCompanionTimes.Count - 1].endTime)
             {
                 count++;
             }
-            count += (2 * companionTimes.Keys.Count) - 1;
+            count += (2 * listCompanionTimes.Count) - 1;
             return count;
         }
         else
@@ -221,7 +224,7 @@ public class Drawer
                     {
                         if (i == 0)
                         {
-                            if (WfirstPosition.time.totalTime == companionTimes.First().Key)
+                            if (WfirstPosition.time.totalTime == listCompanionTimes[0].beginTime)
                             {
                                 drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
                                 lineNumber++;
@@ -301,7 +304,7 @@ public class Drawer
 
         float count = realEndTime;
         
-        while (count > realBeginTime)
+        while (count > (realBeginTime - 0.13f))
         {
             tweener.Goto(count);
             //let line near the ground
