@@ -185,8 +185,8 @@ public class MouseControllor : MonoBehaviour {
                             changeTarget.Kill();
 
                             Vector3[] path = new Vector3[2];
-                            path[0] = focusObj.transform.position + new Vector3(0, 5, 8);
-                            path[1] = focusObj.transform.position + new Vector3(0, 2.5f, 5);
+                            path[0] = focusObj.transform.position + new Vector3(0, 2.5f, 5);
+                            path[1] = focusObj.transform.position + new Vector3(0, 1.5f, 3);
                             
                             changeTarget = theCamera.transform.DOPath(path, 3, PathType.CatmullRom, PathMode.Full3D, 5, null).SetLookAt(focusObj.transform.position);
 
@@ -205,7 +205,7 @@ public class MouseControllor : MonoBehaviour {
                         if (changeTarget.IsComplete())
                         {
                             //release last one
-                            changeTarget.Kill();
+                            //changeTarget.Kill();
 
                             //prepare
                             Vector2 angles = theCamera.transform.eulerAngles;
