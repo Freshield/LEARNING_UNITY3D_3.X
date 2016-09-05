@@ -29,11 +29,15 @@ public class Drawer
     public List<GameObject> lineObjects = new List<GameObject>();
     public Dictionary<int, bool> moveTimes = new Dictionary<int, bool>();
     public List<CPTime> listCompanionTimes = new List<CPTime>();
+    public bool isFocus = false;
 
     //static value
     public static float playRadio = 0.5f;
     public static Material normalMaterial;
     public static Material companionMaterial;
+    public static Vector3 lineRendereNormal = new Vector3(0, 0.48f, 0);
+    public static Vector3 lineRendereFocus = new Vector3(0, 0.3f, 0);
+    public static Vector3 objFocus = new Vector3(0, 0.18f, 0);
 
     // Use this for initialization
     public Drawer(GameObject objPrefab, Track track, float duration)
@@ -180,7 +184,6 @@ public class Drawer
                         
                         if (WfirstPosition.time.totalTime == listCompanionTimes[0].beginTime)
                         {
-                            Debug.Log(obj.name + " 1 ");
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
                             lineNumber++;
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, listCompanionTimes[0].endTime, worldTimeNow);
@@ -188,8 +191,6 @@ public class Drawer
                         }
                         else
                         {
-                            Debug.Log(obj.name + " 2 ");
-                            
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, listCompanionTimes[0].beginTime);
                             lineNumber++;
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, listCompanionTimes[0].endTime);
@@ -202,13 +203,11 @@ public class Drawer
                     {
                         if (WfirstPosition.time.totalTime == listCompanionTimes[0].beginTime)
                         {
-                            Debug.Log(obj.name + " 3 ");
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, worldTimeNow);
                             lineNumber++;
                         }
                         else
                         {
-                            Debug.Log(obj.name + " 4 ");
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, normalMaterial, WfirstPosition.time.totalTime, listCompanionTimes[0].beginTime);
                             lineNumber++;
                             drawOneLine(obj.transform.FindChild("line" + lineNumber).gameObject, companionMaterial, listCompanionTimes[0].beginTime, worldTimeNow);
@@ -218,9 +217,6 @@ public class Drawer
                 }//if companion number bigger than one
                 else
                 {
-                    Debug.Log(obj.name + " 5 ");
-                    
-
                     for (int i = 0; i < numberOfCompanionBefore; i++)
                     {
                         if (i == 0)
@@ -251,8 +247,6 @@ public class Drawer
                         }
                         else
                         {
-                            Debug.Log(obj.name + " 6 ");
-                            Debug.Log(obj.name + " " + worldTimeNow + ":" + ":" + listCompanionTimes[i].beginTime + ":" + listCompanionTimes[i].endTime + ":" + WfirstPosition.time.totalTime);
                             //if timenow bigger then the endtime
                             if (worldTimeNow > listCompanionTimes[i].endTime)
                             {
@@ -268,7 +262,6 @@ public class Drawer
                             }
                         }
                     }
-                    
                 }
             }
             
@@ -312,13 +305,19 @@ public class Drawer
         {
             tweener.Goto(count);
             //let line near the ground
-            positions.Add(myPosition - new Vector3(0, 0.48f, 0));
+            if (isFocus)
+            {
+                positions.Add(myPosition - lineRendereFocus);
+            }
+            else
+            {
+                positions.Add(myPosition - lineRendereNormal);
+            }
             //1 hour equal 2 seconds, 1 hour have 15 points, 1 point equal 0.13s, 4 minute equal 4 points
             count -= 0.13f;
         }
         //clean linerenderer
-        lineObj.GetComponent<LineRenderer>().SetVertexCount(0);
-
+        
         lineObj.GetComponent<LineRenderer>().material = material;
         lineObj.GetComponent<LineRenderer>().SetVertexCount(positions.Count);
         lineObj.GetComponent<LineRenderer>().SetPositions((Vector3[])positions.ToArray(typeof(Vector3)));

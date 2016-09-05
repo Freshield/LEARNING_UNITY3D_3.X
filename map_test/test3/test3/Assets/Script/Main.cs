@@ -262,7 +262,24 @@ public class Main : MonoBehaviour {
                         {
                             drawer.obj.SetActive(true);
                             drawer.tweener.PlayForward();
-                            drawer.obj.transform.position = drawer.myPosition;
+                            if (drawer.isFocus)
+                            {
+                                drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
+                            }
+                            else
+                            {
+                                drawer.obj.transform.position = drawer.myPosition;
+                            }
+                            if (drawer.isCompanion)
+                            {
+                                foreach (Transform child in drawer.obj.transform)
+                                {
+                                    if (child.name.Contains("line"))
+                                    {
+                                        child.GetComponent<LineRenderer>().SetVertexCount(0);
+                                    }
+                                }
+                            }
                             drawer.drawLine(isPlaying);
                         }
                         else
@@ -296,6 +313,14 @@ public class Main : MonoBehaviour {
     {
         if (flow == 7)
         {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                hSliderValue += 0.2f;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                hSliderValue -= 0.2f;
+            }
             if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
             {
                 
@@ -316,7 +341,14 @@ public class Main : MonoBehaviour {
                 foreach (Drawer drawer in drawers)
                 {
                     drawer.tweener.Pause();
-                    drawer.obj.transform.position = drawer.myPosition;
+                    if (drawer.isFocus)
+                    {
+                        drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
+                    }
+                    else
+                    {
+                        drawer.obj.transform.position = drawer.myPosition;
+                    }
                 }
             }
 
@@ -349,8 +381,25 @@ public class Main : MonoBehaviour {
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
                             drawer.obj.SetActive(true);
+                            if (drawer.isCompanion)
+                            {
+                                foreach (Transform child in drawer.obj.transform)
+                                {
+                                    if (child.name.Contains("line"))
+                                    {
+                                        child.GetComponent<LineRenderer>().SetVertexCount(0);
+                                    }
+                                }
+                            }
                             drawer.drawLine(isPlaying);
-                            drawer.obj.transform.position = drawer.myPosition;
+                            if (drawer.isFocus)
+                            {
+                                drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
+                            }
+                            else
+                            {
+                                drawer.obj.transform.position = drawer.myPosition;
+                            }
                         }
                         else
                         {

@@ -45,6 +45,7 @@ public class MouseControllor : MonoBehaviour {
     public GameObject cylinderPrefab;
     public List<GameObject> cylinders;
     string labelText;
+    public Main main;
 
 
     // Use this for initialization
@@ -54,6 +55,8 @@ public class MouseControllor : MonoBehaviour {
 
         theCamera = GameObject.Find("Main Camera");
 
+        main = GameObject.Find("Main Camera").GetComponent<Main>();
+
         distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
         
     }
@@ -61,7 +64,7 @@ public class MouseControllor : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        
         switch (mouseFlow)
         {
             //for the orthographic
@@ -206,6 +209,15 @@ public class MouseControllor : MonoBehaviour {
                             x = angles.y;
                             y = angles.x;
 
+                            Drawer temp = null;
+                            foreach (Drawer drawer in main.drawers)
+                            {
+                                if (drawer.obj.name == focusObj.name)
+                                {
+                                    temp = drawer;
+                                }
+                            }
+                            temp.isFocus = true;
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
                             //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
                             focusObj.GetComponent<ParticleSystem>().enableEmission = false;
@@ -303,7 +315,15 @@ public class MouseControllor : MonoBehaviour {
                         if (Input.GetMouseButtonUp(0))
                         {
                             mouseFlow = 1;
-
+                            Drawer temp = null;
+                            foreach (Drawer drawer in main.drawers)
+                            {
+                                if (drawer.obj.name == focusObj.name)
+                                {
+                                    temp = drawer;
+                                }
+                            }
+                            temp.isFocus = false;
                             focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
                             //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
