@@ -205,7 +205,7 @@ public class MouseControllor : MonoBehaviour {
                         if (changeTarget.IsComplete())
                         {
                             //release last one
-                            //changeTarget.Kill();
+                            changeTarget.Kill();
 
                             //prepare
                             Vector2 angles = theCamera.transform.eulerAngles;

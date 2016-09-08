@@ -51,10 +51,16 @@ public class Main : MonoBehaviour {
     float planeWaitTime = 1;
     float loadingWaitTime = 0.1f;
 
+    //for test web player
+    public GameObject testText;
+
 
     // Use this for initialization
     void Start()
     {
+        testText = GameObject.Find("TestText");
+
+
         Drawer.normalMaterial = normalMaterial;
         Drawer.companionMaterial = companionMaterial;
         Drawer.focusNormalMaterial = focusNormalMaterial;
@@ -82,6 +88,7 @@ public class Main : MonoBehaviour {
 
         index = new Dictionary<string, List<int>>();
 
+        testText.GetComponent<Text>().text = "start";
     }
 
     // Update is called once per frame
@@ -90,20 +97,24 @@ public class Main : MonoBehaviour {
         
         switch (flow)
         {
+
             //load file and prepare
             case 0:
+                testText.GetComponent<Text>().text = "0";
                 //get location
-                tracks = Track.LoadFile(Application.streamingAssetsPath, "new_data.txt");
+                tracks = Track.LoadFile("files", "new_data");
                 flow = 1;
                 break;
 
             case 1:
+                testText.GetComponent<Text>().text = "1";
                 //get index
-                index = Track.LoadIndex(Application.streamingAssetsPath, "index.txt");
+                index = Track.LoadIndex("files", "fixed_index");
                 flow = 2;
                 break;
 
             case 2:
+                testText.GetComponent<Text>().text = "2";
                 //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
@@ -123,12 +134,14 @@ public class Main : MonoBehaviour {
                 {
                     StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                 }
+                testText.GetComponent<Text>().text = "3";
                 flow = 4;
                 break;
 
             case 4:
                 //generate the world position for each track
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
+                testText.GetComponent<Text>().text = "4";
                 flow = 5;
                 break;
 
@@ -142,7 +155,7 @@ public class Main : MonoBehaviour {
                 hSliderValue = WfirstPosition.time.totalTime;
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
-
+                testText.GetComponent<Text>().text = "5";
                 flow = 6;
                 break;
 
@@ -168,7 +181,7 @@ public class Main : MonoBehaviour {
                 //release
                 getTrack.clearSelf();
                 getTrack = null;
-
+                testText.GetComponent<Text>().text = "6";
                 if (number == tracks.Count)
                 {
                     //release
@@ -191,6 +204,7 @@ public class Main : MonoBehaviour {
                         drawer.isCompanion = true;
                     }
                 }
+                testText.GetComponent<Text>().text = "7";
                 flow = 8;
                 break;
 
@@ -207,12 +221,14 @@ public class Main : MonoBehaviour {
                         drawer.lineObjects.Add(lineObj);
                     }
                 }
+                testText.GetComponent<Text>().text = "8";
                 flow = 9;
                 break;
 
             //create plane
             case 9:
                 planeWaitTime -= Time.deltaTime;
+                testText.GetComponent<Text>().text = "9";
                 if (planeWaitTime < 0)
                 {
                     planeWaitTime = 1;
@@ -246,6 +262,7 @@ public class Main : MonoBehaviour {
                 
                 break;
             case 10:
+                testText.GetComponent<Text>().text = "10";
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();

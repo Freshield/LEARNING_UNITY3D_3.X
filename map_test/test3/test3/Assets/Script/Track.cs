@@ -102,16 +102,9 @@ public class Track{
     //create drawer name and companion pair
     public static Dictionary<string,List<int>> LoadIndex(string path, string name)
     {
-        StreamReader sr = null;
-        try
-        {
-            sr = File.OpenText(path + "//" + name);
+        TextAsset ta = Resources.Load<TextAsset>(path + "/" + name);
+        StringReader reader = new StringReader(ta.text);
 
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
 
         string line;
 
@@ -120,7 +113,7 @@ public class Track{
 
         Regex regName = new Regex(@"\((.+)\[");
         Regex regValue = new Regex(@"\[(.+)\]\)");
-        while ((line = sr.ReadLine()) != null)
+        while ((line = reader.ReadLine()) != null)
         {
             
             Match match = regName.Match(line);
@@ -160,9 +153,6 @@ public class Track{
             }
         }
         
-        sr.Close();
-        sr.Dispose();
-
         foreach (string drawer in companions.Keys)
         {
             companions[drawer].Sort();
@@ -175,17 +165,9 @@ public class Track{
     //to read file
     public static List<Track> LoadFile(string path, string name)
     {
-        StreamReader sr = null;
-        try
-        {
-            sr = File.OpenText(path + "//" + name);
-
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.ToString());
-        }
-
+        TextAsset ta = Resources.Load<TextAsset>(path+"/"+name);
+        StringReader reader = new StringReader(ta.text);
+        
         string line;
         Track temp = new Track("temp");
 
@@ -193,7 +175,7 @@ public class Track{
 
         CoordinatorChange coo = new CoordinatorChange();
 
-        while ((line = sr.ReadLine()) != null)
+        while ((line = reader.ReadLine()) != null)
         {
             //if ((pos = line.IndexOf("T")) != -1)
             if (line.Contains("T"))
@@ -214,10 +196,7 @@ public class Track{
             }
         }
         temp.calculAvg();//last one to calculate
-
-        sr.Close();
-        sr.Dispose();
-
+        
         return tracks;
     }
 

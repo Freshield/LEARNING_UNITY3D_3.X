@@ -46,23 +46,15 @@ public class Map : MonoBehaviour {
 
         StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/staticmap?");
         
-        url.Append("center=").Append(HTTP.URL.Encode(string.Format("{0},{1}", center.latitute, center.lontitute)));
+        url.Append("center=").Append(WWW.UnEscapeURL(string.Format("{0},{1}", center.latitute, center.lontitute)));
         url.Append("&zoom=").Append(zoom);
-        url.Append("&size=").Append(HTTP.URL.Encode(string.Format("{0}x{0}", size)));
+        url.Append("&size=").Append(WWW.UnEscapeURL(string.Format("{0}x{0}", size)));
         url.Append("&scale=2");
         url.Append("&maptype=terrain&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc");
         
-        var req = new HTTP.Request("GET", url.ToString(), true);
-        
-        req.Send();
-        while (!req.isDone)
-            yield return null;
-        if (req.exception == null)
-        {
-            Texture2D tex = new Texture2D(size, size);
-            tex.LoadImage(req.response.Bytes);
-            plane.GetComponent<Renderer>().material.mainTexture = tex;
-        }
+        var req = new WWW(url.ToString());
+        yield return req;
+        plane.GetComponent<Renderer>().material.mainTexture = req.texture;
     }
 
     //create plane gameobject
