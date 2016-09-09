@@ -165,6 +165,8 @@ public class MouseControllor : MonoBehaviour {
                             mouseFlow = 1;
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
+                            var em = focusObj.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
                         }
                     }
                 }
@@ -360,8 +362,10 @@ public class MouseControllor : MonoBehaviour {
                             //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
+                            var em = focusObj.GetComponent<ParticleSystem>().emission;
+                            em.enabled = false;
 
-                            
+
                         }
                     }
                 }

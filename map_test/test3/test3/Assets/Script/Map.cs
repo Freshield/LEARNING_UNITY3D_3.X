@@ -54,6 +54,11 @@ public class Map : MonoBehaviour {
         
         var req = new WWW(url.ToString());
         yield return req;
+        if (!string.IsNullOrEmpty(req.error))
+        {
+            Debug.Log(req.error);
+        }
+            
         plane.GetComponent<Renderer>().material.mainTexture = req.texture;
     }
 
