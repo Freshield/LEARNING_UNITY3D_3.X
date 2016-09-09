@@ -153,8 +153,11 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        var em = hited.GetComponent<ParticleSystem>().emission;
-                        em.enabled = true;
+                        if (hited != focusObj)
+                        {
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = true;
+                        }
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         //left press to focus object
                         if (Input.GetMouseButtonUp(0))
@@ -221,6 +224,15 @@ public class MouseControllor : MonoBehaviour {
                                 }
                             }
                             temp.isFocus = true;
+                            HighlightableObject ho = focusObj.GetComponent<HighlightableObject>();
+                            if (ho != null)
+                            {
+                                ho.ConstantOn(Color.red);
+                            }
+                            else
+                            {
+                                Debug.Log("ho is null");
+                            }
                             //focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
                             var em = hited.GetComponent<ParticleSystem>().emission;
                             em.enabled = false;
@@ -317,8 +329,11 @@ public class MouseControllor : MonoBehaviour {
                     else
                     {
                         hited = hit.collider.gameObject;
-                        var em = hited.GetComponent<ParticleSystem>().emission;
-                        em.enabled = true;
+                        if (hited != focusObj)
+                        {
+                            var em = hited.GetComponent<ParticleSystem>().emission;
+                            em.enabled = true;
+                        }
                         label.GetComponent<Text>().text = "The target object is " + hited.name;
                         if (Input.GetMouseButtonUp(0))
                         {
@@ -332,6 +347,15 @@ public class MouseControllor : MonoBehaviour {
                                 }
                             }
                             temp.isFocus = false;
+                            HighlightableObject ho = focusObj.GetComponent<HighlightableObject>();
+                            if (ho != null)
+                            {
+                                ho.Off();
+                            }
+                            else
+                            {
+                                Debug.Log("ho is null");
+                            }
                             //focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
                             //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
