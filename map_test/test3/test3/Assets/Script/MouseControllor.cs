@@ -221,7 +221,7 @@ public class MouseControllor : MonoBehaviour {
                                 }
                             }
                             temp.isFocus = true;
-                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
+                            //focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
                             var em = hited.GetComponent<ParticleSystem>().emission;
                             em.enabled = false;
                             em = focusObj.GetComponent<ParticleSystem>().emission;
@@ -332,7 +332,7 @@ public class MouseControllor : MonoBehaviour {
                                 }
                             }
                             temp.isFocus = false;
-                            focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
+                            //focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 0);
                             //focusObj.GetComponent<LineRenderer>().material.SetColor("_Color", new Color(0, 97.0f/255.0f, 1, 1));
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
