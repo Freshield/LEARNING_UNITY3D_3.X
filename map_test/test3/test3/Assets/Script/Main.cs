@@ -22,10 +22,13 @@ public class Main : MonoBehaviour {
     int number = 0;
     
     //for loading
-    List<Texture2D> anim;
+    List<Sprite> anim;
     int nowFram = 0;
     bool isLoading = true;
-    GameObject loadingPlane;
+    GameObject loadingImage;
+    GameObject backImage;
+    Tweener loadingTweener;
+    float alphaValue = 255;
 
     //for dotween
     public List<Drawer> drawers;
@@ -49,30 +52,43 @@ public class Main : MonoBehaviour {
 
     //for wait time
     float planeWaitTime = 1;
-    float loadingWaitTime = 0.1f;
+    float loadingWaitTime = 0.02f;
 
     //for test web player
     public GameObject testText;
+
 
 
     // Use this for initialization
     void Start()
     {
         testText = GameObject.Find("TestText");
-
-
+        loadingImage = GameObject.Find("LoadingImage");
+        backImage = GameObject.Find("BackImage");
         Drawer.normalMaterial = normalMaterial;
         Drawer.companionMaterial = companionMaterial;
         Drawer.focusNormalMaterial = focusNormalMaterial;
         Drawer.focusCompanionMaterial = focusCompanionMaterial;
-        anim = new List<Texture2D>();
+        anim = new List<Sprite>();
         //prepare
-        for (int i = 0; i < 12; i++)
+        for (int i = 1; i < 131; i++)
         {
-            Texture2D temp = Resources.Load<Texture2D>("loading/loading" + i);
+            Sprite temp;
+            if (i < 10)
+            {
+                temp = Resources.Load<Sprite>("loading/loading00" + i);
+            }
+            else if (i < 100)
+            {
+                temp = Resources.Load<Sprite>("loading/loading0" + i);
+            }
+            else
+            {
+                temp = Resources.Load<Sprite>("loading/loading" + i);
+            }
+            
             anim.Add(temp);
         }
-        loadingPlane = GameObject.Find("LoadingPlane");
 
         drawers = new List<Drawer>();
         
@@ -87,8 +103,7 @@ public class Main : MonoBehaviour {
         drawTracks = new GameObject("drawTracks");
 
         index = new Dictionary<string, List<int>>();
-
-        testText.GetComponent<Text>().text = "start";
+        
     }
 
     // Update is called once per frame
@@ -100,21 +115,21 @@ public class Main : MonoBehaviour {
 
             //load file and prepare
             case 0:
-                testText.GetComponent<Text>().text = "0";
+                
                 //get location
                 tracks = Track.LoadFile("files", "new_data");
                 flow = 1;
                 break;
 
             case 1:
-                testText.GetComponent<Text>().text = "1";
+                
                 //get index
                 index = Track.LoadIndex("files", "fixed_index");
                 flow = 2;
                 break;
 
             case 2:
-                testText.GetComponent<Text>().text = "2";
+                
                 //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
@@ -134,14 +149,14 @@ public class Main : MonoBehaviour {
                 {
                     StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
                 }
-                testText.GetComponent<Text>().text = "3";
+                
                 flow = 4;
                 break;
 
             case 4:
                 //generate the world position for each track
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
-                testText.GetComponent<Text>().text = "4";
+                
                 flow = 5;
                 break;
 
@@ -155,7 +170,7 @@ public class Main : MonoBehaviour {
                 hSliderValue = WfirstPosition.time.totalTime;
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
-                testText.GetComponent<Text>().text = "5";
+                
                 flow = 6;
                 break;
 
@@ -181,7 +196,7 @@ public class Main : MonoBehaviour {
                 //release
                 getTrack.clearSelf();
                 getTrack = null;
-                testText.GetComponent<Text>().text = "6";
+                
                 if (number == tracks.Count)
                 {
                     //release
@@ -204,7 +219,7 @@ public class Main : MonoBehaviour {
                         drawer.isCompanion = true;
                     }
                 }
-                testText.GetComponent<Text>().text = "7";
+                
                 flow = 8;
                 break;
 
@@ -221,14 +236,14 @@ public class Main : MonoBehaviour {
                         drawer.lineObjects.Add(lineObj);
                     }
                 }
-                testText.GetComponent<Text>().text = "8";
+                
                 flow = 9;
                 break;
 
             //create plane
             case 9:
                 planeWaitTime -= Time.deltaTime;
-                testText.GetComponent<Text>().text = "9";
+                
                 if (planeWaitTime < 0)
                 {
                     planeWaitTime = 1;
@@ -237,7 +252,7 @@ public class Main : MonoBehaviour {
                         GameObject plane = GameObject.Find("plane" + i);
                         if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
                         {
-                            flow = 10;
+                            flow = 233;
                         }
                         else
                         {
@@ -246,23 +261,64 @@ public class Main : MonoBehaviour {
                             break;
                         }
                     }
-                    if (flow == 10)
-                    {
-                        //clean loading
-                        isLoading = false;
-                        anim.Clear();
-                        anim = null;
-                        Destroy(loadingPlane);
-                        //release map
-                        map.clearSelf();
-                        map = null;
-                        GC.Collect();
-                    }
                 }
                 
                 break;
+
+            case 233:
+                loadingTweener = testText.GetComponent<Text>().DOText("DONE", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
+                flow = 82;
+                break;
+
+            case 82:
+                if (loadingTweener.IsComplete())
+                {
+                    loadingTweener = testText.GetComponent<Text>().DOText("THEN ENJOY", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
+                    flow = 83;
+                }
+                break;
+            case 83:
+                if (loadingTweener.IsComplete())
+                {
+                    loadingTweener = DOTween.To(x => alphaValue = x,1,0,2).SetAutoKill(false).SetEase(Ease.Linear);
+                    flow = 85;
+                }
+                break;
+            case 85:
+                if (loadingTweener.IsComplete())
+                {
+                    loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
+                    testText.GetComponent<Text>().DOText("", 2);
+                    flow = 84;
+                }
+                else
+                {
+                    loadingImage.GetComponent<Image>().color = new Color(1, 1, 1, alphaValue);
+                }
+                break;
+            case 84:
+                if (loadingTweener.IsComplete())
+                {
+                    isLoading = false;
+                    loadingTweener.Kill();
+                    anim.Clear();
+                    anim = null;
+                    Destroy(loadingImage);
+                    Destroy(backImage);
+                    //release map
+                    map.clearSelf();
+                    map = null;
+                    GC.Collect();
+                    flow = 10;
+                }
+                else
+                {
+                    backImage.GetComponent<RawImage>().color = new Color(1, 1, 1, alphaValue);
+                }
+                break;
+
             case 10:
-                testText.GetComponent<Text>().text = "10";
+                
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();
@@ -446,8 +502,8 @@ public class Main : MonoBehaviour {
             loadingWaitTime -= Time.deltaTime;
             if (loadingWaitTime < 0)
             {
-                loadingWaitTime = 0.1f;
-                loadingPlane.GetComponent<Renderer>().material.mainTexture = anim[nowFram];
+                loadingWaitTime = 0.02f;
+                loadingImage.GetComponent<Image>().sprite = anim[nowFram];
                 nowFram++;
                 if (nowFram >= anim.Count)
                 {
