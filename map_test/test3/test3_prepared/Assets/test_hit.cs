@@ -21,6 +21,7 @@ public class test_hit : MonoBehaviour {
                 if (ho != null)
                 {
                     ho.On(Color.red);
+                    //ho.OccluderOn();
                 }
             }
         }
