@@ -77,6 +77,7 @@
     <Compile Include="Assets\c11.cs" />
     <Compile Include="Assets\c15.cs" />
     <Compile Include="Assets\c16.cs" />
+    <Compile Include="Assets\c17.cs" />
     <Compile Include="Assets\test_line2.cs" />
     <Compile Include="Assets\test_linerender.cs" />
   </ItemGroup>
