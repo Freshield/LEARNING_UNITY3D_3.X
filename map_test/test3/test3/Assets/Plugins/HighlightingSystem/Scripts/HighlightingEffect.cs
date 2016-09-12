@@ -316,10 +316,10 @@ public class HighlightingEffect : MonoBehaviour
 	// Render all highlighted objects to the stencil buffer
 	void OnPreRender()
 	{
-		#if UNITY_4_0
+#if UNITY_4_0
 		if (this.enabled == false || go.activeInHierarchy == false)
-		#else
-		if (this.enabled == false || go.active == false)
+#else
+        if (this.enabled == false || go.activeSelf == false)
 		#endif
 			return;
 		

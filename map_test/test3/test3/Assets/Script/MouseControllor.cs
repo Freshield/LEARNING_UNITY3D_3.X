@@ -92,7 +92,7 @@ public class MouseControllor : MonoBehaviour {
                 //zoom in
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
-                    if (distance > 0.7)
+                    if (distance > 1.5f)
                     {
                         if (distance > 4)
                         {
@@ -269,7 +269,7 @@ public class MouseControllor : MonoBehaviour {
                 //zoom in
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
-                    if (distance > 0.7)
+                    if (distance > 1.5f)
                     {
                         if (distance > 4)
                         {
