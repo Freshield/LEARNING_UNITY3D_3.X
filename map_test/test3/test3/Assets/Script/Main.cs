@@ -457,6 +457,18 @@ public class Main : MonoBehaviour {
                         {
                             drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
                             drawer.obj.SetActive(true);
+                            if (drawer.isFocus)
+                            {
+                                HighlightableObject ho = drawer.obj.GetComponent<HighlightableObject>();
+                                if (ho != null)
+                                {
+                                    ho.ConstantOn(Color.red);
+                                }
+                                else
+                                {
+                                    Debug.Log("ho is null");
+                                }
+                            }
                             if (drawer.isCompanion)
                             {
                                 foreach (Transform child in drawer.obj.transform)
