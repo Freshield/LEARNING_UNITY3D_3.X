@@ -335,6 +335,15 @@ public class Main : MonoBehaviour {
                             if (drawer.isFocus)
                             {
                                 drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
+                                HighlightableObject ho = drawer.obj.GetComponent<HighlightableObject>();
+                                if (ho != null)
+                                {
+                                    ho.ConstantOn(Color.red);
+                                }
+                                else
+                                {
+                                    Debug.Log("ho is null");
+                                }
                             }
                             else
                             {
