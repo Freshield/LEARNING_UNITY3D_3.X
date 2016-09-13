@@ -101,6 +101,7 @@
     <Compile Include="Assets\Script\MouseControllor.cs" />
     <Compile Include="Assets\Script\PTime.cs" />
     <Compile Include="Assets\Script\Position.cs" />
+    <Compile Include="Assets\Script\SplashLoading.cs" />
     <Compile Include="Assets\Script\Track.cs" />
     <Compile Include="Assets\Script\VecTime.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ConditionalGet.cs" />

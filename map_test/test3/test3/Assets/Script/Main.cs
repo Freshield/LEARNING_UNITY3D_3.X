@@ -273,6 +273,7 @@ public class Main : MonoBehaviour {
             case 82:
                 if (loadingTweener.IsComplete())
                 {
+                    loadingTweener.Kill();
                     loadingTweener = testText.GetComponent<Text>().DOText("THEN ENJOY", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
                     flow = 83;
                 }
@@ -280,6 +281,7 @@ public class Main : MonoBehaviour {
             case 83:
                 if (loadingTweener.IsComplete())
                 {
+                    loadingTweener.Kill();
                     loadingTweener = DOTween.To(x => alphaValue = x,1,0,2).SetAutoKill(false).SetEase(Ease.Linear);
                     flow = 85;
                 }
@@ -287,6 +289,7 @@ public class Main : MonoBehaviour {
             case 85:
                 if (loadingTweener.IsComplete())
                 {
+                    loadingTweener.Kill();
                     loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
                     testText.GetComponent<Text>().DOText("", 2);
                     flow = 84;
