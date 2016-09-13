@@ -120,17 +120,13 @@ public class Main : MonoBehaviour {
                 tracks = Track.LoadFile("files", "new_data");
                 flow = 1;
                 break;
-
+            //get index
             case 1:
-                
-                //get index
                 index = Track.LoadIndex("files", "fixed_index");
                 flow = 2;
                 break;
-
+            //get the center, firstposition and lastposition
             case 2:
-                
-                //get the center, firstposition and lastposition
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
                 firstPosition = result[1];
@@ -140,32 +136,36 @@ public class Main : MonoBehaviour {
                 result = null;
                 flow = 3;
                 break;
-
+            //get map
             case 3:
-                //get map
                 map = GameObject.Find("Directional light").GetComponent<Map>();
                 map.Refresh(center);
-                for (int i = 0; i < map.planes.Length; i++)
-                {
-                    StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
-                }
-                
-                flow = 4;
+                flow = 888;
                 break;
-
+            //get the image
+            case 888:
+                StartCoroutine(map._Refresh(map.planes[number], map.points[number]));
+                number++;
+                if (number >= map.planes.Length)
+                {
+                    number = 0;
+                    flow = 4;
+                }
+                break;
+            //generate the world position for each track
             case 4:
-                //generate the world position for each track
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
                 
                 flow = 5;
                 break;
-
+            //transfer first and last position to world position
             case 5:
-                //transfer first and last position to world position
                 WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
                 WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
-
-                //create the time bar value
+                flow = 889;
+                break;
+            //create the time bar value
+            case 889:
                 duration = Drawer.getDuration(WfirstPosition.time.totalTime, WlastPosition.time.totalTime);
                 hSliderValue = WfirstPosition.time.totalTime;
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
@@ -173,7 +173,7 @@ public class Main : MonoBehaviour {
                 
                 flow = 6;
                 break;
-
+            //generate the objects and their drawer
             case 6:
                 Track getTrack = tracks[number];
                 if (getTrack.positions.Count > 0)
@@ -197,7 +197,7 @@ public class Main : MonoBehaviour {
                 getTrack.clearSelf();
                 getTrack = null;
                 
-                if (number == tracks.Count)
+                if (number >= tracks.Count)
                 {
                     //release
                     tracks.Clear();
@@ -209,43 +209,46 @@ public class Main : MonoBehaviour {
                     GC.Collect();
                 }
                 break;
-
+            //check their companion situation
             case 7:
-                foreach (Drawer drawer in drawers)
+                if (index.ContainsKey(drawers[number].obj.name))
                 {
-                    if (index.ContainsKey(drawer.obj.name))
-                    {
-                        drawer.getCompanionTimes(index[drawer.obj.name]);
-                        drawer.isCompanion = true;
-                    }
+                        drawers[number].getCompanionTimes(index[drawers[number].obj.name]);
+                        drawers[number].isCompanion = true;
+                }
+                number++;
+                if (number >= drawers.Count)
+                {
+                    number = 0;
+                    flow = 8;
                 }
                 
-                flow = 8;
                 break;
-
+            //create empty child gameobject for objects to create lines later
             case 8:
-                foreach (Drawer drawer in drawers)
+                //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
+                int lineNumber = drawers[number].getObjectNumber();
+                for (int i = 0; i < lineNumber; i++)
                 {
-                    //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
-                    int lineNumber = drawer.getObjectNumber();
-                    for (int i = 0; i < lineNumber; i++)
-                    {
-                        GameObject lineObj = Instantiate(linePrefab);
-                        lineObj.name = "line" + i;
-                        lineObj.transform.parent = drawer.obj.transform;
-                        drawer.lineObjects.Add(lineObj);
-                    }
+                    GameObject lineObj = Instantiate(linePrefab);
+                    lineObj.name = "line" + i;
+                    lineObj.transform.parent = drawers[number].obj.transform;
+                    drawers[number].lineObjects.Add(lineObj);
                 }
-                
-                flow = 9;
+                number++;
+                if (number >= drawers.Count)
+                {
+                    number = 0;
+                    flow = 9;
+                }
                 break;
-
             //create plane
             case 9:
                 planeWaitTime -= Time.deltaTime;
                 
                 if (planeWaitTime < 0)
                 {
+                    //to delay some time
                     planeWaitTime = 1;
                     for (int i = 0; i < map.planes.Length; i++)
                     {
@@ -264,12 +267,12 @@ public class Main : MonoBehaviour {
                 }
                 
                 break;
-
+            //for done text
             case 233:
                 loadingTweener = testText.GetComponent<Text>().DOText("DONE", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
                 flow = 82;
                 break;
-
+            //for enjoy text
             case 82:
                 if (loadingTweener.IsComplete())
                 {
@@ -278,6 +281,7 @@ public class Main : MonoBehaviour {
                     flow = 83;
                 }
                 break;
+            //for loading image disappear
             case 83:
                 if (loadingTweener.IsComplete())
                 {
@@ -286,6 +290,7 @@ public class Main : MonoBehaviour {
                     flow = 85;
                 }
                 break;
+            //for back image disappear
             case 85:
                 if (loadingTweener.IsComplete())
                 {
@@ -299,6 +304,7 @@ public class Main : MonoBehaviour {
                     loadingImage.GetComponent<Image>().color = new Color(1, 1, 1, alphaValue);
                 }
                 break;
+            //go to the true scene
             case 84:
                 if (loadingTweener.IsComplete())
                 {
@@ -319,7 +325,7 @@ public class Main : MonoBehaviour {
                     backImage.GetComponent<RawImage>().color = new Color(1, 1, 1, alphaValue);
                 }
                 break;
-
+            //play ground
             case 10:
                 
                 if (isPlaying)
