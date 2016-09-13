@@ -96,17 +96,17 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (distance > 4)
                         {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
                         }
                         else
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
-                            if (distance < 2.5f)
-                            {
-                                distance = 2.5f;
-                            }
                         }
                         theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
+                    }
+                    else if (distance <= 2.5f)
+                    {
+                        distance = 2.5f;
                     }
 
                 }
@@ -117,13 +117,17 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (distance > 4)
                         {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
                         }
                         else
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
                         theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
+                    }
+                    else if (distance >= 50)
+                    {
+                        distance = 50;
                     }
 
                 }
@@ -273,16 +277,20 @@ public class MouseControllor : MonoBehaviour {
                 //zoom in
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
-                    if (distance > 1.5f)
+                    if (distance > 2.5f)
                     {
                         if (distance > 4)
                         {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
                         }
                         else
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
                         }
+                    }
+                    else if (distance <= 2.5f)
+                    {
+                        distance = 2.5f;
                     }
                 }
                 //zoom out
@@ -292,16 +300,16 @@ public class MouseControllor : MonoBehaviour {
                     {
                         if (distance > 4)
                         {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 10;
+                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
                         }
                         else
                         {
                             distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
-                            if (distance < 2.5f)
-                            {
-                                distance = 2.5f;
-                            }
                         }
+                    }
+                    else if (distance >= 50)
+                    {
+                        distance = 50;
                     }
                 }
                 //let camera focus on object

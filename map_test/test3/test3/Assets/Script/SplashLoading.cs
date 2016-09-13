@@ -11,8 +11,8 @@ public class SplashLoading : MonoBehaviour {
     int token = 0;
     Tweener tweener;
     float alphaValue = 0;
-    public float fadeInTime = 2.5f;
-    public float fadeOutTime = 2.5f;
+    public float fadeInTime = 3;
+    public float fadeOutTime = 3;
 
 	// Use this for initialization
 	void Start () {
