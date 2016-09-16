@@ -57,6 +57,10 @@ public class Main : MonoBehaviour {
     //for test web player
     public GameObject testText;
 
+    //for board
+    public Texture boardNormalTexture;
+    public Texture boardCompanionTexture;
+
 
 
     // Use this for initialization
@@ -69,6 +73,7 @@ public class Main : MonoBehaviour {
         Drawer.companionMaterial = companionMaterial;
         Drawer.focusNormalMaterial = focusNormalMaterial;
         Drawer.focusCompanionMaterial = focusCompanionMaterial;
+
         anim = new List<Sprite>();
         //prepare
         for (int i = 1; i < 131; i++)
@@ -381,10 +386,12 @@ public class Main : MonoBehaviour {
                             if (drawer.moveTimes.ContainsKey(((int)hSliderValue/60)))
                             {
                                 drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
+                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardCompanionTexture;
                             }
                             else
                             {
                                 drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
+                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardNormalTexture;
                             }
                         }
 
@@ -510,15 +517,15 @@ public class Main : MonoBehaviour {
                             if (drawer.moveTimes.ContainsKey(((int)hSliderValue / 60)))
                             {
                                 drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
+                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardCompanionTexture;
                             }
                             else
                             {
                                 drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
+                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardNormalTexture;
                             }
                             
                         }
-
-                        
                     }
                 }
             }

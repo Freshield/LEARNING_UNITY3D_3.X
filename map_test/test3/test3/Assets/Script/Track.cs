@@ -113,12 +113,14 @@ public class Track{
 
         Regex regName = new Regex(@"\((.+)\[");
         Regex regValue = new Regex(@"\[(.+)\]\)");
+        //for each companion line
         while ((line = reader.ReadLine()) != null)
         {
             
             Match match = regName.Match(line);
             string value = match.Groups[1].Value;
             MatchCollection mc = Regex.Matches(value, @"(\d+),");
+            //add the track's name
             List<string> drawers = new List<string>();
             foreach (Match m in mc)
             {
@@ -128,6 +130,7 @@ public class Track{
             match = regValue.Match(line);
             value = match.Groups[1].Value;
             string[] results = value.Split(',');
+            //add the times
             List<int> times = new List<int>();
             foreach (string result in results)
             {
@@ -151,13 +154,16 @@ public class Track{
             {
                 Debug.Log(e);
             }
+
+            //release
+            Array.Clear(results, 0, results.Length);
         }
         
         foreach (string drawer in companions.Keys)
         {
             companions[drawer].Sort();
         }
-
+        
         return companions;
 
     }
