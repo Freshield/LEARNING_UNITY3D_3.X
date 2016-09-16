@@ -168,6 +168,73 @@ public class Track{
 
     }
 
+    //use regular expression to read index
+    //create drawer name and companion pair
+    //this one to create line between the companion
+    public static Dictionary<int, List<List<string>>> LoadIndexForCompanionLine(string path, string name)
+    {
+        TextAsset ta = Resources.Load<TextAsset>(path + "/" + name);
+        StringReader reader = new StringReader(ta.text);
+
+
+        string line;
+
+        Dictionary<int, List<List<string>>> companionLines = new Dictionary<int, List<List<string>>>();
+
+
+        Regex regName = new Regex(@"\((.+)\[");
+        Regex regValue = new Regex(@"\[(.+)\]\)");
+        //for each companion line
+        while ((line = reader.ReadLine()) != null)
+        {
+
+            Match match = regName.Match(line);
+            string value = match.Groups[1].Value;
+            MatchCollection mc = Regex.Matches(value, @"(\d+),");
+            //add the track's name
+            List<string> drawers = new List<string>();
+            foreach (Match m in mc)
+            {
+                drawers.Add("T" + m.Groups[1].Value);
+            }
+
+            match = regValue.Match(line);
+            value = match.Groups[1].Value;
+            string[] results = value.Split(',');
+            //add the times
+            List<int> times = new List<int>();
+            foreach (string result in results)
+            {
+                times.Add(int.Parse(result));
+            }
+            try
+            {
+                foreach (int time in times)
+                {
+                    if (!companionLines.ContainsKey(time))
+                    {
+                        companionLines.Add(time, new List<List<string>>());
+                        companionLines[time].Add(drawers);
+                    }
+                    else
+                    {
+                        companionLines[time].Add(drawers);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e);
+            }
+
+            //release
+            Array.Clear(results, 0, results.Length);
+        }
+        
+        return companionLines;
+
+    }
+
     //to read file
     public static List<Track> LoadFile(string path, string name)
     {
