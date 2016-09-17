@@ -50,6 +50,9 @@ public class Main : MonoBehaviour {
     public Material focusNormalMaterial;
     public Material focusCompanionMaterial;
 
+    public Dictionary<int, List<List<string>>> companionLinesIndex;
+    public GameObject companionLines;
+
     //for wait time
     float planeWaitTime = 1;
     float loadingWaitTime = 0.02f;
@@ -74,6 +77,7 @@ public class Main : MonoBehaviour {
         Drawer.focusNormalMaterial = focusNormalMaterial;
         Drawer.focusCompanionMaterial = focusCompanionMaterial;
 
+        companionLines = GameObject.Find("CompanionLines");
         anim = new List<Sprite>();
         //prepare
         for (int i = 1; i < 131; i++)
@@ -123,11 +127,6 @@ public class Main : MonoBehaviour {
                 
                 //get location
                 tracks = Track.LoadFile("files", "new_data");
-                flow = 1;
-                break;
-            //get index
-            case 1:
-                index = Track.LoadIndex("files", "fixed_index");
                 flow = 2;
                 break;
             //get the center, firstposition and lastposition
@@ -137,8 +136,13 @@ public class Main : MonoBehaviour {
                 firstPosition = result[1];
                 lastPosition = result[2];
                 //release
-                Array.Clear(result,0,result.Length);
+                Array.Clear(result, 0, result.Length);
                 result = null;
+                flow = 1;
+                break;
+            //get index
+            case 1:
+                index = Track.LoadIndex("files", "fixed_index");
                 flow = 3;
                 break;
             //get map
@@ -154,8 +158,13 @@ public class Main : MonoBehaviour {
                 if (number >= map.planes.Length)
                 {
                     number = 0;
-                    flow = 4;
+                    flow = 128;
                 }
+                break;
+            //get companion line index
+            case 128:
+                companionLinesIndex = Track.LoadIndexForCompanionLine("files", "fixed_index");
+                flow = 4;
                 break;
             //generate the world position for each track
             case 4:

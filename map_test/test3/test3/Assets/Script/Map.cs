@@ -87,5 +87,29 @@ public class Map : MonoBehaviour {
         return planes;
 
     }
-    
+
+    //for drawing companion line
+    public static int getTheObjNumber(Dictionary<int, List<List<string>>> index)
+    {
+        int biggest = 0;
+        foreach (List<List<string>> value in index.Values)
+        {
+            if (value.Count >= biggest)
+            {
+                biggest = value.Count;
+            }
+        }
+        return biggest;
+    }
+
+    //for create empty object for companionlines
+    public static void getCompanionLineObj(GameObject parent, GameObject prefab, int number)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            GameObject temp = Instantiate(prefab);
+            temp.name = "companionLine" + i;
+            temp.transform.parent = parent.transform;
+        }
+    }
 }

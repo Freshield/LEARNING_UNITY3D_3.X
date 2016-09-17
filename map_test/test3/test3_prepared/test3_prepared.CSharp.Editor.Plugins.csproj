@@ -124,6 +124,22 @@
     <Compile Include="Assets\Plugins\Editor\HighlightingSystemEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\CGwell FX Shader\Readme.txt" />
+    <None Include="Assets\CGwell FX Shader\Shader\Add Lv1.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Add Lv2.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Add Lv3.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Alpha Blend Lv1.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Alpha Blend Lv2.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Alpha Blend Lv3.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Displacement Map Add.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Dissolve ColorEdge.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Dissolve Simple.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Dissolve.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Distortion.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Falloff Alpha.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Falloff Texture.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Mask Add.shader" />
+    <None Include="Assets\CGwell FX Shader\Shader\Mask AlphaBlend.shader" />
     <None Include="Assets\Glow11\Shaders\Illumin-Diffuse-VertexIllumin.shader" />
     <None Include="Assets\Glow11\Shaders\Mobile\Illumin-Spec-VertexIllumin.shader" />
     <None Include="Assets\Glow11\Shaders\Unity\Alpha-BumpSpec.shader" />
@@ -192,6 +208,18 @@
     <None Include="Assets\Glow11\_internal\Resources\PostShaders\Glow11Downsample.shader" />
     <None Include="Assets\Glow11\_internal\Resources\Shaders\Glow11GlowObjects.shader" />
     <None Include="Assets\Glow11\readme.txt" />
+    <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Additive Tint.shader" />
+    <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Additive.shader" />
+    <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Alpha Blended Tint.shader" />
+    <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Alpha Blended.shader" />
+    <None Include="Assets\IGSoft_Resources\ToolResources\EffectShader\FXMaker_Mask Cutout.shader" />
+    <None Include="Assets\IGSoft_Tools\FXMaker\ToolResource\EditorShader\LineBackground.shader" />
+    <None Include="Assets\IGSoft_Tools\FXMaker\ToolResource\EditorShader\LineColoredBlended.shader" />
+    <None Include="Assets\IGSoft_Tools\FXMaker\ToolResource\UnityShader\FXMakerGrayscaleEffect.shader" />
+    <None Include="Assets\IGSoft_Tools\FXMaker\ToolScript\Temp\grayShader.shader" />
+    <None Include="Assets\IGSoft_Tools\Readme\Contact.txt" />
+    <None Include="Assets\IGSoft_Tools\Readme\FX Maker VideoGuide Youtube.txt" />
+    <None Include="Assets\IGSoft_Tools\Readme\Fx Maker Version.txt" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingBlur.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingComposite.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingInclude.cginc" />
