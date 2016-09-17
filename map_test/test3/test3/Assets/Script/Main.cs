@@ -242,7 +242,6 @@ public class Main : MonoBehaviour
                 break;
             //create empty child gameobject for objects to create lines later
             case 8:
-                //Debug.Log(drawer.obj.name + ":" + drawer.getObjectNumber());
                 int lineNumber = drawers[number].getObjectNumber();
                 for (int i = 0; i < lineNumber; i++)
                 {
@@ -459,7 +458,6 @@ public class Main : MonoBehaviour
                     tempObj = GameObject.Find(name);
                     if (tempObj != null)
                     {
-                        Debug.Log(name + tempObj.activeSelf);
                         if (tempObj.activeSelf)
                         {
                             tempObjs.Add(tempObj);
@@ -473,7 +471,6 @@ public class Main : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log(name);
                         tempObjs.Clear();
                         break;
                     }
