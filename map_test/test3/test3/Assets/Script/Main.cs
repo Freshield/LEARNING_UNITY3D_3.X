@@ -6,7 +6,8 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.Linq;
 
-public class Main : MonoBehaviour {
+public class Main : MonoBehaviour
+{
 
     Map map;
     public GameObject objPrefab;
@@ -20,7 +21,7 @@ public class Main : MonoBehaviour {
 
     int flow = 0;
     int number = 0;
-    
+
     //for loading
     List<Sprite> anim;
     int nowFram = 0;
@@ -37,7 +38,7 @@ public class Main : MonoBehaviour {
     bool isPlaying = false;
     Tweener wholeTime;
     List<GameObject> objs;
-    
+
     //for companion
     public bool companionPrepared = false;
     public Dictionary<string, List<int>> index;
@@ -94,13 +95,13 @@ public class Main : MonoBehaviour {
 
             anim.Add(temp);
         }
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
         switch (flow)
         {
 
@@ -120,7 +121,7 @@ public class Main : MonoBehaviour {
                 flow = 111;
                 break;
             case 111:
-                
+
                 //get location
                 tracks = Track.LoadFile("files", "new_data");
                 flow = 2;
@@ -170,7 +171,7 @@ public class Main : MonoBehaviour {
             //generate the world position for each track
             case 4:
                 Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
-                
+
                 flow = 5;
                 break;
             //transfer first and last position to world position
@@ -185,7 +186,7 @@ public class Main : MonoBehaviour {
                 hSliderValue = WfirstPosition.time.totalTime;
                 wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
                 wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
-                
+
                 flow = 6;
                 break;
             //generate the objects and their drawer
@@ -198,20 +199,20 @@ public class Main : MonoBehaviour {
                     obj.name = getTrack.name;
                     obj.transform.FindChild("board").transform.FindChild("ID").GetComponent<TextMesh>().text = obj.name;
 
-                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime,getTrack.WlastPosition.time.totalTime));
+                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime));
                     drawers.Add(drawer);
                     drawer.obj.transform.parent = drawTracks.transform;
-                    
+
                     //release
                     drawer = null;
                 }
-                
+
                 number++;
 
                 //release
                 getTrack.clearSelf();
                 getTrack = null;
-                
+
                 if (number >= tracks.Count)
                 {
                     //release
@@ -228,8 +229,8 @@ public class Main : MonoBehaviour {
             case 7:
                 if (index.ContainsKey(drawers[number].obj.name))
                 {
-                        drawers[number].getCompanionTimes(index[drawers[number].obj.name]);
-                        drawers[number].isCompanion = true;
+                    drawers[number].getCompanionTimes(index[drawers[number].obj.name]);
+                    drawers[number].isCompanion = true;
                 }
                 number++;
                 if (number >= drawers.Count)
@@ -237,7 +238,7 @@ public class Main : MonoBehaviour {
                     number = 0;
                     flow = 8;
                 }
-                
+
                 break;
             //create empty child gameobject for objects to create lines later
             case 8:
@@ -260,7 +261,7 @@ public class Main : MonoBehaviour {
             //create plane
             case 9:
                 planeWaitTime -= Time.deltaTime;
-                
+
                 if (planeWaitTime < 0)
                 {
                     //to delay some time
@@ -280,7 +281,7 @@ public class Main : MonoBehaviour {
                         }
                     }
                 }
-                
+
                 break;
             //for done text
             case 233:
@@ -301,7 +302,7 @@ public class Main : MonoBehaviour {
                 if (loadingTweener.IsComplete())
                 {
                     loadingTweener.Kill();
-                    loadingTweener = DOTween.To(x => alphaValue = x,1,0,2).SetAutoKill(false).SetEase(Ease.Linear);
+                    loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
                     flow = 85;
                 }
                 break;
@@ -342,70 +343,16 @@ public class Main : MonoBehaviour {
                 break;
             //play ground
             case 10:
-                
+
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();
-                    foreach (Drawer drawer in drawers)
-                    {
-                        if (hSliderValue < drawer.WfirstPosition.time.totalTime)
-                        {
-                            drawer.obj.SetActive(false);
-                        }
-                        else if (hSliderValue < drawer.WlastPosition.time.totalTime)
-                        {
-                            drawer.obj.SetActive(true);
-                            drawer.tweener.PlayForward();
-                            if (drawer.isFocus)
-                            {
-                                drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
-                                HighlightableObject ho = drawer.obj.GetComponent<HighlightableObject>();
-                                if (ho != null)
-                                {
-                                    ho.ConstantOn(Color.red);
-                                }
-                                else
-                                {
-                                    Debug.Log("ho is null");
-                                }
-                            }
-                            else
-                            {
-                                drawer.obj.transform.position = drawer.myPosition;
-                            }
-                            if (drawer.isCompanion)
-                            {
-                                foreach (Transform child in drawer.obj.transform)
-                                {
-                                    if (child.name.Contains("line"))
-                                    {
-                                        child.GetComponent<LineRenderer>().SetVertexCount(0);
-                                    }
-                                }
-                            }
-                            drawer.drawLine(isPlaying);
-                        }
-                        else
-                        {
-                            drawer.obj.SetActive(false);
-                        }
 
-                        //for companion
-                        if (drawer.isCompanion)
-                        {
-                            if (drawer.moveTimes.ContainsKey(((int)hSliderValue/60)))
-                            {
-                                drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
-                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardCompanionTexture;
-                            }
-                            else
-                            {
-                                drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
-                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardNormalTexture;
-                            }
-                        }
+                    //for companion lines
+                    Debug.Log((int)hSliderValue / 60);
 
-                    }
+
+                    dealWithDrawers(false);
                 }
                 break;
 
@@ -418,6 +365,7 @@ public class Main : MonoBehaviour {
     {
         if (flow == 10)
         {
+            //for key control
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 hSliderValue += 0.2f;
@@ -426,16 +374,16 @@ public class Main : MonoBehaviour {
             {
                 hSliderValue -= 0.2f;
             }
-            if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60,GUILayout.Height(50)))
+            //show time
+            if (GUILayout.Button("TIME NOW: " + (int)hSliderValue / 60 + ":" + (int)hSliderValue % 60, GUILayout.Height(50)))
             {
-                
-            }
 
+            }
+            //play and pause control
             if (GUILayout.Button("play", GUILayout.Height(50)))
             {
                 isPlaying = true;
             }
-
             if (GUILayout.Button("pause", GUILayout.Height(50)))
             {
                 isPlaying = false;
@@ -455,10 +403,11 @@ public class Main : MonoBehaviour {
                 }
             }
 
+            //for drag bar
             if (isPlaying)
             {
                 GUILayout.HorizontalSlider(hSliderValue, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, GUILayout.Width(200));
-                
+
                 if (hSliderValue == WlastPosition.time.totalTime)
                 {
                     isPlaying = false;
@@ -470,78 +419,13 @@ public class Main : MonoBehaviour {
                 if (hSliderValue != wholeTime.fullPosition)
                 {
                     wholeTime.Goto(Drawer.getDuration(WfirstPosition.time.totalTime, hSliderValue), false);
-                    
-                    foreach (Drawer drawer in drawers)
-                    {
-                        if (hSliderValue < drawer.WfirstPosition.time.totalTime)
-                        {
-                            drawer.tweener.Goto(0, false);
-                            drawer.obj.SetActive(false);
-                            
-                        }
-                        else if (hSliderValue < drawer.WlastPosition.time.totalTime)
-                        {
-                            drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
-                            drawer.obj.SetActive(true);
-                            if (drawer.isFocus)
-                            {
-                                HighlightableObject ho = drawer.obj.GetComponent<HighlightableObject>();
-                                if (ho != null)
-                                {
-                                    ho.ConstantOn(Color.red);
-                                }
-                                else
-                                {
-                                    Debug.Log("ho is null");
-                                }
-                            }
-                            if (drawer.isCompanion)
-                            {
-                                foreach (Transform child in drawer.obj.transform)
-                                {
-                                    if (child.name.Contains("line"))
-                                    {
-                                        child.GetComponent<LineRenderer>().SetVertexCount(0);
-                                    }
-                                }
-                            }
-                            drawer.drawLine(isPlaying);
-                            if (drawer.isFocus)
-                            {
-                                drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
-                            }
-                            else
-                            {
-                                drawer.obj.transform.position = drawer.myPosition;
-                            }
-                        }
-                        else
-                        {
-                            drawer.tweener.Goto(drawer.duration, false);
-                            drawer.obj.SetActive(false);
-                            
-                        }
-                        //for companion
-                        if (drawer.isCompanion)
-                        {
-                            if (drawer.moveTimes.ContainsKey(((int)hSliderValue / 60)))
-                            {
-                                drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
-                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardCompanionTexture;
-                            }
-                            else
-                            {
-                                drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
-                                drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardNormalTexture;
-                            }
-                            
-                        }
-                    }
+                    dealWithDrawers(true);
+
                 }
             }
         }
     }
-    
+
     void FixedUpdate()
     {
         if (isLoading)
@@ -559,5 +443,76 @@ public class Main : MonoBehaviour {
             }
         }
     }
-    
+
+    void dealWithDrawers(bool isSlider)
+    {
+        foreach (Drawer drawer in drawers)
+        {
+            if (hSliderValue < drawer.WfirstPosition.time.totalTime)
+            {
+                drawer.obj.SetActive(false);
+            }
+            else if (hSliderValue < drawer.WlastPosition.time.totalTime)
+            {
+                if (isSlider)
+                {
+                    drawer.tweener.Goto(Drawer.getDuration(drawer.WfirstPosition.time.totalTime, hSliderValue), false);
+                }
+                else
+                {
+                    drawer.tweener.PlayForward();
+                }
+                drawer.obj.SetActive(true);
+                if (drawer.isFocus)
+                {
+                    drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
+                    HighlightableObject ho = drawer.obj.GetComponent<HighlightableObject>();
+                    if (ho != null)
+                    {
+                        ho.ConstantOn(Color.red);
+                    }
+                    else
+                    {
+                        Debug.Log("ho is null");
+                    }
+                }
+                else
+                {
+                    drawer.obj.transform.position = drawer.myPosition;
+                }
+                if (drawer.isCompanion)
+                {
+                    foreach (Transform child in drawer.obj.transform)
+                    {
+                        if (child.name.Contains("line"))
+                        {
+                            child.GetComponent<LineRenderer>().SetVertexCount(0);
+                        }
+                    }
+                }
+                drawer.drawLine(isPlaying);
+            }
+            else
+            {
+                drawer.obj.SetActive(false);
+            }
+
+            //for companion
+            if (drawer.isCompanion)
+            {
+                if (drawer.moveTimes.ContainsKey(((int)hSliderValue / 60)))
+                {
+                    drawer.obj.GetComponent<Renderer>().material.mainTexture = companionTexture;
+                    drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardCompanionTexture;
+                }
+                else
+                {
+                    drawer.obj.GetComponent<Renderer>().material.mainTexture = normalTexture;
+                    drawer.obj.transform.FindChild("board").GetComponent<Renderer>().material.mainTexture = boardNormalTexture;
+                }
+            }
+
+        }
+
+    }
 }
