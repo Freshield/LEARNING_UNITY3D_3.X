@@ -51,6 +51,7 @@ public class Main : MonoBehaviour {
 
     public Dictionary<int, List<List<string>>> companionLinesIndex;
     public GameObject companionLines;
+    public GameObject companionLinePrefab;
 
     //for wait time
     float planeWaitTime = 1;
@@ -159,6 +160,11 @@ public class Main : MonoBehaviour {
             //get companion line index
             case 128:
                 companionLinesIndex = Track.LoadIndexForCompanionLine("files", "fixed_index");
+                flow = 129;
+                break;
+            case 129:
+                int biggest = Map.getTheObjNumber(companionLinesIndex);
+                Map.getCompanionLineObj(companionLines, companionLinePrefab, biggest);
                 flow = 4;
                 break;
             //generate the world position for each track
