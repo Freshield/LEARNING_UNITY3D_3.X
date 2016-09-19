@@ -252,7 +252,6 @@ public class MouseControllor : MonoBehaviour {
                             {
                                 Debug.Log("ho is null");
                             }
-                            //focusObj.GetComponent<MeshRenderer>().material.SetFloat("_GlowStrength", 1);
                             var em = hited.GetComponent<ParticleSystem>().emission;
                             em.enabled = false;
                             em = focusObj.GetComponent<ParticleSystem>().emission;

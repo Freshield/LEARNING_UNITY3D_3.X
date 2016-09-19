@@ -349,9 +349,8 @@ public class Main : MonoBehaviour
                     wholeTime.PlayForward();
 
                     //for companion lines
-                    Debug.Log((int)hSliderValue / 60);
-
-
+                    dealWithCompanionLines((int)hSliderValue / 60);
+                    //for drawers
                     dealWithDrawers(false);
                 }
                 break;
@@ -392,14 +391,6 @@ public class Main : MonoBehaviour
                 foreach (Drawer drawer in drawers)
                 {
                     drawer.tweener.Pause();
-                    if (drawer.isFocus)
-                    {
-                        drawer.obj.transform.position = drawer.myPosition + Drawer.objFocus;
-                    }
-                    else
-                    {
-                        drawer.obj.transform.position = drawer.myPosition;
-                    }
                 }
             }
 
@@ -419,8 +410,10 @@ public class Main : MonoBehaviour
                 if (hSliderValue != wholeTime.fullPosition)
                 {
                     wholeTime.Goto(Drawer.getDuration(WfirstPosition.time.totalTime, hSliderValue), false);
+                    //for companion lines
+                    dealWithCompanionLines((int)hSliderValue / 60);
+                    //for drawers
                     dealWithDrawers(true);
-
                 }
             }
         }
@@ -439,6 +432,72 @@ public class Main : MonoBehaviour
                 if (nowFram >= anim.Count)
                 {
                     nowFram = 0;
+                }
+            }
+        }
+    }
+
+    void dealWithCompanionLines(int timeIndex)
+    {
+        if (companionLinesIndex.ContainsKey(timeIndex))
+        {
+            //clear last one
+            foreach (Transform child in companionLines.transform)
+            {
+                child.GetComponent<LineRenderer>().SetVertexCount(0);
+            }
+
+            List<GameObject> tempObjs = new List<GameObject>();
+            GameObject tempObj;
+            int lineObjectCount = 0;
+
+            foreach (List<string> names in companionLinesIndex[timeIndex])
+            {
+                //to get the companion objects
+                foreach (string name in names)
+                {
+                    tempObj = GameObject.Find(name);
+                    if (tempObj != null)
+                    {
+                        Debug.Log(name + tempObj.activeSelf);
+                        if (tempObj.activeSelf)
+                        {
+                            tempObjs.Add(tempObj);
+                        }
+                        else
+                        {
+                            //cancel the loop
+                            tempObjs.Clear();
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log(name);
+                        tempObjs.Clear();
+                        break;
+                    }
+                }
+
+                //to create lines between objects
+                //x objects need x lines
+                if (tempObjs.Count > 1)
+                {
+                    companionLines.transform.FindChild("companionLine" + lineObjectCount).GetComponent<LineRenderer>().SetVertexCount(tempObjs.Count);
+
+                    Vector3[] positions = new Vector3[tempObjs.Count];
+
+                    for (int i = 0; i < tempObjs.Count; i++)
+                    {
+                        positions[i] = tempObjs[i].transform.position;
+                    }
+                    companionLines.transform.FindChild("companionLine" + lineObjectCount).GetComponent<LineRenderer>().SetPositions(positions);
+
+                    lineObjectCount++;
+
+                    //release
+                    Array.Clear(positions, 0, positions.Length);
+                    tempObjs.Clear();
                 }
             }
         }
@@ -480,6 +539,7 @@ public class Main : MonoBehaviour
                 {
                     drawer.obj.transform.position = drawer.myPosition;
                 }
+                //?
                 if (drawer.isCompanion)
                 {
                     foreach (Transform child in drawer.obj.transform)
