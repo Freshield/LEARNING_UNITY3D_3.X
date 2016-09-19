@@ -39,7 +39,6 @@ public class Main : MonoBehaviour {
     List<GameObject> objs;
     
     //for companion
-    public List<List<Drawer>> companions;
     public bool companionPrepared = false;
     public Dictionary<string, List<int>> index;
     public GameObject linePrefab;
@@ -69,15 +68,11 @@ public class Main : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        testText = GameObject.Find("TestText");
         loadingImage = GameObject.Find("LoadingImage");
-        backImage = GameObject.Find("BackImage");
         Drawer.normalMaterial = normalMaterial;
         Drawer.companionMaterial = companionMaterial;
         Drawer.focusNormalMaterial = focusNormalMaterial;
         Drawer.focusCompanionMaterial = focusCompanionMaterial;
-
-        companionLines = GameObject.Find("CompanionLines");
         anim = new List<Sprite>();
         //prepare
         for (int i = 1; i < 131; i++)
@@ -95,23 +90,9 @@ public class Main : MonoBehaviour {
             {
                 temp = Resources.Load<Sprite>("loading/loading" + i);
             }
-            
+
             anim.Add(temp);
         }
-
-        drawers = new List<Drawer>();
-        
-        companions = new List<List<Drawer>>();
-
-        for (int i = 0; i < 3; i++)
-        {
-            List<Drawer> companion = new List<Drawer>();
-            companions.Add(companion);
-        }
-
-        drawTracks = new GameObject("drawTracks");
-
-        index = new Dictionary<string, List<int>>();
         
     }
 
@@ -124,6 +105,20 @@ public class Main : MonoBehaviour {
 
             //load file and prepare
             case 0:
+
+                testText = GameObject.Find("TestText");
+                backImage = GameObject.Find("BackImage");
+
+                companionLines = GameObject.Find("CompanionLines");
+
+                drawers = new List<Drawer>();
+
+                drawTracks = new GameObject("drawTracks");
+
+                index = new Dictionary<string, List<int>>();
+                flow = 111;
+                break;
+            case 111:
                 
                 //get location
                 tracks = Track.LoadFile("files", "new_data");

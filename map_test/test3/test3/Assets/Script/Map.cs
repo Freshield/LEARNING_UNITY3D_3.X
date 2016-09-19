@@ -88,7 +88,9 @@ public class Map : MonoBehaviour {
 
     }
 
-    //for drawing companion line
+    /////////////////////for the companion line/////////////////////
+
+    //for get the biggest number
     public static int getTheObjNumber(Dictionary<int, List<List<string>>> index)
     {
         int biggest = 0;
