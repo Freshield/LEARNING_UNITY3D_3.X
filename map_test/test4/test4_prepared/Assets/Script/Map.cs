@@ -34,9 +34,9 @@ public class Map : MonoBehaviour {
         fullLon = (onesecond * size / 3600) * 2;
         fullLat = fullLon * ratio;
         
-        planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
+        //planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
 
-        points = Position.PositionCreator(centerPoint, 6, 4, fullLat, fullLon);
+        points = Position.PositionCreator(centerPoint, 4, 4, fullLat, fullLon);
         
     }
 

@@ -130,6 +130,7 @@ public class Main : MonoBehaviour
             case 2:
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
+                Debug.Log(center.latitute +","+ center.lontitute);
                 firstPosition = result[1];
                 lastPosition = result[2];
                 //release
@@ -255,12 +256,20 @@ public class Main : MonoBehaviour
                 {
                     number = 0;
                     flow = 9;
+                    for (int i = 0; i < map.planes.Length; i++)
+                    {
+                        Debug.Log(i+":"+map.planes[i].name);
+                    }
+                    for (int i = 0; i < map.points.Length; i++)
+                    {
+                        Debug.Log(i + ":" + map.points[i].latitute +","+ map.points[i].lontitute);
+                    }
                 }
                 break;
             //create plane
             case 9:
                 planeWaitTime -= Time.deltaTime;
-
+                
                 if (planeWaitTime < 0)
                 {
                     //to delay some time
