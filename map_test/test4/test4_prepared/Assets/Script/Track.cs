@@ -98,6 +98,15 @@ public class Track{
         return temp;
     }
 
+    //transfer position to world position
+    public static Position world2position(VecTime worldPosition, Position center, float fullLat, float fullLon)
+    {
+        float lontitute = (((-worldPosition.worldPosition.x) * fullLon) / 10) + center.lontitute;
+        float latitute = (((-worldPosition.worldPosition.z) * fullLat) / 10) + center.latitute;
+        Position position = new Position(latitute, lontitute, new PTime(worldPosition.time.totalTime));
+        return position;
+    }
+
     //use regular expression to read index
     //create drawer name and companion pair
     public static Dictionary<string,List<int>> LoadIndex(string path, string name)

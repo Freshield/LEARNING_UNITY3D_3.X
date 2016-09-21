@@ -88,6 +88,31 @@ public class Map : MonoBehaviour {
 
     }
 
+    //create plane gameobject
+    public GameObject[] monitorCreator(Vector3 center, int x, int z, float width, GameObject monitorPrefab)
+    {
+        GameObject[] monitors = new GameObject[x * z];
+
+        GameObject monitor_parent = new GameObject("monitor_parent");
+
+        for (int i = 0; i < z; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                GameObject monitor = Instantiate(monitorPrefab);
+                monitor.name = "monitor" + (x * i + j);
+                monitor.transform.parent = monitor_parent.transform;
+                float hor = (((x - 1) * width) / 2) - (width * j);
+                float ver = (((-z + 1) * width) / 2) + (width * i);
+                monitor.transform.position = new Vector3(hor + center.x, center.y, ver + center.z);
+                monitors[x * i + j] = monitor;
+            }
+        }
+
+        return monitors;
+
+    }
+
     /////////////////////for the companion line/////////////////////
 
     //for get the biggest number
