@@ -20,8 +20,12 @@ public class MainTest : MonoBehaviour {
 
     MouseTest mouseTest;
 
-	// Use this for initialization
-	void Start () {
+    //for read title
+    Title title;
+    List<object> titleResult;
+
+    // Use this for initialization
+    void Start () {
         mouseTest = GameObject.Find("Main Camera").GetComponent<MouseTest>();
         planes = new GameObject[16];
         planeTextures = new List<Texture>();
@@ -37,6 +41,9 @@ public class MainTest : MonoBehaviour {
         {
             planeTextures.Add(map.planes[i].GetComponent<Renderer>().material.mainTexture);
         }
+
+        //for read title
+
     }
 	
 	// Update is called once per frame
@@ -44,32 +51,26 @@ public class MainTest : MonoBehaviour {
 
         switch (flow)
         {
-            //get refresh the map
-            case 0:
-                map.Refresh(center);
-                flow = 233;
-                break;
             //read file
+            case 0:
+                titleResult = Title.getTitle("files", "Trajectory_1", lineNumber);
+                lineNumber = (float)titleResult[1];
+                Debug.Log(lineNumber);
+                if (lineNumber != -1)
+                {
+                    title = (Title)titleResult[0];
+                    Debug.Log(title.name + "," + title.lineNumber);
+                }
+                else
+                {
+                    flow = 233;
+                    break;
+                }
+
+                break;
+            //get refresh the map
             case 233:
-                Debug.Log(lineNumber);
-                List<object> temp = Title.getTitle("files", "Trajectory_1", lineNumber);
-                Title title = (Title)temp[0];
-                Debug.Log(title.name + "," + title.lineNumber);
-                lineNumber = (float)temp[1];
-                Debug.Log(lineNumber);
-
-                temp = Title.getTitle("files", "Trajectory_1", lineNumber);
-                title = (Title)temp[0];
-                Debug.Log(title.name + "," + title.lineNumber);
-                lineNumber = (float)temp[1];
-                Debug.Log(lineNumber);
-
-                temp = Title.getTitle("files", "Trajectory_1", lineNumber);
-                title = (Title)temp[0];
-                Debug.Log(title.name + "," + title.lineNumber);
-                lineNumber = (float)temp[1];
-                Debug.Log(lineNumber);
-
+                map.Refresh(center);
                 flow = 1;
                 break;
             //refresh the plane's texture
@@ -109,12 +110,12 @@ public class MainTest : MonoBehaviour {
             case 3:
                 mouseTest.mouseLock = false;
                 map.zoom += 2;
-                flow = 0;
+                flow = 233;
                 break;
             case 4:
                 mouseTest.mouseLock = false;
                 map.zoom -= 2;
-                flow = 0;
+                flow = 233;
                 break;
             //renew the cache texture and unlock the mouselock
             case 998:

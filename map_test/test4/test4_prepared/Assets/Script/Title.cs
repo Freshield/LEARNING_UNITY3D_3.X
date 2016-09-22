@@ -43,43 +43,59 @@ public class Title{
             reader.ReadLine();
         }
         //for read the name
-        while ((line = reader.ReadLine()) != null)
+        while (true)
         {
-            if (line.Contains("T"))
+            line = reader.ReadLine();
+            if (line != null)
             {
-                track = new Track(line);
-                beginNumber = count;
-                count++;
-                break;
+                if (line.Contains("T"))
+                {
+                    track = new Track(line);
+                    beginNumber = count;
+                    count++;
+                    break;
+                }
+                else
+                {
+                    Debug.Log("the line " + count + " do not have T, see the next line.");
+                    count++;
+                }
             }
             else
             {
-                Debug.Log("the line " + count + " do not have T, see the next line.");
-                count++;
-            }
-        }
-        //for create positions
-        while ((line = reader.ReadLine()) != null)
-        {
-            if (line.Contains(","))
-            {
-                string[] result = line.Split(',');
-                Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), new PTime(result[2])));
-                track.positions.Add(position);
-                count++;
-                //release
-                Array.Clear(result, 0, result.Length);
-            }
-            else if (line.Contains("T"))
-            {
+                count = -1;
                 break;
             }
-            else
-            {
-                Debug.Log("face some problem in line " + count);
-            }
+            
         }
-        track.calculAvg();
+
+        if (count != -1)
+        {
+            //for create positions
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.Contains(","))
+                {
+                    string[] result = line.Split(',');
+                    Position position = coo.wgs2gcj(new Position(float.Parse(result[0]), float.Parse(result[1]), new PTime(result[2])));
+                    track.positions.Add(position);
+                    count++;
+                    //release
+                    Array.Clear(result, 0, result.Length);
+                }
+                else if (line.Contains("T"))
+                {
+                    break;
+                }
+                else
+                {
+                    Debug.Log("face some problem in line " + count);
+                }
+            }
+            track.calculAvg();
+
+        }
+        
 
         Title title = new Title(track.name, track.avgLat, track.avgLon, beginNumber);
 
