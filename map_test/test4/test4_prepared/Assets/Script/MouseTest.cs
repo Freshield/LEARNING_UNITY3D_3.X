@@ -16,6 +16,8 @@ public class MouseTest : MonoBehaviour {
 
     int mouseFlow = 0;
 
+    public bool mouseLock = false;
+
     // Use this for initialization
     void Start () {
 
@@ -99,67 +101,90 @@ public class MouseTest : MonoBehaviour {
                     }
                     theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
                 }
-                //ray test
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit))
+
+                if (mouseLock)
                 {
-
-                    //for plane
-                    if (hit.collider.gameObject.name.Contains("mon"))
+                    //ray test
+                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out hit))
                     {
-                        if (hited != null && hited != hit.collider.gameObject)
-                        {
-                            HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
-                            if (ho1 != null)
-                            {
-                                ho1.Off();
-                            }
-                            else
-                            {
-                                Debug.Log("ho1 is null");
-                            }
-                        }
-                        hited = hit.collider.gameObject;
 
-                        if (mainTest.map.zoom != 15)
+                        //for plane
+                        if (hit.collider.gameObject.name.Contains("mon"))
                         {
-                            HighlightableObject ho = hit.collider.gameObject.GetComponent<HighlightableObject>();
-                            if (ho != null)
+                            if (hited != null && hited != hit.collider.gameObject)
                             {
-                                ho.ConstantOn(Color.red);
+                                HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
+                                if (ho1 != null)
+                                {
+                                    ho1.Off();
+                                }
+                                else
+                                {
+                                    Debug.Log("ho1 is null");
+                                }
                             }
-                            else
+                            hited = hit.collider.gameObject;
+
+                            if (mainTest.map.zoom != 15)
                             {
-                                Debug.Log("ho is null");
+                                HighlightableObject ho = hit.collider.gameObject.GetComponent<HighlightableObject>();
+                                if (ho != null)
+                                {
+                                    ho.ConstantOn(Color.red);
+                                }
+                                else
+                                {
+                                    Debug.Log("ho is null");
+                                }
                             }
-                        }
-                        
-                        if (Input.GetMouseButtonUp(0))
-                        {
-                            if (mainTest.map.zoom < 15)
-                            {
-                                GameObject tempPlane = hit.collider.gameObject;
-                                mainTest.center = Track.world2position(new VecTime(tempPlane.transform.position, new PTime(0)), mainTest.center, mainTest.map.fullLat, mainTest.map.fullLon);
 
-                                theCamera.transform.position = new Vector3(0, 7, 0);
-                                distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-                                mainTest.flow = 3;
+                            if (Input.GetMouseButtonUp(0))
+                            {
+                                if (mainTest.map.zoom < 15)
+                                {
+                                    HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
+                                    if (ho1 != null)
+                                    {
+                                        ho1.Off();
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("ho1 is null");
+                                    }
+                                    GameObject tempPlane = hit.collider.gameObject;
+                                    mainTest.center = Track.world2position(new VecTime(tempPlane.transform.position, new PTime(0)), mainTest.center, mainTest.map.fullLat, mainTest.map.fullLon);
+
+                                    theCamera.transform.position = new Vector3(0, 7, 0);
+                                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+                                    mainTest.flow = 3;
+                                }
+
+
                             }
-                            
-
-                        }
-                        if (Input.GetKeyDown(KeyCode.Space))
-                        {
-                            if (mainTest.map.zoom > 9)
+                            if (Input.GetKeyDown(KeyCode.Space))
                             {
-                                theCamera.transform.position = new Vector3(0, 7, 0);
-                                distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-                                mainTest.flow = 4;
+                                if (mainTest.map.zoom > 9)
+                                {
+                                    HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
+                                    if (ho1 != null)
+                                    {
+                                        ho1.Off();
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("ho1 is null");
+                                    }
+                                    theCamera.transform.position = new Vector3(0, 7, 0);
+                                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+                                    mainTest.flow = 4;
 
+                                }
                             }
                         }
                     }
                 }
+                
                 break;
             default:
                 break;
