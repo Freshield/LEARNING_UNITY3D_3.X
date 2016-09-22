@@ -101,8 +101,8 @@ public class Track{
     //transfer position to world position
     public static Position world2position(VecTime worldPosition, Position center, float fullLat, float fullLon)
     {
-        float lontitute = (((-worldPosition.worldPosition.x) * fullLon) / 10) + center.lontitute;
-        float latitute = (((-worldPosition.worldPosition.z) * fullLat) / 10) + center.latitute;
+        float lontitute = (((-worldPosition.worldPosition.x) * fullLon) / 10.0f) + center.lontitute;
+        float latitute = (((-worldPosition.worldPosition.z) * fullLat) / 10.0f) + center.latitute;
         Position position = new Position(latitute, lontitute, new PTime(worldPosition.time.totalTime));
         return position;
     }

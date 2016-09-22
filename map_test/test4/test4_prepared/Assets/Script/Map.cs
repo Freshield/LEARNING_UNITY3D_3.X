@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using System.IO;
 
 public class Map : MonoBehaviour {
     public GameObject[] planes;
     public GameObject planePrefab;
     public Position centerPoint;// = new Position(45.49506f, -73.57801f, new PTime(0, 0));
     public int size = 512;
-    public int zoom = 13;
+    public int zoom = 9;
     public int scale = 2;
+    public float mapRadio = -1;
 
     public float fullLon;
     public float fullLat;
@@ -29,10 +31,14 @@ public class Map : MonoBehaviour {
     {
         this.centerPoint = centerPoint;
 
-        float ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        if (mapRadio == -1)
+        {
+            mapRadio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        }
+        
         float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
         fullLon = (onesecond * size / 3600) * 2;
-        fullLat = fullLon * ratio;
+        fullLat = fullLon * mapRadio;
         
         //planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
 
@@ -61,6 +67,26 @@ public class Map : MonoBehaviour {
         }
             
         plane.GetComponent<Renderer>().material.mainTexture = req.texture;
+    }
+
+    //cache the map
+    public IEnumerator cacheMap(GameObject plane, Position center, string name)
+    {
+        Stream outStream = File.Create(Application.streamingAssetsPath + "/" + name + ".png");
+
+        StringBuilder url = new StringBuilder("http://maps.googleapis.com/maps/api/staticmap?");
+
+        url.Append("center=").Append(WWW.UnEscapeURL(string.Format("{0},{1}", center.latitute, center.lontitute)));
+        url.Append("&zoom=").Append(zoom);
+        url.Append("&size=").Append(WWW.UnEscapeURL(string.Format("{0}x{0}", size)));
+        url.Append("&scale=2");
+        url.Append("&maptype=terrain&key=AIzaSyAWzOOJz0eZ8bs294s_PJdfOs8nz-s9xKc");
+
+        WWW www = new WWW(url.ToString());
+        yield return www;
+        byte[] buffer = www.bytes;
+        outStream.Write(buffer, 0, buffer.Length);
+        outStream.Close();
     }
 
     //create plane gameobject
@@ -138,5 +164,11 @@ public class Map : MonoBehaviour {
             temp.name = "companionLine" + i;
             temp.transform.parent = parent.transform;
         }
+    }
+
+    //for 8x8 find the position in 4x4
+    public static int monitor88Backplane44(int number)
+    {
+        return ((number / 8 / 2) * 4 + (number % 8 / 2));
     }
 }
