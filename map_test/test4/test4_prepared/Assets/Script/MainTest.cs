@@ -8,6 +8,7 @@ public class MainTest : MonoBehaviour {
     public Position center;
     public Map map;
     int number = 0;
+    float lineNumber = 0;
 
     public int flow = 0;
     float planeWaitTime = 1;
@@ -36,14 +37,6 @@ public class MainTest : MonoBehaviour {
         {
             planeTextures.Add(map.planes[i].GetComponent<Renderer>().material.mainTexture);
         }
-        /*
-        for (int i = 0; i < map.planes.Length; i++)
-        {
-            Debug.Log(map.points[i].latitute+","+map.points[i].lontitute);
-            Position temp = Track.world2position(new VecTime(map.planes[i].transform.position, new PTime(0)), center, map.fullLat, map.fullLon);
-            Debug.Log(temp.latitute+","+temp.lontitute);
-        }
-        */
     }
 	
 	// Update is called once per frame
@@ -54,12 +47,34 @@ public class MainTest : MonoBehaviour {
             //get refresh the map
             case 0:
                 map.Refresh(center);
+                flow = 233;
+                break;
+            //read file
+            case 233:
+                Debug.Log(lineNumber);
+                List<object> temp = Title.getTitle("files", "Trajectory_1", lineNumber);
+                Title title = (Title)temp[0];
+                Debug.Log(title.name + "," + title.lineNumber);
+                lineNumber = (float)temp[1];
+                Debug.Log(lineNumber);
+
+                temp = Title.getTitle("files", "Trajectory_1", lineNumber);
+                title = (Title)temp[0];
+                Debug.Log(title.name + "," + title.lineNumber);
+                lineNumber = (float)temp[1];
+                Debug.Log(lineNumber);
+
+                temp = Title.getTitle("files", "Trajectory_1", lineNumber);
+                title = (Title)temp[0];
+                Debug.Log(title.name + "," + title.lineNumber);
+                lineNumber = (float)temp[1];
+                Debug.Log(lineNumber);
+
                 flow = 1;
                 break;
             //refresh the plane's texture
             case 1:
                 StartCoroutine(map._Refresh(map.planes[number], map.points[number]));
-                //StartCoroutine(map.cacheMap(map.planes[number], map.points[number], "temp"+number));
                 number++;
                 if (number >= map.planes.Length)
                 {
