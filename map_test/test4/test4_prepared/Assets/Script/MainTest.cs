@@ -21,24 +21,33 @@ public class MainTest : MonoBehaviour {
     MouseTest mouseTest;
 
     //for read title
-    Title title;
     List<object> titleResult;
-    Dictionary<string, Title> dicTitles;
-    Dictionary<string, List<string>> dicLevel_9;
-    Dictionary<string, List<string>> dicLevel_11;
-    Dictionary<string, List<string>> dicLevel_13;
+    List<Title> titles;
 
-    public int lastLevel_9 = -1;
-    public int[] lastLevel_11 = new int[2] { -1, -1 };
-    public int[] lastLevel_13 = new int[3] { -1, -1, -1 };
+    public int levelNow = 0;
+    int basicZoom = 0;
+
+    Dictionary<string, List<Title>> dicLevel_0;
+    Dictionary<string, List<Title>> dicLevel_1;
+    Dictionary<string, List<Title>> dicLevel_2;
+
+    public int lastLevel_0 = -1;
+    public int lastLevel_1 = -1;
+    public int lastLevel_2 = -1;
+
+    GameObject[] monitors;
+
+    //for center
+    float avgLat = 0;
+    float avgLon = 0;
     
 
     // Use this for initialization
     void Start () {
-        dicTitles = new Dictionary<string, Title>();
-        dicLevel_9 = new Dictionary<string, List<string>>();
-        dicLevel_11 = new Dictionary<string, List<string>>();
-        dicLevel_13 = new Dictionary<string, List<string>>();
+        titles = new List<Title>();
+        dicLevel_0 = new Dictionary<string, List<Title>>();
+        dicLevel_1 = new Dictionary<string, List<Title>>();
+        dicLevel_2 = new Dictionary<string, List<Title>>();
         mouseTest = GameObject.Find("Main Camera").GetComponent<MouseTest>();
         planes = new GameObject[16];
         planeTextures = new List<Texture>();
@@ -46,16 +55,15 @@ public class MainTest : MonoBehaviour {
         {
             planes[i] = GameObject.Find("Plane" + i);
         }
-        center = new Position(39.99631f, 116.3291f, new PTime(0));
+        //create the map
         map = GameObject.Find("Directional light").GetComponent<Map>();
         map.planes = planes;
-        map.monitorCreator(new Vector3(0,0.05f,0), 8, 8, 5, monitorPrefab);
+        monitors = map.monitorCreator(new Vector3(0,0.05f,0), 8, 8, 5, monitorPrefab);
         for (int i = 0; i < map.planes.Length; i++)
         {
             planeTextures.Add(map.planes[i].GetComponent<Renderer>().material.mainTexture);
         }
-        map.Refresh(center);
-
+        basicZoom = map.zoom;
     }
 	
 	// Update is called once per frame
@@ -63,60 +71,85 @@ public class MainTest : MonoBehaviour {
 
         switch (flow)
         {
-            //read file and prepare dictionaries
+            //read file and prepare title
             case 0:
                 titleResult = Title.getTitle("files", "Trajectory_1", lineNumber);
                 lineNumber = (float)titleResult[1];
                 if (lineNumber != -1)
                 {
-                    title = (Title)titleResult[0];
-                    title.getLevelPosition(center, map.fullLat, map.fullLon);
-                    dicTitles.Add(title.name, title);
-                    Debug.Log(title.name);
-
-                    Debug.Log(title.level_9);
-                    Debug.Log(title.level_11);
-                    Debug.Log(title.level_13);
-                    //for level_9
-                    if (!dicLevel_9.ContainsKey(title.level_9))
-                    {
-                        dicLevel_9.Add(title.level_9, new List<string>());
-                        dicLevel_9[title.level_9].Add(title.name);
-                    }
-                    else
-                    {
-                        dicLevel_9[title.level_9].Add(title.name);
-                    }
-                    //for level_11
-                    if (!dicLevel_11.ContainsKey(title.level_11))
-                    {
-                        dicLevel_11.Add(title.level_11, new List<string>());
-                        dicLevel_11[title.level_11].Add(title.name);
-                    }
-                    else
-                    {
-                        dicLevel_11[title.level_11].Add(title.name);
-                    }
-                    //for level_13
-                    if (!dicLevel_13.ContainsKey(title.level_13))
-                    {
-                        dicLevel_13.Add(title.level_13, new List<string>());
-                        dicLevel_13[title.level_13].Add(title.name);
-                    }
-                    else
-                    {
-                        dicLevel_13[title.level_13].Add(title.name);
-                    }
+                    titles.Add((Title)titleResult[0]);
                 }
                 else
                 {
-                    Debug.Log("count"+dicLevel_11.Keys.Count);
-                    foreach (string key in dicLevel_11.Keys)
-                    {
-                        Debug.Log("keys:" + key);
-                    }
-                    flow = 1;
+                    flow = 100;
                     break;
+                }
+                break;
+            //calculate the center
+            case 100:
+                if (number < titles.Count)
+                {
+                    avgLat += titles[number].latitute;
+                    avgLon += titles[number].lontitute;
+                    Debug.Log(titles[number].name + ":" + titles[number].latitute + "," + titles[number].lontitute);
+                    number++;
+                }
+                else
+                {
+                    number = 0;
+                    avgLat /= titles.Count;
+                    avgLon /= titles.Count;
+                    Debug.Log("average:" + avgLat + "," + avgLon);
+                    flow = 101;
+                }
+                break;
+            //generate map
+            case 101:
+                center = new Position(avgLat, avgLon, new PTime(0));
+                map.Refresh(center);
+                flow = 102;
+                break;
+            //calculate the area
+            case 102:
+                if (number < titles.Count)
+                {
+                    titles[number].getMonitorLevelPosition(center, map.fullLat, map.fullLon);
+                    //for level_0
+                    if (!dicLevel_0.ContainsKey(titles[number].level_0))
+                    {
+                        dicLevel_0.Add(titles[number].level_0, new List<Title>());
+                        dicLevel_0[titles[number].level_0].Add(titles[number]);
+                    }
+                    else
+                    {
+                        dicLevel_0[titles[number].level_0].Add(titles[number]);
+                    }
+                    //for level_1
+                    if (!dicLevel_1.ContainsKey(titles[number].level_1))
+                    {
+                        dicLevel_1.Add(titles[number].level_1, new List<Title>());
+                        dicLevel_1[titles[number].level_1].Add(titles[number]);
+                    }
+                    else
+                    {
+                        dicLevel_1[titles[number].level_1].Add(titles[number]);
+                    }
+                    //for level_2
+                    if (!dicLevel_2.ContainsKey(titles[number].level_2))
+                    {
+                        dicLevel_2.Add(titles[number].level_2, new List<Title>());
+                        dicLevel_2[titles[number].level_2].Add(titles[number]);
+                    }
+                    else
+                    {
+                        dicLevel_2[titles[number].level_2].Add(titles[number]);
+                    }
+                    number++;
+                }
+                else
+                {
+                    number = 0;
+                    flow = 1;
                 }
                 break;
             //get refresh the map
@@ -143,7 +176,7 @@ public class MainTest : MonoBehaviour {
                 {
                     //to delay some time
                     planeWaitTime = 1;
-                    for (int i = 0; i < 16; i++)
+                    for (int i = 0; i < map.planes.Length; i++)
                     {
                         if (map.planes[i].GetComponent<Renderer>().material.mainTexture != planeTextures[i])
                         {
@@ -160,61 +193,46 @@ public class MainTest : MonoBehaviour {
                 break;
             //show the area numbers
             case 666:
-                switch (map.zoom)
+                switch (levelNow)
                 {
-                    case 9:
-                        int temp_9 = 0;
-                        for (int i = 0; i < 16; i++)
+                    case 0:
+                        int temp_0 = 0;
+                        for (int i = 0; i < monitors.Length; i++)
                         {
-                            temp_9 = i;
-                            if (dicLevel_9.ContainsKey(temp_9.ToString()))
+                            temp_0 = i;
+                            if (dicLevel_0.ContainsKey(temp_0.ToString()))
                             {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = dicLevel_9[temp_9.ToString()].Count.ToString();
+                                monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = dicLevel_0[temp_0.ToString()].Count.ToString();
                             }
                             else
                             {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "0";
+                                monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "0";
                             }
                             
                         }
                         break;
-                    case 11:
-                        int[] temp_11 = new int[2];
-                        temp_11[0] = lastLevel_9;
-                        for (int i = 0; i < 16; i++)
+                    case 1:
+                        int temp_1 = 0;
+                        for (int i = 0; i < monitors.Length; i++)
                         {
-                            temp_11[1] = i;
-                            Debug.Log("plane" + i + ",temp_11:" + temp_11[0] + "," + temp_11[1]);
-                            if (dicLevel_11.ContainsKey(temp_11[0]+""+temp_11[1]))
+                            temp_1 = i;
+                            if (dicLevel_1.ContainsKey(lastLevel_0+""+ temp_1))
                             {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = dicLevel_11[temp_11[0] + "" + temp_11[1]].Count.ToString();
+                                monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = dicLevel_1[lastLevel_0 + "" + temp_1].Count.ToString();
                             }
                             else
                             {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "0";
+                                monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "0";
                             }
                             
                         }
                         break;
-                    case 13:
-                        int[] temp_13 = new int[3];
-                        temp_13[0] = lastLevel_9;
-                        temp_13[1] = lastLevel_11[1];
-                        for (int i = 0; i < 16; i++)
+                    case 2:
+                        Debug.Log(lastLevel_0 + "" + lastLevel_1);
+                        foreach (Title title in dicLevel_1[lastLevel_0 + "" + lastLevel_1])
                         {
-                            temp_13[2] = i;
-                            if (dicLevel_13.ContainsKey(temp_13[0] + "" + temp_13[1]+""+temp_13[2]))
-                            {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = dicLevel_13[temp_13[0] + "" + temp_13[1] + "" + temp_13[2]].Count.ToString();
-                            }
-                            else
-                            {
-                                map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "0";
-                            }
-                            
+                            Debug.Log(title.name);
                         }
-                        break;
-                    case 15:
                         break;
                     default:
                         Debug.Log("map's zoom level error");
@@ -227,21 +245,23 @@ public class MainTest : MonoBehaviour {
             case 3:
                 mouseTest.mouseLock = false;
 
-                map.zoom += 2;
-                for (int i = 0; i < map.planes.Length; i++)
+                map.zoom += 3;
+                levelNow++;
+                for (int i = 0; i < monitors.Length; i++)
                 {
-                    map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                    monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
                 }
                 
                 flow = 233;
                 break;
             case 4:
                 mouseTest.mouseLock = false;
-                map.zoom = 9;
-                center = new Position(39.99631f, 116.3291f, new PTime(0));
-                for (int i = 0; i < map.planes.Length; i++)
+                map.zoom = basicZoom;
+                levelNow = 0;
+                center = new Position(avgLat, avgLon, new PTime(0));
+                for (int i = 0; i < monitors.Length; i++)
                 {
-                    map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                    monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
                 }
                 flow = 233;
                 break;
