@@ -228,12 +228,21 @@ public class MainTest : MonoBehaviour {
                 mouseTest.mouseLock = false;
 
                 map.zoom += 2;
+                for (int i = 0; i < map.planes.Length; i++)
+                {
+                    map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                }
+                
                 flow = 233;
                 break;
             case 4:
                 mouseTest.mouseLock = false;
                 map.zoom = 9;
                 center = new Position(39.99631f, 116.3291f, new PTime(0));
+                for (int i = 0; i < map.planes.Length; i++)
+                {
+                    map.planes[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                }
                 flow = 233;
                 break;
             //renew the cache texture and unlock the mouselock

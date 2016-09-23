@@ -185,7 +185,7 @@ public class MouseTest : MonoBehaviour {
                             }
                             if (Input.GetKeyDown(KeyCode.Space))
                             {
-                                if (mainTest.map.zoom == 15)
+                                if (mainTest.map.zoom >9)
                                 {
                                     HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
                                     if (ho1 != null)
