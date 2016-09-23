@@ -8,6 +8,9 @@ public class Title{
     public float latitute;
     public float lontitute;
     public float lineNumber;
+    public int level_9;
+    public int level_11;
+    public int level_13;
 
     public Title(string name)
     {
@@ -20,6 +23,40 @@ public class Title{
         this.latitute = latitute;
         this.lontitute = lontitute;
         this.lineNumber = lineNumber;
+    }
+    //create zoom 9,11,13,15 level
+    public void getLevelPosition(Position center, float fullLat, float fullLon)
+    {
+        //for zoom9
+        //need minus value
+        float x = (lontitute - center.lontitute) * -10 / fullLon;
+        float z = (latitute - center.latitute) * -10 / fullLat;
+        Debug.Log("origin "+x + "," + z);
+        //change to a new coordinator, x from 0 to 40, z from 0 to 40
+        float x9 = (x - 20) * (-1);
+        float z9 = z + 20;
+        Debug.Log(x9 / 10);
+        Debug.Log(z9 / 10);
+        level_9 = (((int)x9 / 10) + (((int)z9 / 10) * 4));
+        float leftPoint9x = (level_9 % 4) * 10;
+        float upPoint9z = (level_9 / 4) * 10;
+        Debug.Log("zoom9 " + x9 + "," + z9);
+        Debug.Log("leftup " + leftPoint9x + "," + upPoint9z);
+
+        //for zoom11
+        float x11 = (x9 - leftPoint9x) * 4;
+        float z11 = (z9 - upPoint9z) * 4;
+        level_11 = (((int)x11 / 10) + (((int)z11 / 10) * 4));
+        float leftPoint11x = (level_11 % 4) * 10;
+        float upPoint11z = (level_11 / 4) * 10;
+        Debug.Log("zoom11 " + x11 + "," + z11);
+        Debug.Log("leftup " + leftPoint11x + "," + upPoint11z);
+
+        //for zoom13
+        float x13 = (x11 - leftPoint11x) * 4;
+        float z13 = (z11 - upPoint11z) * 4;
+        level_13 = (((int)x13 / 10) + (((int)z13 / 10) * 4));
+        Debug.Log("zoom13 " + x13 + "," + z13);
     }
 
     ////////////////static function////////////////////

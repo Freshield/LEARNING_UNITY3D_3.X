@@ -41,8 +41,7 @@ public class MainTest : MonoBehaviour {
         {
             planeTextures.Add(map.planes[i].GetComponent<Renderer>().material.mainTexture);
         }
-
-        //for read title
+        map.Refresh(center);
 
     }
 	
@@ -63,10 +62,16 @@ public class MainTest : MonoBehaviour {
                 }
                 else
                 {
-                    flow = 233;
+                    flow = 232;
                     break;
                 }
-
+                break;
+            //get the level number
+            case 232:
+                Title test = new Title("test", 10, 10, 0);
+                test.getLevelPosition(new Position(10.3f, 10.8f, new PTime(0)), 1, 1);
+                Debug.Log(test.level_9 + "," + test.level_11 + "," + test.level_13);
+                flow = 1;
                 break;
             //get refresh the map
             case 233:
