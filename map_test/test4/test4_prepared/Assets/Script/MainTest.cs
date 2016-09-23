@@ -77,7 +77,10 @@ public class MainTest : MonoBehaviour {
                 lineNumber = (float)titleResult[1];
                 if (lineNumber != -1)
                 {
-                    titles.Add((Title)titleResult[0]);
+                    if (((Title)titleResult[0]).latitute < 41.0041f && ((Title)titleResult[0]).latitute > 39.3573f && ((Title)titleResult[0]).lontitute < 117.6202f && ((Title)titleResult[0]).lontitute > 115.0552f)
+                    {
+                        titles.Add((Title)titleResult[0]);
+                    }
                 }
                 else
                 {
