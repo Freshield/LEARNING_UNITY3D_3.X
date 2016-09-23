@@ -8,9 +8,9 @@ public class Title{
     public float latitute;
     public float lontitute;
     public float lineNumber;
-    public int level_9;
-    public int level_11;
-    public int level_13;
+    public string level_9 = "";
+    public string level_11 = "";
+    public string level_13 = "";
 
     public Title(string name)
     {
@@ -31,32 +31,43 @@ public class Title{
         //need minus value
         float x = (lontitute - center.lontitute) * -10 / fullLon;
         float z = (latitute - center.latitute) * -10 / fullLat;
-        Debug.Log("origin "+x + "," + z);
         //change to a new coordinator, x from 0 to 40, z from 0 to 40
         float x9 = (x - 20) * (-1);
         float z9 = z + 20;
-        Debug.Log(x9 / 10);
-        Debug.Log(z9 / 10);
-        level_9 = (((int)x9 / 10) + (((int)z9 / 10) * 4));
-        float leftPoint9x = (level_9 % 4) * 10;
-        float upPoint9z = (level_9 / 4) * 10;
-        Debug.Log("zoom9 " + x9 + "," + z9);
-        Debug.Log("leftup " + leftPoint9x + "," + upPoint9z);
+        if (x9 < 40 && x9 > 0 && z9 < 40 && z9 > 0)
+        {
+            int temp_9 = (((int)x9 / 10) + (((int)z9 / 10) * 4));
+            level_9 = temp_9.ToString();
+            float leftPoint9x = (temp_9 % 4) * 10;
+            float upPoint9z = (temp_9 / 4) * 10;
+            
+            //for zoom11
+            int[] temp_11 = new int[2];
+            temp_11[0] = temp_9;
+            float x11 = (x9 - leftPoint9x) * 4;
+            float z11 = (z9 - upPoint9z) * 4;
+            temp_11[1] = (((int)x11 / 10) + (((int)z11 / 10) * 4));
+            float leftPoint11x = (temp_11[1] % 4) * 10;
+            float upPoint11z = (temp_11[1] / 4) * 10;
+            level_11 = temp_9 + "" + temp_11[1];
+            
+            //for zoom13
+            int[] temp_13 = new int[3];
+            temp_13[0] = temp_9;
+            temp_13[1] = temp_11[1];
+            float x13 = (x11 - leftPoint11x) * 4;
+            float z13 = (z11 - upPoint11z) * 4;
+            temp_13[2] = (((int)x13 / 10) + (((int)z13 / 10) * 4));
+            level_13 = temp_9 + "" + temp_11[1] + "" + temp_13[2];
 
-        //for zoom11
-        float x11 = (x9 - leftPoint9x) * 4;
-        float z11 = (z9 - upPoint9z) * 4;
-        level_11 = (((int)x11 / 10) + (((int)z11 / 10) * 4));
-        float leftPoint11x = (level_11 % 4) * 10;
-        float upPoint11z = (level_11 / 4) * 10;
-        Debug.Log("zoom11 " + x11 + "," + z11);
-        Debug.Log("leftup " + leftPoint11x + "," + upPoint11z);
-
-        //for zoom13
-        float x13 = (x11 - leftPoint11x) * 4;
-        float z13 = (z11 - upPoint11z) * 4;
-        level_13 = (((int)x13 / 10) + (((int)z13 / 10) * 4));
-        Debug.Log("zoom13 " + x13 + "," + z13);
+        }
+        else
+        {
+            level_9 = "-1";
+            level_11 = "-1-1";
+            level_13 = "-1-1-1";
+        }
+        
     }
 
     ////////////////static function////////////////////

@@ -153,8 +153,29 @@ public class MouseTest : MonoBehaviour {
                                         Debug.Log("ho1 is null");
                                     }
                                     GameObject tempPlane = hit.collider.gameObject;
+                                    Debug.Log(tempPlane.name);
+                                    string[] tempString = tempPlane.name.Split('r');
+                                    Debug.Log(tempString[1]);
+                                    Debug.Log(Map.monitor88Backplane44(int.Parse(tempString[1])));
+                                    tempPlane = GameObject.Find("Plane" + Map.monitor88Backplane44(int.Parse(tempString[1])));
                                     mainTest.center = Track.world2position(new VecTime(tempPlane.transform.position, new PTime(0)), mainTest.center, mainTest.map.fullLat, mainTest.map.fullLon);
-
+                                    switch (mainTest.map.zoom)
+                                    {
+                                        case 9:
+                                            mainTest.lastLevel_9 = Map.monitor88Backplane44(int.Parse(tempString[1]));
+                                            break;
+                                        case 11:
+                                            mainTest.lastLevel_11[0] = mainTest.lastLevel_9;
+                                            mainTest.lastLevel_11[1] = Map.monitor88Backplane44(int.Parse(tempString[1]));
+                                            break;
+                                        case 13:
+                                            mainTest.lastLevel_13[0] = mainTest.lastLevel_9;
+                                            mainTest.lastLevel_13[1] = mainTest.lastLevel_11[1];
+                                            mainTest.lastLevel_13[2] = Map.monitor88Backplane44(int.Parse(tempString[1]));
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     theCamera.transform.position = new Vector3(0, 7, 0);
                                     distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
                                     mainTest.flow = 3;
@@ -164,7 +185,7 @@ public class MouseTest : MonoBehaviour {
                             }
                             if (Input.GetKeyDown(KeyCode.Space))
                             {
-                                if (mainTest.map.zoom > 9)
+                                if (mainTest.map.zoom == 15)
                                 {
                                     HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
                                     if (ho1 != null)
@@ -175,10 +196,12 @@ public class MouseTest : MonoBehaviour {
                                     {
                                         Debug.Log("ho1 is null");
                                     }
+                                    mainTest.lastLevel_9 = -1;
+                                    mainTest.lastLevel_11 = new int[2] { -1, -1 };
+                                    mainTest.lastLevel_13 = new int[3] { -1, -1, -1 };
                                     theCamera.transform.position = new Vector3(0, 7, 0);
                                     distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
                                     mainTest.flow = 4;
-
                                 }
                             }
                         }
