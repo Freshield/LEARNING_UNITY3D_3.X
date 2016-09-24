@@ -40,7 +40,10 @@ public class MainTest : MonoBehaviour {
     //for center
     float avgLat = 0;
     float avgLon = 0;
-    
+
+    //for create drawer
+    List<Track> tracks;
+
 
     // Use this for initialization
     void Start () {
@@ -64,6 +67,8 @@ public class MainTest : MonoBehaviour {
             planeTextures.Add(map.planes[i].GetComponent<Renderer>().material.mainTexture);
         }
         basicZoom = map.zoom;
+        //for create drawer
+        tracks = new List<Track>();
     }
 	
 	// Update is called once per frame
@@ -94,7 +99,6 @@ public class MainTest : MonoBehaviour {
                 {
                     avgLat += titles[number].latitute;
                     avgLon += titles[number].lontitute;
-                    Debug.Log(titles[number].name + ":" + titles[number].latitute + "," + titles[number].lontitute);
                     number++;
                 }
                 else
@@ -102,7 +106,6 @@ public class MainTest : MonoBehaviour {
                     number = 0;
                     avgLat /= titles.Count;
                     avgLon /= titles.Count;
-                    Debug.Log("average:" + avgLat + "," + avgLon);
                     flow = 101;
                 }
                 break;
@@ -230,12 +233,8 @@ public class MainTest : MonoBehaviour {
                             
                         }
                         break;
+                    //in levelnow = 2
                     case 2:
-                        Debug.Log(lastLevel_0 + "" + lastLevel_1);
-                        foreach (Title title in dicLevel_1[lastLevel_0 + "" + lastLevel_1])
-                        {
-                            Debug.Log(title.name);
-                        }
                         break;
                     default:
                         Debug.Log("map's zoom level error");
@@ -268,6 +267,14 @@ public class MainTest : MonoBehaviour {
                 }
                 flow = 233;
                 break;
+            //create tracks
+            case 400:
+                foreach (Title title in dicLevel_1[lastLevel_0+""+lastLevel_1])
+                {
+                    tracks.Add(Track.LoadTargetFileLine("files", "Trajectory_1", title.lineNumber));
+                }
+                flow = 999;
+                break;
             //renew the cache texture and unlock the mouselock
             case 998:
                 for (int i = 0; i < map.planes.Length; i++)
@@ -275,8 +282,17 @@ public class MainTest : MonoBehaviour {
                     planeTextures[i] = map.planes[i].GetComponent<Renderer>().material.mainTexture;
                 }
                 mouseTest.mouseLock = true;
-                flow = 999;
+                if (levelNow != 2)
+                {
+                    flow = 999;
+                }
+                else
+                {
+                    flow = 400;
+                }
+                
                 break;
+            //wait position
             case 999:
                 break;
             default:
