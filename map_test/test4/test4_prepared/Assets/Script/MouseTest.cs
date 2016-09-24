@@ -109,7 +109,7 @@ public class MouseTest : MonoBehaviour {
                     if (Physics.Raycast(ray, out hit))
                     {
 
-                        //for plane
+                        //for monitor
                         if (hit.collider.gameObject.name.Contains("mon"))
                         {
                             if (hited != null && hited != hit.collider.gameObject)
@@ -168,7 +168,16 @@ public class MouseTest : MonoBehaviour {
                                     }
                                     theCamera.transform.position = new Vector3(0, 7, 0);
                                     distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-                                    mainTest.flow = 3;
+                                    mouseLock = false;
+
+                                    mainTest.map.zoom += 3;
+                                    mainTest.levelNow++;
+                                    for (int i = 0; i < mainTest.monitors.Length; i++)
+                                    {
+                                        mainTest.monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                                    }
+
+                                    mainTest.flow = 2;
                                 }
 
 
@@ -190,7 +199,17 @@ public class MouseTest : MonoBehaviour {
                                     mainTest.lastLevel_1 = -1;
                                     theCamera.transform.position = new Vector3(0, 7, 0);
                                     distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-                                    mainTest.flow = 4;
+
+                                    mouseLock = false;
+                                    mainTest.map.zoom = mainTest.basicZoom;
+                                    mainTest.levelNow = 0;
+                                    mainTest.center = new Position(mainTest.avgLat, mainTest.avgLon, new PTime(0));
+                                    for (int i = 0; i < mainTest.monitors.Length; i++)
+                                    {
+                                        mainTest.monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
+                                    }
+
+                                    mainTest.flow = 2;
                                 }
                             }
                         }

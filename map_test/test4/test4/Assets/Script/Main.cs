@@ -145,6 +145,12 @@ public class Main : MonoBehaviour
                         int biggest = Map.getTheObjNumber(companionLinesIndex);
                         Map.getCompanionLineObj(companionLines, companionLinePrefab, biggest);
                         fileFlow = 5;
+                        break;
+                    //create planes
+                    case 5:
+                        map = GameObject.Find("Directional light").GetComponent<Map>();
+                        map.getPlanes(4, 4);
+                        fileFlow = 6;
                         flow = 1;
                         break;
                     default:
@@ -168,10 +174,8 @@ public class Main : MonoBehaviour
             case 2:
                 switch (mapFlow)
                 {
-                    //get map
+                    //refresh map
                     case 0:
-                        map = GameObject.Find("Directional light").GetComponent<Map>();
-                        map.getPlanes(4, 4);
                         map.Refresh(center, 4, 4);
                         mapFlow = 1;
                         break;
