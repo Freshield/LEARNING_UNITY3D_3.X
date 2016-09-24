@@ -47,10 +47,6 @@ public class MouseControllor : MonoBehaviour {
     string labelText;
     public Main main;
 
-    ////////////////////////////////for mousetest/////////////////////////////
-    
-    public bool mouseLock = false;
-
 
     // Use this for initialization
     void Start()
@@ -73,193 +69,6 @@ public class MouseControllor : MonoBehaviour {
         {
             //for the orthographic
             case 0:
-                if (Input.GetMouseButtonDown(1))
-                {
-                    position = Input.mousePosition;
-                    cameraPosition = Camera.main.transform.position;
-                }
-                //right hold to drag
-                if (Input.GetMouseButton(1))
-                {
-                    Vector3 change = new Vector3(Input.mousePosition.x - position.x, 0, Input.mousePosition.y - position.y);
-                    if (Camera.main.transform.position.y < 4)
-                    {
-                        speed = 0.01f;
-                    }
-                    else
-                    {
-                        speed = 0.05f;
-                    }
-                    Camera.main.transform.position = change * speed + cameraPosition;
-                }
-                //zoom in
-                if (Input.GetAxis("Mouse ScrollWheel") > 0)
-                {
-                    if (distance > 3.5f)
-                    {
-                        if (distance > 4)
-                        {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
-                        }
-                        else
-                        {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
-                        }
-
-                        if (distance < 3.5f)
-                        {
-                            distance = 3.5f;
-                        }
-                    }
-                    else
-                    {
-                        distance = 3.5f;
-                    }
-                    theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
-
-                }
-                //zoom out
-                if (Input.GetAxis("Mouse ScrollWheel") < 0)
-                {
-                    if (distance < 20)
-                    {
-                        if (distance > 4)
-                        {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 5;
-                        }
-                        else
-                        {
-                            distance -= Input.GetAxis("Mouse ScrollWheel") * 2;
-                        }
-
-                        if (distance < 3.5f)
-                        {
-                            distance = 3.5f;
-                        }
-                    }
-                    else
-                    {
-                        distance = 20;
-                    }
-                    theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
-                }
-
-                if (mouseLock)
-                {
-                    //ray test
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out hit))
-                    {
-
-                        //for monitor
-                        if (hit.collider.gameObject.name.Contains("mon"))
-                        {
-                            if (hited != null && hited != hit.collider.gameObject)
-                            {
-                                HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
-                                if (ho1 != null)
-                                {
-                                    ho1.Off();
-                                }
-                                else
-                                {
-                                    Debug.Log("ho1 is null");
-                                }
-                            }
-                            hited = hit.collider.gameObject;
-
-                            if (main.levelNow != 2)
-                            {
-                                HighlightableObject ho = hit.collider.gameObject.GetComponent<HighlightableObject>();
-                                if (ho != null)
-                                {
-                                    ho.ConstantOn(Color.red);
-                                }
-                                else
-                                {
-                                    Debug.Log("ho is null");
-                                }
-                            }
-
-                            if (Input.GetMouseButtonUp(0))
-                            {
-                                if (main.levelNow < 2)
-                                {
-                                    HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
-                                    if (ho1 != null)
-                                    {
-                                        ho1.Off();
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("ho1 is null");
-                                    }
-                                    GameObject tempMonitor = hit.collider.gameObject;
-                                    string[] tempString = tempMonitor.name.Split('r');
-                                    main.center = Track.world2position(new VecTime(tempMonitor.transform.position, new PTime(0)), main.center, main.map.fullLat, main.map.fullLon);
-                                    switch (main.levelNow)
-                                    {
-                                        case 0:
-                                            main.lastLevel_0 = int.Parse(tempString[1]);
-                                            break;
-                                        case 1:
-                                            main.lastLevel_1 = int.Parse(tempString[1]);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    theCamera.transform.position = new Vector3(0, 7, 0);
-                                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-                                    mouseLock = false;
-
-                                    main.map.zoom += 3;
-                                    main.levelNow++;
-                                    for (int i = 0; i < main.monitors.Length; i++)
-                                    {
-                                        main.monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
-                                    }
-
-                                    main.Mflow = 0;
-                                }
-
-
-                            }
-                            if (Input.GetKeyDown(KeyCode.Space))
-                            {
-                                if (main.levelNow > 0)
-                                {
-                                    HighlightableObject ho1 = hited.GetComponent<HighlightableObject>();
-                                    if (ho1 != null)
-                                    {
-                                        ho1.Off();
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("ho1 is null");
-                                    }
-                                    main.lastLevel_0 = -1;
-                                    main.lastLevel_1 = -1;
-                                    theCamera.transform.position = new Vector3(0, 7, 0);
-                                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
-
-                                    mouseLock = false;
-                                    main.map.zoom = main.basicZoom;
-                                    main.levelNow = 0;
-                                    main.center = new Position(main.avgLat, main.avgLon, new PTime(0));
-                                    for (int i = 0; i < main.monitors.Length; i++)
-                                    {
-                                        main.monitors[i].transform.FindChild("Area").GetComponent<TextMesh>().text = "";
-                                    }
-
-                                    main.Mflow = 0;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case 1:
                 //right press to log the position now
                 if (Input.GetMouseButtonDown(1))
                 {
@@ -370,7 +179,7 @@ public class MouseControllor : MonoBehaviour {
                         //left press to focus object
                         if (Input.GetMouseButtonUp(0))
                         {
-                            mouseFlow = 2;
+                            mouseFlow = 1;
                             focusObj = hit.collider.gameObject;
                             focusObjName = "The target object is " + focusObj.name;
                             var em = focusObj.GetComponent<ParticleSystem>().emission;
@@ -380,7 +189,7 @@ public class MouseControllor : MonoBehaviour {
                 }
                 break;
             //changing to focus object
-            case 2:
+            case 1:
                 switch (cameraButton)
                 {
                     //look at the target first
@@ -453,7 +262,7 @@ public class MouseControllor : MonoBehaviour {
                                 GetComponent<Rigidbody>().freezeRotation = true;
                             }
                             distance = (theCamera.transform.position - focusObj.transform.position).magnitude;
-                            mouseFlow = 3;
+                            mouseFlow = 2;
                             cameraButton = 0;
                         }
                         break;
@@ -462,7 +271,7 @@ public class MouseControllor : MonoBehaviour {
                 }
                 break;
             //focuse rotate
-            case 3:
+            case 2:
                 //right press to drag
                 if (Input.GetMouseButton(1))
                 {

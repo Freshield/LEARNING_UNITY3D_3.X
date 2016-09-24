@@ -97,11 +97,14 @@
     <Compile Include="Assets\Script\Drawer.cs" />
     <Compile Include="Assets\Script\Lookat.cs" />
     <Compile Include="Assets\Script\Main.cs" />
+    <Compile Include="Assets\Script\MainTest.cs" />
     <Compile Include="Assets\Script\Map.cs" />
     <Compile Include="Assets\Script\MouseControllor.cs" />
+    <Compile Include="Assets\Script\MouseTest.cs" />
     <Compile Include="Assets\Script\PTime.cs" />
     <Compile Include="Assets\Script\Position.cs" />
     <Compile Include="Assets\Script\SplashLoading.cs" />
+    <Compile Include="Assets\Script\Title.cs" />
     <Compile Include="Assets\Script\Track.cs" />
     <Compile Include="Assets\Script\VecTime.cs" />
     <Compile Include="Assets\UniWeb-Free\Examples\ConditionalGet.cs" />
@@ -133,6 +136,7 @@
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingStencilOpaqueZ.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingStencilTransparent.shader" />
     <None Include="Assets\Plugins\HighlightingSystem\Resources\HighlightingStencilTransparentZ.shader" />
+    <None Include="Assets\Resources\files\Trajectory_1.txt" />
     <None Include="Assets\Resources\files\fixed_index.txt" />
     <None Include="Assets\Resources\files\index.txt" />
     <None Include="Assets\Resources\files\new_data.txt" />

@@ -98,7 +98,6 @@ public class Track{
         return temp;
     }
 
-
     //transfer position to world position
     public static Position world2position(VecTime worldPosition, Position center, float fullLat, float fullLon)
     {
@@ -245,7 +244,6 @@ public class Track{
 
     }
 
-
     //to read titles
     public static Track LoadTargetFileLine(string path, string name, float lineNumber)
     {
@@ -320,7 +318,6 @@ public class Track{
         }
         return track;
     }
-
 
     //to read file
     public static List<Track> LoadFile(string path, string name)

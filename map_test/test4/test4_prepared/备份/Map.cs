@@ -10,8 +10,9 @@ public class Map : MonoBehaviour {
     public GameObject planePrefab;
     public Position centerPoint;// = new Position(45.49506f, -73.57801f, new PTime(0, 0));
     public int size = 512;
-    public int zoom = 13;
+    public int zoom = 9;
     public int scale = 2;
+    public float mapRadio = -1;
 
     public float fullLon;
     public float fullLat;
@@ -24,23 +25,24 @@ public class Map : MonoBehaviour {
         centerPoint = null;
         Array.Clear(points, 0, points.Length);
     }
-
-    public void getPlanes(int horizantal, int vertical)
-    {
-        planes = PlaneCreator(new Vector3(0, 0, 0), horizantal, vertical, 10, planePrefab);
-    }
     
 
-    public void Refresh(Position centerPoint, int horizantal, int vertical)
+    public void Refresh(Position centerPoint)
     {
         this.centerPoint = centerPoint;
 
-        float ratio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        if (mapRadio == -1)
+        {
+            mapRadio = Mathf.Cos(Mathf.Deg2Rad * centerPoint.latitute);
+        }
+        
         float onesecond = ((360 * 3600) / (size * Mathf.Pow(2, zoom)));
         fullLon = (onesecond * size / 3600) * 2;
-        fullLat = fullLon * ratio;
+        fullLat = fullLon * mapRadio;
         
-        points = Position.PositionCreator(centerPoint, horizantal, vertical, fullLat, fullLon);
+        //planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
+
+        points = Position.PositionCreator(centerPoint, 4, 4, fullLat, fullLon);
         
     }
 
@@ -87,7 +89,6 @@ public class Map : MonoBehaviour {
         outStream.Close();
     }
 
-
     //create plane gameobject
     public GameObject[] PlaneCreator(Vector3 center, int x, int z, float width, GameObject planePrefab)
     {
@@ -112,7 +113,6 @@ public class Map : MonoBehaviour {
         return planes;
 
     }
-
 
     //create plane gameobject
     public GameObject[] monitorCreator(Vector3 center, int x, int z, float width, GameObject monitorPrefab)
@@ -165,7 +165,6 @@ public class Map : MonoBehaviour {
             temp.transform.parent = parent.transform;
         }
     }
-
 
     //for 8x8 find the position in 4x4
     public static int monitor88Backplane44(int number)
