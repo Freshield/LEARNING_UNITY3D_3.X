@@ -182,10 +182,9 @@ public class Main : MonoBehaviour
                         if (number >= map.planes.Length)
                         {
                             number = 0;
-                            flow = 128;
+                            mapFlow = 2;
+                            flow = 3;
                         }
-                        mapFlow = 2;
-                        flow = 3;
                         break;
                     default:
                         break;
