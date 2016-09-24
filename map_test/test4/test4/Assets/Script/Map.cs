@@ -23,9 +23,14 @@ public class Map : MonoBehaviour {
         centerPoint = null;
         Array.Clear(points, 0, points.Length);
     }
+
+    public void getPlanes(int horizantal, int vertical)
+    {
+        planes = PlaneCreator(new Vector3(0, 0, 0), horizantal, vertical, 10, planePrefab);
+    }
     
 
-    public void Refresh(Position centerPoint)
+    public void Refresh(Position centerPoint, int horizantal, int vertical)
     {
         this.centerPoint = centerPoint;
 
@@ -34,9 +39,7 @@ public class Map : MonoBehaviour {
         fullLon = (onesecond * size / 3600) * 2;
         fullLat = fullLon * ratio;
         
-        planes = PlaneCreator(new Vector3(0, 0, 0), 6, 4, 10, planePrefab);
-
-        points = Position.PositionCreator(centerPoint, 6, 4, fullLat, fullLon);
+        points = Position.PositionCreator(centerPoint, horizantal, vertical, fullLat, fullLon);
         
     }
 

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class Main : MonoBehaviour
 {
-
+    //for map and track
     Map map;
     public GameObject objPrefab;
     List<Track> tracks;
@@ -19,7 +19,12 @@ public class Main : MonoBehaviour
     VecTime WlastPosition;
     GameObject drawTracks;
 
+    //for flow
     int flow = 0;
+    int fileFlow = 0;
+    int mapFlow = 0;
+    int drawerFlow = 0;
+    int waitFlow = 0;
     int number = 0;
 
     //for loading
@@ -41,6 +46,7 @@ public class Main : MonoBehaviour
 
     //for companion
     public bool companionPrepared = false;
+    //to the drawer which was companion
     public Dictionary<string, List<int>> index;
     public GameObject linePrefab;
     public Texture2D normalTexture;
@@ -49,7 +55,7 @@ public class Main : MonoBehaviour
     public Material companionMaterial;
     public Material focusNormalMaterial;
     public Material focusCompanionMaterial;
-
+    //to the line between the companion pair
     public Dictionary<int, List<List<string>>> companionLinesIndex;
     public GameObject companionLines;
     public GameObject companionLinePrefab;
@@ -70,13 +76,15 @@ public class Main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        loadingImage = GameObject.Find("LoadingImage");
+        //for companion
         Drawer.normalMaterial = normalMaterial;
         Drawer.companionMaterial = companionMaterial;
         Drawer.focusNormalMaterial = focusNormalMaterial;
         Drawer.focusCompanionMaterial = focusCompanionMaterial;
+
+        //for loading
+        loadingImage = GameObject.Find("LoadingImage");
         anim = new List<Sprite>();
-        //prepare
         for (int i = 1; i < 131; i++)
         {
             Sprite temp;
@@ -92,7 +100,6 @@ public class Main : MonoBehaviour
             {
                 temp = Resources.Load<Sprite>("loading/loading" + i);
             }
-
             anim.Add(temp);
         }
 
@@ -105,264 +112,276 @@ public class Main : MonoBehaviour
         switch (flow)
         {
 
-            //load file and prepare
+            ////////////////////////about load file and prepare///////////////////////
             case 0:
+                switch (fileFlow)
+                {
+                    //simple init site
+                    case 0:
+                        testText = GameObject.Find("TestText");
+                        backImage = GameObject.Find("BackImage");
 
-                testText = GameObject.Find("TestText");
-                backImage = GameObject.Find("BackImage");
+                        companionLines = GameObject.Find("CompanionLines");
 
-                companionLines = GameObject.Find("CompanionLines");
+                        drawers = new List<Drawer>();
 
-                drawers = new List<Drawer>();
+                        drawTracks = new GameObject("drawTracks");
 
-                drawTracks = new GameObject("drawTracks");
-
-                index = new Dictionary<string, List<int>>();
-                flow = 111;
-                break;
-            case 111:
-
-                //get location
+                        index = new Dictionary<string, List<int>>();
+                        fileFlow = 2;
+                        break;
+                    //get index
+                    case 2:
+                        index = Track.LoadIndex("files", "fixed_index");
+                        fileFlow = 3;
+                        break;
+                    //get companion line index
+                    case 3:
+                        companionLinesIndex = Track.LoadIndexForCompanionLine("files", "fixed_index");
+                        fileFlow = 4;
+                        break;
+                    //create the companion lines object
+                    case 4:
+                        int biggest = Map.getTheObjNumber(companionLinesIndex);
+                        Map.getCompanionLineObj(companionLines, companionLinePrefab, biggest);
+                        fileFlow = 5;
+                        flow = 1;
+                        break;
+                    default:
+                        break;
+                }
+                break;               
+            /////////////////get the center, firstposition and lastposition//////////////
+            //some maintest work can put here
+            case 1:
                 tracks = Track.LoadFile("files", "new_data");
-                flow = 2;
-                break;
-            //get the center, firstposition and lastposition
-            case 2:
                 Position[] result = Track.calculTracks(tracks);
                 center = result[0];
-                Debug.Log(center.latitute +","+ center.lontitute);
                 firstPosition = result[1];
                 lastPosition = result[2];
                 //release
                 Array.Clear(result, 0, result.Length);
                 result = null;
-                flow = 1;
+                flow = 2;
                 break;
-            //get index
-            case 1:
-                index = Track.LoadIndex("files", "fixed_index");
-                flow = 3;
-                break;
-            //get map
-            case 3:
-                map = GameObject.Find("Directional light").GetComponent<Map>();
-                map.Refresh(center);
-                flow = 888;
-                break;
-            //get the image
-            case 888:
-                StartCoroutine(map._Refresh(map.planes[number], map.points[number]));
-                number++;
-                if (number >= map.planes.Length)
+            ////////////////////////////about map//////////////////////////////////////
+            case 2:
+                switch (mapFlow)
                 {
-                    number = 0;
-                    flow = 128;
-                }
-                break;
-            //get companion line index
-            case 128:
-                companionLinesIndex = Track.LoadIndexForCompanionLine("files", "fixed_index");
-                flow = 129;
-                break;
-            case 129:
-                int biggest = Map.getTheObjNumber(companionLinesIndex);
-                Map.getCompanionLineObj(companionLines, companionLinePrefab, biggest);
-                flow = 4;
-                break;
-            //generate the world position for each track
-            case 4:
-                Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
-
-                flow = 5;
-                break;
-            //transfer first and last position to world position
-            case 5:
-                WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
-                WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
-                flow = 889;
-                break;
-            //create the time bar value
-            case 889:
-                duration = Drawer.getDuration(WfirstPosition.time.totalTime, WlastPosition.time.totalTime);
-                hSliderValue = WfirstPosition.time.totalTime;
-                wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
-                wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
-
-                flow = 6;
-                break;
-            //generate the objects and their drawer
-            case 6:
-                Track getTrack = tracks[number];
-                if (getTrack.positions.Count > 0)
-                {
-                    GameObject obj = Instantiate(objPrefab);
-                    obj.SetActive(false);
-                    obj.name = getTrack.name;
-                    obj.transform.FindChild("board").transform.FindChild("ID").GetComponent<TextMesh>().text = obj.name;
-
-                    Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime));
-                    drawers.Add(drawer);
-                    drawer.obj.transform.parent = drawTracks.transform;
-
-                    //release
-                    drawer = null;
-                }
-
-                number++;
-
-                //release
-                getTrack.clearSelf();
-                getTrack = null;
-
-                if (number >= tracks.Count)
-                {
-                    //release
-                    tracks.Clear();
-                    tracks = null;
-
-                    flow = 7;
-                    //back number
-                    number = 0;
-                    GC.Collect();
-                }
-                break;
-            //check their companion situation
-            case 7:
-                if (index.ContainsKey(drawers[number].obj.name))
-                {
-                    drawers[number].getCompanionTimes(index[drawers[number].obj.name]);
-                    drawers[number].isCompanion = true;
-                }
-                number++;
-                if (number >= drawers.Count)
-                {
-                    number = 0;
-                    flow = 8;
-                }
-
-                break;
-            //create empty child gameobject for objects to create lines later
-            case 8:
-                int lineNumber = drawers[number].getObjectNumber();
-                for (int i = 0; i < lineNumber; i++)
-                {
-                    GameObject lineObj = Instantiate(linePrefab);
-                    lineObj.name = "line" + i;
-                    lineObj.transform.parent = drawers[number].obj.transform;
-                    drawers[number].lineObjects.Add(lineObj);
-                }
-                number++;
-                if (number >= drawers.Count)
-                {
-                    number = 0;
-                    flow = 9;
-                    for (int i = 0; i < map.planes.Length; i++)
-                    {
-                        Debug.Log(i+":"+map.planes[i].name);
-                    }
-                    for (int i = 0; i < map.points.Length; i++)
-                    {
-                        Debug.Log(i + ":" + map.points[i].latitute +","+ map.points[i].lontitute);
-                    }
-                }
-                break;
-            //create plane
-            case 9:
-                planeWaitTime -= Time.deltaTime;
-                
-                if (planeWaitTime < 0)
-                {
-                    //to delay some time
-                    planeWaitTime = 1;
-                    for (int i = 0; i < map.planes.Length; i++)
-                    {
-                        GameObject plane = GameObject.Find("plane" + i);
-                        if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
+                    //get map
+                    case 0:
+                        map = GameObject.Find("Directional light").GetComponent<Map>();
+                        map.getPlanes(4, 4);
+                        map.Refresh(center, 4, 4);
+                        mapFlow = 1;
+                        break;
+                    //get image
+                    case 1:
+                        StartCoroutine(map._Refresh(map.planes[number], map.points[number]));
+                        number++;
+                        if (number >= map.planes.Length)
                         {
-                            flow = 233;
+                            number = 0;
+                            flow = 128;
+                        }
+                        mapFlow = 2;
+                        flow = 3;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            ////////////////////////about drawer///////////////////////////////////////
+            case 3:
+                switch (drawerFlow)
+                {
+                    //generate the world position for each track
+                    case 0:
+                        Track.generateWorldPosition(tracks, center, map.fullLat, map.fullLon, objPrefab);
+                        drawerFlow = 1;
+                        break;
+                    //create first and last wolrd position
+                    case 1:
+                        WfirstPosition = Track.position2world(firstPosition, center, map.fullLat, map.fullLon, objPrefab);
+                        WlastPosition = Track.position2world(lastPosition, center, map.fullLat, map.fullLon, objPrefab);
+                        drawerFlow = 2;
+                        break;
+                    //create the time bar value and its drawer
+                    case 2:
+                        duration = Drawer.getDuration(WfirstPosition.time.totalTime, WlastPosition.time.totalTime);
+                        hSliderValue = WfirstPosition.time.totalTime;
+                        wholeTime = DOTween.To(x => hSliderValue = x, WfirstPosition.time.totalTime, WlastPosition.time.totalTime, duration);
+                        wholeTime.SetAutoKill(false).SetEase(Ease.Linear).Pause();
+                        drawerFlow = 3;
+                        break;
+                    //generate the objects and their drawer
+                    case 3:
+                        Track getTrack = tracks[number];
+                        if (getTrack.positions.Count > 0)
+                        {
+                            GameObject obj = Instantiate(objPrefab);
+                            obj.SetActive(false);
+                            obj.name = getTrack.name;
+                            obj.transform.FindChild("board").transform.FindChild("ID").GetComponent<TextMesh>().text = obj.name;
+                            Drawer drawer = new Drawer(obj, getTrack, Drawer.getDuration(getTrack.WfirstPosition.time.totalTime, getTrack.WlastPosition.time.totalTime));
+                            drawers.Add(drawer);
+                            drawer.obj.transform.parent = drawTracks.transform;
+                        }
+                        number++;
+                        //release
+                        getTrack.clearSelf();
+                        getTrack = null;
+                        if (number >= tracks.Count)
+                        {
+                            //release
+                            tracks.Clear();
+                            tracks = null;
+                            //back number
+                            number = 0;
+                            GC.Collect();
+
+                            drawerFlow = 4;
+                        }
+                        break;
+                    //for companions
+                    //check their companion situation
+                    case 4:
+                        if (index.ContainsKey(drawers[number].obj.name))
+                        {
+                            drawers[number].getCompanionTimes(index[drawers[number].obj.name]);
+                            drawers[number].isCompanion = true;
+                        }
+                        number++;
+                        if (number >= drawers.Count)
+                        {
+                            number = 0;
+                            drawerFlow = 5;
+                        }
+                        break;
+                    //create empty child gameobject for objects to create lines later
+                    case 5:
+                        int lineNumber = drawers[number].getObjectNumber();
+                        for (int i = 0; i < lineNumber; i++)
+                        {
+                            GameObject lineObj = Instantiate(linePrefab);
+                            lineObj.name = "line" + i;
+                            lineObj.transform.parent = drawers[number].obj.transform;
+                            drawers[number].lineObjects.Add(lineObj);
+                        }
+                        number++;
+                        if (number >= drawers.Count)
+                        {
+                            number = 0;
+                            drawerFlow = 6;
+                            flow = 4;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            /////////////////////wait plane finished and done text/////////////////////
+            case 4:
+                switch (waitFlow)
+                {
+                    //wait for plane finished
+                    case 0:
+                        planeWaitTime -= Time.deltaTime;
+                        if (planeWaitTime < 0)
+                        {
+                            //to delay some time
+                            planeWaitTime = 1;
+                            for (int i = 0; i < map.planes.Length; i++)
+                            {
+                                GameObject plane = GameObject.Find("plane" + i);
+                                if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
+                                {
+                                    waitFlow = 1;
+                                }
+                                else
+                                {
+                                    waitFlow = 0;
+                                    StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    //for done text
+                    case 1:
+                        loadingTweener = testText.GetComponent<Text>().DOText("DONE", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
+                        waitFlow = 2;
+                        break;
+                    //for enjoy text
+                    case 2:
+                        if (loadingTweener.IsComplete())
+                        {
+                            loadingTweener.Kill();
+                            loadingTweener = testText.GetComponent<Text>().DOText("THEN ENJOY", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
+                            waitFlow = 3;
+                        }
+                        break;
+                    //for loading image disappear
+                    case 3:
+                        if (loadingTweener.IsComplete())
+                        {
+                            loadingTweener.Kill();
+                            loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
+                            waitFlow = 4;
+                        }
+                        break;
+                    //for back image disappear
+                    case 4:
+                        if (loadingTweener.IsComplete())
+                        {
+                            loadingTweener.Kill();
+                            loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
+                            testText.GetComponent<Text>().DOText("", 2);
+                            waitFlow = 5;
                         }
                         else
                         {
-                            flow = 9;
-                            StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
-                            break;
+                            loadingImage.GetComponent<Image>().color = new Color(1, 1, 1, alphaValue);
                         }
-                    }
-                }
+                        break;
+                    //prepare to go to the true scene
+                    case 5:
+                        if (loadingTweener.IsComplete())
+                        {
+                            isLoading = false;
+                            loadingTweener.Kill();
+                            anim.Clear();
+                            anim = null;
+                            Destroy(loadingImage);
+                            Destroy(backImage);
+                            //release map
+                            map.clearSelf();
+                            map = null;
+                            GC.Collect();
 
-                break;
-            //for done text
-            case 233:
-                loadingTweener = testText.GetComponent<Text>().DOText("DONE", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
-                flow = 82;
-                break;
-            //for enjoy text
-            case 82:
-                if (loadingTweener.IsComplete())
-                {
-                    loadingTweener.Kill();
-                    loadingTweener = testText.GetComponent<Text>().DOText("THEN ENJOY", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
-                    flow = 83;
-                }
-                break;
-            //for loading image disappear
-            case 83:
-                if (loadingTweener.IsComplete())
-                {
-                    loadingTweener.Kill();
-                    loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
-                    flow = 85;
-                }
-                break;
-            //for back image disappear
-            case 85:
-                if (loadingTweener.IsComplete())
-                {
-                    loadingTweener.Kill();
-                    loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
-                    testText.GetComponent<Text>().DOText("", 2);
-                    flow = 84;
-                }
-                else
-                {
-                    loadingImage.GetComponent<Image>().color = new Color(1, 1, 1, alphaValue);
-                }
-                break;
-            //go to the true scene
-            case 84:
-                if (loadingTweener.IsComplete())
-                {
-                    isLoading = false;
-                    loadingTweener.Kill();
-                    anim.Clear();
-                    anim = null;
-                    Destroy(loadingImage);
-                    Destroy(backImage);
-                    //release map
-                    map.clearSelf();
-                    map = null;
-                    GC.Collect();
-                    flow = 10;
-                }
-                else
-                {
-                    backImage.GetComponent<RawImage>().color = new Color(1, 1, 1, alphaValue);
+                            waitFlow = 6;
+                            flow = 5;
+                        }
+                        else
+                        {
+                            backImage.GetComponent<RawImage>().color = new Color(1, 1, 1, alphaValue);
+                        }
+                        break;
+                    default:
+                        break;
                 }
                 break;
             //play ground
-            case 10:
-
+            case 5:
                 if (isPlaying)
                 {
                     wholeTime.PlayForward();
-
                     //for companion lines
                     dealWithCompanionLines((int)hSliderValue / 60);
                     //for drawers
                     dealWithDrawers(false);
                 }
                 break;
-
             default:
                 break;
         }
@@ -370,7 +389,7 @@ public class Main : MonoBehaviour
 
     void OnGUI()
     {
-        if (flow == 10)
+        if (flow == 5)
         {
             //for key control
             if (Input.GetKey(KeyCode.RightArrow))
