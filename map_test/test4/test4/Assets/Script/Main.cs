@@ -11,13 +11,13 @@ public class Main : MonoBehaviour
     //for map and track
     public Map map;
     public GameObject objPrefab;
-    List<Track> tracks;
+    public List<Track> tracks;
     public Position center;
     Position firstPosition;
     Position lastPosition;
     VecTime WfirstPosition;
     VecTime WlastPosition;
-    GameObject drawTracks;
+    public GameObject drawTracks;
 
     //for flow
     public int flow = 0;
@@ -75,7 +75,7 @@ public class Main : MonoBehaviour
 
     bool firstTime = true;
     MouseControllor mouseControllor;
-    GameObject monitor_parent;
+    public GameObject monitor_parent;
 
     //for plane
     List<Texture> planeTextures;
@@ -511,7 +511,6 @@ public class Main : MonoBehaviour
                         foreach (Title title in dicLevel_1[lastLevel_0 + "" + lastLevel_1])
                         {
                             tracks.Add(Track.LoadTargetFileLine("files", "Trajectory_1", title.lineNumber));
-                            Debug.Log(title.name);
                         }
                         //disable monitor
                         monitor_parent.SetActive(false);
@@ -579,7 +578,6 @@ public class Main : MonoBehaviour
                         {
                             //release
                             tracks.Clear();
-                            tracks = null;
                             //back number
                             number = 0;
                             GC.Collect();

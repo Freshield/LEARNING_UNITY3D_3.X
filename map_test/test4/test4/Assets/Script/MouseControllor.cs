@@ -330,6 +330,32 @@ public class MouseControllor : MonoBehaviour {
                     }
                     theCamera.transform.position = new Vector3(theCamera.transform.position.x, distance, theCamera.transform.position.z);
                 }
+                //for back to the first time
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    main.drawers.Clear();
+                    label.GetComponent<Text>().text = "";
+                    foreach (Transform child in main.drawTracks.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                    main.monitor_parent.SetActive(true);
+                    main.lastLevel_0 = -1;
+                    main.lastLevel_1 = -1;
+                    main.lastLevel_2 = -1;
+                    theCamera.transform.position = new Vector3(0, 40, 0);
+                    theCamera.transform.rotation = Quaternion.Euler(new Vector3(90, 180, 0));
+                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+                    mouseLock = false;
+                    main.map.zoom = main.basicZoom;
+                    main.levelNow = 0;
+                    main.center = new Position(main.avgLat, main.avgLon, new PTime(0));
+
+
+                    mouseFlow = 0;
+                    main.flow = 1;
+                    break;
+                }
                 //the ray hit
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
@@ -464,6 +490,7 @@ public class MouseControllor : MonoBehaviour {
                 //right press to drag
                 if (Input.GetMouseButton(1))
                 {
+
                     if (focusObj)
                     {
                         x += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
@@ -521,6 +548,33 @@ public class MouseControllor : MonoBehaviour {
                 }
                 //let camera focus on object
                 moveCamera();
+                //for back to the first time
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    main.drawers.Clear();
+                    main.tracks.Clear();
+                    foreach (Transform child in main.drawTracks.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                    label.GetComponent<Text>().text = "";
+                    main.monitor_parent.SetActive(true);
+                    main.lastLevel_0 = -1;
+                    main.lastLevel_1 = -1;
+                    main.lastLevel_2 = -1;
+                    theCamera.transform.position = new Vector3(0, 40, 0);
+                    theCamera.transform.rotation = Quaternion.Euler(new Vector3(90, 180, 0));
+                    distance = (theCamera.transform.position - new Vector3(0, 0, 0)).magnitude;
+                    mouseLock = false;
+                    main.map.zoom = main.basicZoom;
+                    main.levelNow = 0;
+                    main.center = new Position(main.avgLat, main.avgLon, new PTime(0));
+
+
+                    mouseFlow = 0;
+                    main.flow = 1;
+                    break;
+                }
                 //the ray hit
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
