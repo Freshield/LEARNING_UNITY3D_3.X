@@ -8,7 +8,7 @@ public class MouseControllor : MonoBehaviour {
     Vector3 position;
     float speed = 0.05f;
     Vector3 cameraPosition;
-    GameObject hited;
+    public GameObject hited;
     GameObject label;
 
     public int mouseFlow = 0;
@@ -257,7 +257,6 @@ public class MouseControllor : MonoBehaviour {
                         }
                     }
                 }
-
                 break;
             case 1:
                 //right press to log the position now
@@ -335,7 +334,6 @@ public class MouseControllor : MonoBehaviour {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
                 {
-                    
                     //for plane
                     if (hit.collider.gameObject.name.Contains("lane") || hit.collider.gameObject.name.Contains("board"))
                     {

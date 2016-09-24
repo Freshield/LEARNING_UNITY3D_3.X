@@ -75,6 +75,7 @@ public class Main : MonoBehaviour
 
     bool firstTime = true;
     MouseControllor mouseControllor;
+    GameObject monitor_parent;
 
     //for plane
     List<Texture> planeTextures;
@@ -165,6 +166,8 @@ public class Main : MonoBehaviour
                         drawTracks = new GameObject("drawTracks");
 
                         index = new Dictionary<string, List<int>>();
+
+                        tracks = new List<Track>();
                         fileFlow = 2;
                         break;
                     //get index
@@ -208,6 +211,7 @@ public class Main : MonoBehaviour
                     //create monitor
                     case 7:
                         monitors = map.monitorCreator(new Vector3(0, 0.05f, 0), 8, 8, 5, monitorPrefab);
+                        monitor_parent = GameObject.Find("monitor_parent");
                         fileFlow = 8;
                         break;
                     //create title
@@ -425,12 +429,12 @@ public class Main : MonoBehaviour
                                     if (levelNow != 2)
                                     {
                                         //just wait
-                                        Mflow = 999;
+                                        Mflow = 99;
                                     }
                                     else
                                     {
                                         //show tracks
-                                        Mflow = 400;
+                                        Mflow = 100;
                                     }
                                 }
                                 break;
@@ -502,6 +506,20 @@ public class Main : MonoBehaviour
                     case 99:
 
                         break;
+                    //prepare to create drawer
+                    case 100:
+                        foreach (Title title in dicLevel_1[lastLevel_0 + "" + lastLevel_1])
+                        {
+                            tracks.Add(Track.LoadTargetFileLine("files", "Trajectory_1", title.lineNumber));
+                            Debug.Log(title.name);
+                        }
+                        //disable monitor
+                        monitor_parent.SetActive(false);
+                        Mflow = 0;
+                        mouseControllor.hited = null;
+                        mouseControllor.mouseFlow = 1;
+                        flow = 100;
+                        break;
                     default:
                         break;
                 }
@@ -509,39 +527,13 @@ public class Main : MonoBehaviour
             /////////////////get the center, firstposition and lastposition//////////////
             //some maintest work can put here
             case 100:
-                tracks = Track.LoadFile("files", "new_data");
                 Position[] result = Track.calculTracks(tracks);
-                center = result[0];
                 firstPosition = result[1];
                 lastPosition = result[2];
                 //release
                 Array.Clear(result, 0, result.Length);
                 result = null;
-                flow = 2;
-                break;
-            ////////////////////////////about map//////////////////////////////////////
-            case 2:
-                switch (mapFlow)
-                {
-                    //refresh map
-                    case 0:
-                        map.Refresh(center, 4, 4);
-                        mapFlow = 1;
-                        break;
-                    //get image
-                    case 1:
-                        StartCoroutine(map._Refresh(map.planes[number], map.points[number]));
-                        number++;
-                        if (number >= map.planes.Length)
-                        {
-                            number = 0;
-                            mapFlow = 2;
-                            flow = 3;
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                flow = 3;
                 break;
             ////////////////////////about drawer///////////////////////////////////////
             case 3:
@@ -624,99 +616,8 @@ public class Main : MonoBehaviour
                         if (number >= drawers.Count)
                         {
                             number = 0;
-                            drawerFlow = 6;
-                            flow = 4;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            /////////////////////wait plane finished and done text/////////////////////
-            case 4:
-                switch (waitFlow)
-                {
-                    //wait for plane finished
-                    case 0:
-                        planeWaitTime -= Time.deltaTime;
-                        if (planeWaitTime < 0)
-                        {
-                            //to delay some time
-                            planeWaitTime = 1;
-                            for (int i = 0; i < map.planes.Length; i++)
-                            {
-                                GameObject plane = GameObject.Find("plane" + i);
-                                if (plane.GetComponent<Renderer>().material.mainTexture != map.planePrefab.GetComponent<Renderer>().sharedMaterial.mainTexture)
-                                {
-                                    waitFlow = 1;
-                                }
-                                else
-                                {
-                                    waitFlow = 0;
-                                    StartCoroutine(map._Refresh(map.planes[i], map.points[i]));
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    //for done text
-                    case 1:
-                        loadingTweener = testText.GetComponent<Text>().DOText("DONE", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
-                        waitFlow = 2;
-                        break;
-                    //for enjoy text
-                    case 2:
-                        if (loadingTweener.IsComplete())
-                        {
-                            loadingTweener.Kill();
-                            loadingTweener = testText.GetComponent<Text>().DOText("THEN ENJOY", 2, true).SetAutoKill(false).SetEase(Ease.Linear);
-                            waitFlow = 3;
-                        }
-                        break;
-                    //for loading image disappear
-                    case 3:
-                        if (loadingTweener.IsComplete())
-                        {
-                            loadingTweener.Kill();
-                            loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
-                            waitFlow = 4;
-                        }
-                        break;
-                    //for back image disappear
-                    case 4:
-                        if (loadingTweener.IsComplete())
-                        {
-                            loadingTweener.Kill();
-                            loadingTweener = DOTween.To(x => alphaValue = x, 1, 0, 2).SetAutoKill(false).SetEase(Ease.Linear);
-                            testText.GetComponent<Text>().DOText("", 2);
-                            waitFlow = 5;
-                        }
-                        else
-                        {
-                            loadingImage.GetComponent<Image>().color = new Color(1, 1, 1, alphaValue);
-                        }
-                        break;
-                    //prepare to go to the true scene
-                    case 5:
-                        if (loadingTweener.IsComplete())
-                        {
-                            isLoading = false;
-                            loadingTweener.Kill();
-                            anim.Clear();
-                            anim = null;
-                            Destroy(loadingImage);
-                            Destroy(backImage);
-                            //release map
-                            map.clearSelf();
-                            map = null;
-                            GC.Collect();
-
-                            waitFlow = 6;
+                            drawerFlow = 0;
                             flow = 5;
-                        }
-                        else
-                        {
-                            backImage.GetComponent<RawImage>().color = new Color(1, 1, 1, alphaValue);
                         }
                         break;
                     default:
