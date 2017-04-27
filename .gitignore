@@ -62,3 +62,6 @@ Standard Assets/
 SampleAssets/
 .unitypackage
 *.unitypackage
+PlayMaker/
+iTween/
+Gizmos/
