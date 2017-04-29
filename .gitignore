@@ -60,3 +60,5 @@ obj/
 ProjectSettings/
 Standard Assets/
 SampleAssets/
+.unitypackage
+*.unitypackage
