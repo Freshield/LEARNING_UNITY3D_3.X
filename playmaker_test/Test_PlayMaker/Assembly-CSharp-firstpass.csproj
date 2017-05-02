@@ -47,19 +47,10 @@
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <None Include="Assets\PlayMaker\Templates\readme.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Demo Scenes for TTFText README.txt" />
      <None Include="Assets\PlayMaker\Readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Triangulation.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\TTFText ReadMe.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.AUTHORS.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Fonts\LICENSE Fonts.txt" />
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\PlayMaker\Resources\PlayMakerAssemblies.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Specular.shader" />
-     <None Include="Assets\TTFText\TTFText\Libraries\freetype248.LICENSE.txt" />
      <None Include="Assets\PlayMaker\Versions\readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\FTSharp.LICENSE.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -71,9 +62,6 @@
  </Reference>
  <Reference Include="PlayMaker">
  <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Assets/Plugins/PlayMaker/PlayMaker.dll</HintPath>
- </Reference>
- <Reference Include="ttftext_3p">
- <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Assets/TTFText/TTFText/Plugins/ttftext_3p.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

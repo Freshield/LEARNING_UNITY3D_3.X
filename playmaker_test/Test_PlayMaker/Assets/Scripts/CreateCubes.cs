@@ -7,8 +7,8 @@ public class CreateCubes : MonoBehaviour {
     public GameObject cubeParent;
 
 	// Use this for initialization
-	void Start () {
-        for(int i = 0; i < 10; i++)
+	void Create_Cubes (int number) {
+        for(int i = 0; i < number; i++)
         {
             GameObject cube = Instantiate(cubePrefab);
             cube.name = i.ToString();
@@ -18,8 +18,4 @@ public class CreateCubes : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

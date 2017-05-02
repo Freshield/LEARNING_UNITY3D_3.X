@@ -78,27 +78,12 @@
      <Compile Include="Assets\PlayMaker\Editor\PlayMakerUpgradeTools.cs" />
      <Compile Include="Assets\PlayMaker\Editor\PlayMakerWelcomeWindow.cs" />
      <Compile Include="Assets\PlayMaker\Editor\ReportWindow.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\Editor\P_FollowPathEditor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Editor\TTFAssetPostprocessor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Editor\TTFTextBuildPostProcessor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Editor\TTFTextEditor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Editor\TTFTextFontStoreEditor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Editor\TTFTextLibraryInstaller.cs" />
      <Compile Include="Assets\iTween\PlayMaker\Editor\iTweenMoveToActionEditor.cs" />
      <None Include="Assets\PlayMaker\Templates\readme.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Demo Scenes for TTFText README.txt" />
      <None Include="Assets\PlayMaker\Readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Triangulation.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\TTFText ReadMe.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.AUTHORS.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Fonts\LICENSE Fonts.txt" />
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\PlayMaker\Resources\PlayMakerAssemblies.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Specular.shader" />
-     <None Include="Assets\TTFText\TTFText\Libraries\freetype248.LICENSE.txt" />
      <None Include="Assets\PlayMaker\Versions\readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\FTSharp.LICENSE.txt" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
@@ -188,9 +173,6 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="ttftext_3p">
- <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Assets/TTFText/TTFText/Plugins/ttftext_3p.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

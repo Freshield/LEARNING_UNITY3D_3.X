@@ -628,59 +628,17 @@
      <Compile Include="Assets\PlayMaker\Actions\iTween\iTweenStop.cs" />
      <Compile Include="Assets\PlayMaker\Include\iTweenFSMEvents.cs" />
      <Compile Include="Assets\PlayMaker\UpdateHelper.cs" />
+     <Compile Include="Assets\Scripts\Change_font.cs" />
      <Compile Include="Assets\Scripts\CreateCubes.cs" />
      <Compile Include="Assets\Scripts\MoveChild.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\DemoClothBased\Tut1SetAnim.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\LongText\TextGenDemoMain.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Scene2\scene2_particle_autodestroy.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Scene2\scene2_particle_emitter.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Scene3\UpAndDown.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\TextEffects\DemoCameraFollowPath.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Web1\LightFlicker.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Web1\Web01Main.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Web2\LetterPrefabAnimateHalo.cs" />
-     <Compile Include="Assets\TTFText\Demo Scenes for TTFText\Web2\Web02Main.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\DisplayLetter_CameraToPos.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\DisplayLetter_PlaySound.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\P_FollowPath.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\P_MixAndReorder.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\P_RotateMaterial.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\P_SpiralText.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Prefabs\P_TypeWriter.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Extra\TTFTextExtra_DynamicTextKeyboardInput.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Extra\TTFTextExtra_SetMaterialColor.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\Intersection.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\PriorityHeap.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextFontClient.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextFontListManager.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextFontProviders.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextInternal.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextInternalAndroid.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextInternalMeshGenerators.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextInternalTesselators.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\Internal\TTFTextOutline.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\ReleaseMeshOnDestroy.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\TTFSubtext.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\TTFText.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\TTFTextFontStore.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\TTFTextMesh.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\Plugins\TTFTextStyle.cs" />
-     <Compile Include="Assets\TTFText\TTFText\Scripts\TTFTextAnimationBridge.cs" />
+     <Compile Include="Assets\Scripts\New_change_alpha.cs" />
+     <Compile Include="Assets\Scripts\change_alpha.cs" />
      <Compile Include="Assets\iTween\iTween.cs" />
      <None Include="Assets\PlayMaker\Templates\readme.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Demo Scenes for TTFText README.txt" />
      <None Include="Assets\PlayMaker\Readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Triangulation.LICENSE.txt" />
-     <None Include="Assets\TTFText\TTFText\TTFText ReadMe.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\Poly2Tri.AUTHORS.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Fonts\LICENSE Fonts.txt" />
      <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\PlayMaker\Resources\PlayMakerAssemblies.txt" />
-     <None Include="Assets\TTFText\Demo Scenes for TTFText\Shared\Hard Surface Free\HardSurface Shaders\HardSurface Free Opaque Specular.shader" />
-     <None Include="Assets\TTFText\TTFText\Libraries\freetype248.LICENSE.txt" />
      <None Include="Assets\PlayMaker\Versions\readme.txt" />
-     <None Include="Assets\TTFText\TTFText\Plugins\FTSharp.LICENSE.txt" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
@@ -695,9 +653,6 @@
  </Reference>
  <Reference Include="PlayMaker">
  <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Assets/Plugins/PlayMaker/PlayMaker.dll</HintPath>
- </Reference>
- <Reference Include="ttftext_3p">
- <HintPath>F:/LEARNING_UNITY3D_3.X/playmaker_test/Test_PlayMaker/Assets/TTFText/TTFText/Plugins/ttftext_3p.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
